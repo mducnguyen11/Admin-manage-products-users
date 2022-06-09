@@ -15,9 +15,9 @@ const SecondLoginForm = (props: any) => {
   const [validateError, setValiateError] = useState({ email: '', password: '' });
 
   const formikValidate = Yup.object({
-    password: Yup.string().required({ password: 'passwordRequire' }).min(4, { password: 'minPasswordInvalid' }),
+    password: Yup.string().required('passwordRequire').min(4, 'minPasswordInvalid'),
 
-    email: Yup.string().required({ email: 'emailRequire' }).email({ email: 'emailInvalid' }),
+    email: Yup.string().required('emailRequire').email('emailInvalid'),
   });
 
   return (
@@ -33,35 +33,35 @@ const SecondLoginForm = (props: any) => {
         onLogin(values);
       }}
     >
-      {({ handleSubmit, values, handleChange }) => {
+      {({ handleSubmit, values, errors, touched, handleChange }) => {
         return (
           <form
             onSubmit={async (e) => {
               e.preventDefault();
               console.log('form submit');
 
-              try {
-                const val = await formikValidate.validate({
-                  password: values.password,
-                  email: values.email,
-                });
-                console.log('values validata : ', val);
-              } catch (error) {
-                const errors: {}[] = JSON.parse(JSON.stringify(error)).errors;
-                console.log(errors);
-                const initError = {
-                  email: '',
-                  password: '',
-                };
-                // errors.reverse()
-                errors.map((a) => {
-                  setValiateError({
-                    ...initError,
-                    ...a,
-                  });
-                });
-              }
-
+              // try {
+              //   const val = await formikValidate.validate({
+              //     password: values.password,
+              //     email: values.email,
+              //   });
+              //   console.log('values validata : ', val);
+              // } catch (error) {
+              //   const errors: {}[] = JSON.parse(JSON.stringify(error)).errors;
+              //   console.log(errors);
+              //   const initError = {
+              //     email: '',
+              //     password: '',
+              //   };
+              //   // errors.reverse()
+              //   errors.map((a) => {
+              //     setValiateError({
+              //       ...initError,
+              //       ...a,
+              //     });
+              //   });
+              // }
+              console.log(errors);
               handleSubmit();
             }}
             className="secondloginform row g-3 needs-validation"
@@ -86,7 +86,8 @@ const SecondLoginForm = (props: any) => {
                 onChange={handleChange}
               />
               <small className="text-danger">
-                {validateError.email !== '' ? <FormattedMessage id={validateError.email} /> : null}
+                {errors.email && touched.email ? <FormattedMessage id={errors.email} /> : null}
+                {/* {validateError.email !== '' ? <FormattedMessage id={validateError.email} /> : null} */}
                 {/* <ErrorMessage name="email"/> */}
               </small>
             </div>
@@ -105,7 +106,8 @@ const SecondLoginForm = (props: any) => {
                 onChange={handleChange}
               />
               <small className="text-danger">
-                {validateError.password !== '' ? <FormattedMessage id={validateError.password} /> : null}
+                {errors.password && touched.password ? <FormattedMessage id={errors.password} /> : null}
+                {/* {validateError.password !== '' ? <FormattedMessage id={validateError.password} /> : null} */}
               </small>
             </div>
             <div className="col-12">
