@@ -1,0 +1,21 @@
+.secondloginform{
+	max-width: 560px;
+	width: 100%;
+
+	&-btn{
+		margin:16px 0px;
+		& button{
+			min-width: 160px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			& p{
+				margin-left: 10px;
+				margin-bottom: 0px;
+			}
+		}
+	}
+	&-errormessage{
+		width: 100%;
+	}
+}
