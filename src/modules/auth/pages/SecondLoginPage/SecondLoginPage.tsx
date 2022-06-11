@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import './SecondLoginPage.scss';
-import logo from '../../../logo-420-x-108.png';
-import SecondLoginForm from '../components/SecondLoginForm';
+import logo from '../../../../logo-420-x-108.png';
+import SecondLoginForm from '../../components/SecondLoginForm/SecondLoginForm';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
+import { AppState } from '../../../../redux/reducer';
 import { Action } from 'typesafe-actions';
-import { ILoginParams } from '../../../models/auth';
-import { API_PATHS } from '../../../configs/api';
-import { fetchThunk } from '../../common/redux/thunk';
-import { setUserInfo } from '../redux/authReducer';
-import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
-import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
+import { ILoginParams } from '../../../../models/auth';
+import { API_PATHS } from '../../../../configs/api';
+import { fetchThunk } from '../../../common/redux/thunk';
+import { setUserInfo } from '../../redux/authReducer';
+import { RESPONSE_STATUS_SUCCESS } from '../../../../utils/httpResponseCode';
+import { ACCESS_TOKEN_KEY } from '../../../../utils/constants';
 import Cookies from 'js-cookie';
 import { replace } from 'connected-react-router';
-import { ROUTES } from '../../../configs/routes';
-import { getErrorMessageResponse } from '../../../utils';
+import { ROUTES } from '../../../../configs/routes';
+import { getErrorMessageResponse } from '../../../../utils';
 interface Props {}
 
 const SecondLoginPage = (props: Props) => {

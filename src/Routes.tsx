@@ -5,7 +5,7 @@ import ProtectedRoute from './modules/common/components/ProtectedRoute';
 
 const HomePage = lazy(() => import('./modules/home/pages/HomePage'));
 const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
-const SecondLoginPage = lazy(() => import('./modules/auth/pages/SecondLoginPage'));
+const SecondLoginPage = lazy(() => import('./modules/auth/pages/SecondLoginPage/SecondLoginPage'));
 
 interface Props {}
 
@@ -15,7 +15,7 @@ export const Routes = (props: Props) => {
   return (
     <Suspense fallback={<div>Loading.....</div>}>
       <Switch location={location}>
-        <Route path={ROUTES.login} component={SecondLoginPage} />
+        {/* <Route path={ROUTES.login} component={SecondLoginPage} /> */}
         <ProtectedRoute path={ROUTES.home} component={HomePage} />
         <Route path={ROUTES.contact} component={ContactPage} />
 
