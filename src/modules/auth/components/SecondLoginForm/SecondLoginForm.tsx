@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ILoginParams, ILoginValidation } from '../../../../models/auth';
 import LoadingButton from '../LoadingButton/LoadingButton';
+import CustomField from '../CustomField/CustomField';
 import './SecondLoginForm.scss';
 import * as Yup from 'yup';
 import { Formik, FormikHelpers, FormikProps, Form, Field, FieldProps, ErrorMessage } from 'formik';
@@ -38,21 +39,25 @@ const SecondLoginForm = (props: Props) => {
               <label htmlFor="inputEmail" className="form-label">
                 <FormattedMessage id="email" />
               </label>
-              <Field type="text" className="form-control" id="inputEmail" name="email" />
-              <small className="text-danger">
-                {errors.email && touched.email ? <FormattedMessage id={errors.email} /> : null}
-                {/* {validateError.email !== '' ? <FormattedMessage id={validateError.email} /> : null} */}
-                {/* <ErrorMessage name="email"/> */}
-              </small>
+              <CustomField
+                type="text"
+                className="form-control"
+                id="inputEmail"
+                name="email"
+                errorMessage={errors.email && touched.email ? errors.email : ''}
+              />
             </div>
             <div className="col-md-12">
               <label htmlFor="inputPassword" className="form-label">
                 <FormattedMessage id="password" />
               </label>
-              <Field type="password" className="form-control" id="inputPassword" name="password" />
-              <small className="text-danger">
-                {errors.password && touched.password ? <FormattedMessage id={errors.password} /> : null}
-              </small>
+              <CustomField
+                type="password"
+                className="form-control"
+                id="inputPassword"
+                name="password"
+                errorMessage={errors.password && touched.password ? errors.password : ''}
+              />
             </div>
             <div className="col-12">
               <div className="form-check">
