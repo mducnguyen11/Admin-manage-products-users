@@ -36,26 +36,22 @@ const SecondLoginForm = (props: Props) => {
               </div>
             ) : null}
             <div className="col-md-12">
-              <label htmlFor="inputEmail" className="form-label">
-                <FormattedMessage id="email" />
-              </label>
               <CustomField
                 type="text"
                 className="form-control"
                 id="inputEmail"
                 name="email"
+                label="email"
                 errorMessage={errors.email && touched.email ? errors.email : ''}
               />
             </div>
             <div className="col-md-12">
-              <label htmlFor="inputPassword" className="form-label">
-                <FormattedMessage id="password" />
-              </label>
               <CustomField
                 type="password"
                 className="form-control"
                 id="inputPassword"
                 name="password"
+                label="password"
                 errorMessage={errors.password && touched.password ? errors.password : ''}
               />
             </div>
