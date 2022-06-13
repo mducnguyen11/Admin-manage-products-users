@@ -7,5 +7,18 @@
   "emailInvalid": "Địa chỉ email không hợp lệ",
   "passwordRequire": "Vui lòng nhập mật khẩu",
   "minPasswordInvalid": "Mật khẩu tối thiểu 4 ký tự",
-  "register": "Đăng nhập"
+  "register": "Đăng nhập",
+  "repeatPassword":"Xác nhận mật khẩu",
+  "name":"Họ và tên",
+  "gender": "Lựa chọn giới tính",
+  "region": "Lựa chọn quốc gia",
+  "state": "Lựa chọn thành phố",
+  "fullNameRequire" : "Vui lòng nhập họ tên",
+  "confirmPasswordRequire":"Vui lòng nhập lại mật khẩu",
+  "minConfirmPasswordInvalid": "Mật khẩu tối tiêu 4 ký tự",
+  "confirmPasswordInvalid" : "Mật khẩu bạn nhập không chính xác",
+  "locationCountryRequire" : "Vui lòng chọn quốc gia",
+  "genderRequire" :"Vui lòng chọn giới tính",
+  "locationCityRequire" : "Vui lòng chọn thành phố",
+  "setLocationCountryFirst": "Vui lòng chọn quốc gia trước"
 }

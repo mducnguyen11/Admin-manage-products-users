@@ -21,4 +21,5 @@ function getBaseUrl(service: APIService) {
 export const API_PATHS = {
   signIn: `${getBaseUrl(APIService.auth)}/login`,
   userProfile: `${getBaseUrl(APIService.public)}/user`,
+  register: `http://api.training.div3.pgtest.co/api/v1/auth/register`,
 };

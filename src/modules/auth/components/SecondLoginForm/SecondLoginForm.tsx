@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ILoginParams, ILoginValidation } from '../../../../models/auth';
-import LoadingButton from '../LoadingButton/LoadingButton';
-import CustomField from '../CustomField/CustomField';
+import Button from '../Button/Button';
+import InputForm from '../InputForm/InputForm';
 import './SecondLoginForm.scss';
-import * as Yup from 'yup';
-import { Formik, FormikHelpers, FormikProps, Form, Field, FieldProps, ErrorMessage } from 'formik';
+import { yupValidateLogin } from '../../utils';
+import { Formik, Form, Field } from 'formik';
 interface Props {
   onLogin(values: ILoginParams): void;
   loading: boolean;
@@ -14,15 +14,11 @@ interface Props {
 
 const SecondLoginForm = (props: Props) => {
   const { onLogin, loading, errorMessage } = props;
-  const formikValidate = Yup.object({
-    password: Yup.string().required('passwordRequire').min(4, 'minPasswordInvalid'),
-    email: Yup.string().required('emailRequire').email('emailInvalid'),
-  });
 
   return (
     <Formik<ILoginParams>
       initialValues={{ email: '', password: '', rememberMe: false }}
-      validationSchema={formikValidate}
+      validationSchema={yupValidateLogin}
       onSubmit={(values) => {
         onLogin(values);
       }}
@@ -36,7 +32,7 @@ const SecondLoginForm = (props: Props) => {
               </div>
             ) : null}
             <div className="col-md-12">
-              <CustomField
+              <InputForm
                 type="text"
                 className="form-control"
                 id="inputEmail"
@@ -46,7 +42,7 @@ const SecondLoginForm = (props: Props) => {
               />
             </div>
             <div className="col-md-12">
-              <CustomField
+              <InputForm
                 type="password"
                 className="form-control"
                 id="inputPassword"
@@ -65,7 +61,7 @@ const SecondLoginForm = (props: Props) => {
             </div>
             <div className="row justify-content-md-center secondloginform-btn">
               <div className="col-md-auto">
-                <LoadingButton loading={loading} message="register" />
+                <Button loading={loading} message="register" />
               </div>
             </div>
           </Form>

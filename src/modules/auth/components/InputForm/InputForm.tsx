@@ -11,7 +11,7 @@ interface Props {
   label: string;
 }
 
-const CustomField = (props: Props) => {
+const InputForm = (props: Props) => {
   const { type, className, label, id, name, errorMessage } = props;
   return (
     <>
@@ -28,4 +28,4 @@ const CustomField = (props: Props) => {
   );
 };
 
-export default CustomField;
+export default InputForm;
