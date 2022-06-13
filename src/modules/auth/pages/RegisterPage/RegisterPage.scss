@@ -1,13 +1,10 @@
-
-
-.register-page{	
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	&-logo{
-		max-width: 0px;		
-	}
-
+.register-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  &-logo {
+    max-width: 100px;
+    margin-top: 30px;
+  }
 }

@@ -23,19 +23,24 @@ const RegisterPage = (props: Props) => {
   const onSignUp = async (values: IRegisterParams) => {
     setErrorMessage('');
     setLoading(true);
-    const res = await axios.post('http://api.training.div3.pgtest.co/api/v1/auth/register', values);
-    setLoading(false);
-    console.log(res);
-    if (res?.data.code === 200) {
-      dispatch(replace(ROUTES.login));
+    try {
+      const res = await axios.post('http://api.training.div3.pgtest.co/api/v1/auth/register', values);
+      setLoading(false);
+      console.log(res);
+      if (res?.data.code === 200) {
+        dispatch(replace(ROUTES.login));
+      }
+    } catch (error: any) {
+      setLoading(false);
+      setErrorMessage(error.response.data.message);
+      // setErrorMessage(error.response.data.message);
     }
-
-    setErrorMessage(res.data.message);
   };
 
   return (
     <div className="register-page container">
-      <RegisterForm loading={loading} onRegister={onSignUp} />
+      <img className="register-page-logo" src={logo} alt="" />
+      <RegisterForm errorMessage={errorMessage} loading={loading} onRegister={onSignUp} />
     </div>
   );
 };

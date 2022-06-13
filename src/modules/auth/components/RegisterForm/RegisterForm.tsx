@@ -14,6 +14,7 @@ import LocationForm from '../LocationForm/LocationForm';
 interface Props {
   onRegister(values: IRegisterParams): void;
   loading: boolean;
+  errorMessage?: string;
 }
 const op = [
   { id: 'male', name: 'Nam' },
@@ -22,7 +23,7 @@ const op = [
 const RegisterForm = (props: Props) => {
   const [locationList, setLocationList] = useState([]);
   const [cityList, setCityList] = useState([]);
-
+  const { loading, errorMessage } = props;
   return (
     <Formik<IRegisterParams>
       initialValues={{
@@ -79,11 +80,11 @@ const RegisterForm = (props: Props) => {
         }, [values.region]);
         return (
           <Form className="register-form row g-3 needs-validation">
-            {/* {errorMessage ? (
+            {errorMessage ? (
               <div className=" secondloginform-errormessage alert alert-danger" role="alert">
                 {errorMessage}
               </div>
-            ) : null} */}
+            ) : null}
             <div className="col-md-12">
               <InputForm
                 type="text"
@@ -126,10 +127,6 @@ const RegisterForm = (props: Props) => {
             </div>
             <div className="col-md-12">
               <SelectForm
-                // value={values.gender}
-                // onChange={(e: any) => {
-                //   handleChange(e);
-                // }}
                 className="form-control"
                 id="inputGender"
                 name="gender"
@@ -141,15 +138,6 @@ const RegisterForm = (props: Props) => {
 
             <div className="col-md-12">
               <SelectForm
-                // value={values.locationCountry}
-                // onChange={(e: any) => {
-                //   getCityList(e.target.value);
-                //   setValues({
-                //     ...values,
-                //     locationCountry: e.target.value,
-                //     locationCity: '0',
-                //   });
-                // }}
                 className="form-control"
                 id="inputLocationCountry"
                 name="region"
@@ -160,10 +148,6 @@ const RegisterForm = (props: Props) => {
             </div>
             <div className="col-md-12">
               <SelectForm
-                // value={values.locationCity}
-                // onChange={(e: any) => {
-                //   handleChange(e);
-                // }}
                 className="form-control"
                 id="state"
                 name="state"
@@ -174,7 +158,7 @@ const RegisterForm = (props: Props) => {
             </div>
             <div className="row justify-content-md-center secondloginform-btn">
               <div className="col-md-auto">
-                <Button loading={false} message="register" />
+                <Button loading={loading} message="register" />
               </div>
             </div>
           </Form>
