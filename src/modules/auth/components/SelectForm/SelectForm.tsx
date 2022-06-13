@@ -26,19 +26,7 @@ const SelectForm = (props: Props) => {
       <label htmlFor="inputPassword" className="form-label">
         <FormattedMessage id={label} />
       </label>
-      <Field
-        // value={value}
-        // onChange={(e: any) => {
-        //   console.log(e.target.value);
-        //   if (props.onChange) {
-        //     props.onChange(e);
-        //   }
-        // }}
-        as="select"
-        className={className}
-        id={id}
-        name={name}
-      >
+      <Field as="select" className={className} id={id} name={name}>
         <option value={0}> -- Select an option --</option>
         {options.map((a, i) => {
           return (

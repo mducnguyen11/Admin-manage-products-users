@@ -9,7 +9,6 @@ import { Formik, useFormik, Form, Field } from 'formik';
 import SelectForm from 'modules/auth/components/SelectForm/SelectForm';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import LocationForm from '../LocationForm/LocationForm';
 
 interface Props {
   onRegister(values: IRegisterParams): void;
@@ -23,7 +22,7 @@ const op = [
 const RegisterForm = (props: Props) => {
   const [locationList, setLocationList] = useState([]);
   const [cityList, setCityList] = useState([]);
-  const { loading, errorMessage } = props;
+  const { loading, onRegister, errorMessage } = props;
   return (
     <Formik<IRegisterParams>
       initialValues={{
@@ -38,7 +37,7 @@ const RegisterForm = (props: Props) => {
       validationSchema={yupValidateRegister}
       onSubmit={(values) => {
         console.log(values);
-        props.onRegister(values);
+        onRegister(values);
       }}
     >
       {({ values, errors, touched }) => {
