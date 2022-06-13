@@ -78,7 +78,13 @@ const RegisterForm = (props: Props) => {
           getCityList(values.region);
         }, [values.region]);
         return (
-          <Form className="register-form row g-3 needs-validation">
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log(values);
+            }}
+            className="register-form row g-3 needs-validation"
+          >
             {errorMessage ? (
               <div className=" secondloginform-errormessage alert alert-danger" role="alert">
                 {errorMessage}
@@ -127,7 +133,7 @@ const RegisterForm = (props: Props) => {
             <div className="col-md-12">
               <SelectForm
                 className="form-control"
-                id="inputGender"
+                id="gender"
                 name="gender"
                 label="gender"
                 options={op}
