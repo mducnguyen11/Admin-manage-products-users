@@ -79,13 +79,7 @@ const RegisterForm = (props: Props) => {
           getCityList(values.region);
         }, [values.region]);
         return (
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(values);
-            }}
-            className="register-form row g-3 needs-validation"
-          >
+          <Form className="register-form row g-3 needs-validation">
             {errorMessage ? (
               <div className=" secondloginform-errormessage alert alert-danger" role="alert">
                 {errorMessage}
