@@ -15,14 +15,15 @@ interface Props {
   loading: boolean;
   errorMessage?: string;
 }
-const op = [
-  { id: 'male', name: 'Nam' },
-  { id: 'female', name: 'Nữ' },
-];
+
 const RegisterForm = (props: Props) => {
   const [countryList, setCountryList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const { loading, onRegister, errorMessage } = props;
+  const genderOptions = [
+    { id: 'male', name: 'Nam' },
+    { id: 'female', name: 'Nữ' },
+  ];
   return (
     <Formik<IRegisterParams>
       initialValues={{
@@ -136,7 +137,7 @@ const RegisterForm = (props: Props) => {
                 id="gender"
                 name="gender"
                 label="gender"
-                options={op}
+                options={genderOptions}
                 errorMessage={errors.gender && touched.gender ? errors.gender : ''}
               />
             </div>
