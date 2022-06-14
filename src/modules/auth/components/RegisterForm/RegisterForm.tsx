@@ -20,7 +20,7 @@ const op = [
   { id: 'female', name: 'Nữ' },
 ];
 const RegisterForm = (props: Props) => {
-  const [locationList, setLocationList] = useState([]);
+  const [countryList, setCountryList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const { loading, onRegister, errorMessage } = props;
   return (
@@ -48,7 +48,7 @@ const RegisterForm = (props: Props) => {
               .then((a) => {
                 {
                   console.log(a.data.data);
-                  setLocationList(a.data.data);
+                  setCountryList(a.data.data);
                 }
               })
               .catch((err) => {
@@ -147,7 +147,7 @@ const RegisterForm = (props: Props) => {
                 id="inputLocationCountry"
                 name="region"
                 label="region"
-                options={locationList}
+                options={countryList}
                 errorMessage={errors.region && touched.region ? errors.region : ''}
               />
             </div>
