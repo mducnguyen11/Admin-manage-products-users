@@ -1,14 +1,15 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { IRegisterParams, ILoginValidation } from '../../../../models/auth';
+import { IRegisterParams, ILoginValidation } from 'models/auth';
 import Button from '../Button/Button';
 import InputForm from '../InputForm/InputForm';
 import './RegisterForm.scss';
-import { yupValidateRegister } from '../../utils';
+import { yupValidateRegister } from 'modules/auth/utils';
 import { Formik, useFormik, Form, Field } from 'formik';
 import SelectForm from 'modules/auth/components/SelectForm/SelectForm';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_PATHS } from 'configs/api';
 
 interface Props {
   onRegister(values: IRegisterParams): void;
@@ -43,12 +44,11 @@ const RegisterForm = (props: Props) => {
     >
       {({ values, errors, touched }) => {
         useEffect(() => {
-          const getLocationList = async () => {
+          const getRegionList = async () => {
             axios
-              .get('http://api.training.div3.pgtest.co/api/v1/location')
+              .get(API_PATHS.regionList)
               .then((a) => {
                 {
-                  console.log(a.data.data);
                   setCountryList(a.data.data);
                 }
               })
@@ -56,13 +56,13 @@ const RegisterForm = (props: Props) => {
                 console.log(err);
               });
           };
-          getLocationList();
+          getRegionList();
         }, []);
         useEffect(() => {
-          const getCityList = (id: number) => {
+          const getStateList = (id: number) => {
             if (id) {
               axios
-                .get('http://api.training.div3.pgtest.co/api/v1/location?pid=' + id)
+                .get(API_PATHS.regionList + '?pid=' + id)
                 .then((a) => {
                   {
                     console.log(a.data.data);
@@ -76,7 +76,7 @@ const RegisterForm = (props: Props) => {
               setCityList([]);
             }
           };
-          getCityList(values.region);
+          getStateList(values.region);
         }, [values.region]);
         return (
           <Form className="register-form row g-3 needs-validation">
