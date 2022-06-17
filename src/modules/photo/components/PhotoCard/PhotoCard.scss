@@ -3,6 +3,7 @@
 }
 .photo-card {
   width: 800px;
+  min-height: 150px;
   transform: translateX(-50%);
   margin-left: 50%;
   display: flex;
@@ -11,10 +12,11 @@
     flex: 1;
   }
   &-title {
+    margin-top: 10px;
+    margin-left: 10px;
     display: flex;
     box-sizing: border-box;
     span {
-      margin-left: 20px;
       font-weight: 600;
     }
     input {
@@ -25,14 +27,13 @@
     & input {
       padding: 10px 0px 10px 10px;
       margin-bottom: 0px;
-      margin-left: 10px;
     }
     label {
       width: 100%;
       cursor: text;
     }
   }
-  span {
+  &-time {
     margin-left: 20px;
   }
 }

@@ -27,7 +27,6 @@ export default function reducer(
 ) {
   switch (action.type) {
     case getType(setListPhotos):
-      console.log(action.data);
       return {
         ...state,
         listPhotos: action.data,

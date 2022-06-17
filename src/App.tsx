@@ -41,9 +41,9 @@ function App() {
   const getPhotos = React.useCallback(async () => {
     console.log('dispathch start loading');
     dispatch(setPhotosLoading());
-    const json = await dispatch(fetchThunk(API_PATHS.photoList));
+    const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_page=1&_limit=${compare}`));
     if (json.length > 0) {
-      const xx = [...json].slice(0, compare);
+      const xx = [...json];
       dispatch(setListPhotos([...xx]));
 
       console.log('dispathed data :', xx);

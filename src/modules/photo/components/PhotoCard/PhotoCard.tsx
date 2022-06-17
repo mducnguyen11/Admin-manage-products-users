@@ -1,67 +1,76 @@
+import { IPhoto } from 'models/photo';
 import React, { memo } from 'react';
 import { useState, useRef, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './PhotoCard.scss';
 
-interface IPhoto {
-  albumId: number;
-  id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-}
 interface Props {
   item: IPhoto;
   changeState: Function;
+  isLoading?: boolean;
 }
 const PhotoCard = (props: Props) => {
   const [isEdit, setIsEdit] = useState<Boolean>(false);
   const item = props.item;
+  const isLoading = props.isLoading;
   const [title, setTitle] = useState(props.item.title);
   useEffect(() => {
     setTitle(item.title);
   }, [item.title]);
   const titleRef = useRef<HTMLLabelElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className={`photo-card  ${item.id % 2 == 0 ? 'bg-gray' : ''}`}>
-      <div className="photo-card-img">
-        <img src={item.thumbnailUrl} alt="" />
+      <div className="photo-card-avt">
+        {!isLoading ? (
+          <img className="photo-card-avt" src={item.thumbnailUrl} alt="" />
+        ) : (
+          <Skeleton width={150} height={150} />
+        )}
       </div>
       <div className="photo-card-content">
-        <div className="photo-card-title">
-          {!isEdit ? (
-            <label
-              ref={titleRef}
-              onMouseMove={() => {
-                titleRef.current?.classList.add('show-border');
-              }}
-              onMouseLeave={() => {
-                titleRef.current?.classList.remove('show-border');
-              }}
-              className={!isEdit ? '' : 'dp-none'}
-              onClick={() => {
-                setIsEdit(!isEdit);
-              }}
-            >
-              {item.title}
-            </label>
-          ) : (
-            <input
-              ref={inputRef}
-              onBlur={() => {
-                props.changeState(inputRef.current?.value, item.id);
-                setIsEdit(!isEdit);
-              }}
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              autoFocus
-            />
-          )}
-        </div>
+        {!isLoading ? (
+          <div className="photo-card-title">
+            {!isEdit ? (
+              <label
+                ref={titleRef}
+                onMouseMove={() => {
+                  titleRef.current?.classList.add('show-border');
+                }}
+                onMouseLeave={() => {
+                  titleRef.current?.classList.remove('show-border');
+                }}
+                className={!isEdit ? '' : 'dp-none'}
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                }}
+              >
+                {item.title}
+              </label>
+            ) : (
+              <input
+                onBlur={() => {
+                  props.changeState(title, item.id);
+                  setIsEdit(!isEdit);
+                }}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                autoFocus
+              />
+            )}
+          </div>
+        ) : (
+          <Skeleton className="photo-card-title" width={600} height={10} />
+        )}
         <div>
-          <span>{Date.now()}</span>
+          {!isLoading ? (
+            <span className="photo-card-time">{Date.now()}</span>
+          ) : (
+            <Skeleton className="photo-card-time" width={120} height={10} />
+          )}
         </div>
       </div>
     </div>

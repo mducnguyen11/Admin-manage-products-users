@@ -5,8 +5,11 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import PhotoCard from '../../components/PhotoCard/PhotoCard';
-import { setListPhotos, setMoreCompare } from 'modules/photo/redux/photoReducer';
+import PhotoCardSkeleton from 'modules/photo/components/PhotoCardSkeleton/PhotoCardSkeleton';
+import { setListPhotos, setMoreCompare, setPhotosLoading } from 'modules/photo/redux/photoReducer';
 import './PhotoPage.scss';
+import { fetchThunk } from 'modules/common/redux/thunk';
+import { API_PATHS } from 'configs/api';
 interface Props {}
 
 const PhotoPage = (props: Props) => {
@@ -17,7 +20,10 @@ const PhotoPage = (props: Props) => {
   const isLoading = useSelector((state: AppState) => {
     return state.photos.isLoading;
   });
-  const [photoList, setPhotoList] = useState<IPhoto[]>([]);
+  const compare = useSelector((state: AppState) => {
+    return state.photos.compare;
+  });
+  const [photoList, setPhotoList] = useState<IPhoto[]>(new Array(compare || 5));
   useEffect(() => {
     if (photosFromReduxStore) {
       setPhotoList(photosFromReduxStore);
@@ -59,16 +65,44 @@ const PhotoPage = (props: Props) => {
       document.removeEventListener('scroll', xx);
     };
   }, [isLoading]);
+
+  const getPhotos = React.useCallback(async () => {
+    console.log('dispathch start loading');
+    dispatch(setPhotosLoading());
+    const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_page=1&_limit=${compare}`));
+    if (json.length > 0) {
+      const xx = [...json];
+      dispatch(setListPhotos([...xx]));
+
+      console.log('dispathed data :', xx);
+    } else {
+      console.log(json);
+    }
+    console.log('dispathch stop loading');
+  }, [dispatch, compare]);
+
   return (
     <div className="photos-page">
       <div className="photos-page-btns">
         <button onClick={handleConfirm}>confirm all</button>
         <button onClick={handleRestore}>restore</button>
       </div>
-      {photoList?.map((a, i) => {
-        return <PhotoCard changeState={changePhotosList} item={a} key={i} />;
-      })}
-      {isLoading ? <h2 className="photos-page-loading"> Loading ....</h2> : null}
+      {!isLoading ? (
+        <>
+          {' '}
+          {photoList.map((a, i) => {
+            return <PhotoCard isLoading={isLoading} changeState={changePhotosList} item={a} key={i} />;
+          })}
+        </>
+      ) : (
+        <>
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+        </>
+      )}
+      {/* {isLoading ? <h2 className="photos-page-loading"> Loading ....</h2> : null} */}
     </div>
   );
 };
