@@ -7,6 +7,7 @@ const HomePage = lazy(() => import('./modules/home/pages/HomePage'));
 const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
 const SecondLoginPage = lazy(() => import('./modules/auth/pages/SecondLoginPage/SecondLoginPage'));
 const RegisterPage = lazy(() => import('./modules/auth/pages/RegisterPage/RegisterPage'));
+const PhotoPage = lazy(() => import('./modules/photo/pages/PhotoPage/PhotoPage'));
 interface Props {}
 
 export const Routes = (props: Props) => {
@@ -19,7 +20,7 @@ export const Routes = (props: Props) => {
         <ProtectedRoute path={ROUTES.home} component={HomePage} />
         <Route path={ROUTES.contact} component={ContactPage} />
         <Route path="/login" component={SecondLoginPage} />
-        <Route path="/" component={RegisterPage} />
+        <Route path="/" component={PhotoPage} />
       </Switch>
     </Suspense>
   );

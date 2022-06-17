@@ -1,0 +1,45 @@
+.dp-none {
+  display: none;
+}
+.photo-card {
+  width: 800px;
+  transform: translateX(-50%);
+  margin-left: 50%;
+  display: flex;
+  margin-bottom: 30px;
+  &-content {
+    flex: 1;
+  }
+  &-title {
+    display: flex;
+    box-sizing: border-box;
+    span {
+      margin-left: 20px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      outline: none;
+    }
+    & label,
+    & input {
+      padding: 10px 0px 10px 10px;
+      margin-bottom: 0px;
+      margin-left: 10px;
+    }
+    label {
+      width: 100%;
+      cursor: text;
+    }
+  }
+  span {
+    margin-left: 20px;
+  }
+}
+.show-border {
+  outline: 1px solid #333;
+}
+
+.bg-gray {
+  background-color: gray;
+}
