@@ -23,15 +23,11 @@ const PhotoCard = (props: Props) => {
   const [title, setTitle] = useState('');
 
   const titleRef = useRef<HTMLLabelElement>(null);
-  // const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     setTitle(item.title);
-  }, []);
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.value = item.title;
-  //   }
-  // }, [isEdit]);
+  }, [item]);
+
   return (
     <div className={`photo-card  ${item.id % 2 == 0 ? 'bg-gray' : ''}`}>
       <div className="photo-card-avt">
@@ -53,7 +49,6 @@ const PhotoCard = (props: Props) => {
                 onMouseLeave={() => {
                   titleRef.current?.classList.remove('show-border');
                 }}
-                className={!isEdit ? '' : 'dp-none'}
                 onClick={() => {
                   setIsEdit(!isEdit);
                 }}
