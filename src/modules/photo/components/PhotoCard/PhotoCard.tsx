@@ -20,15 +20,18 @@ const PhotoCard = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [isEdit, setIsEdit] = useState<Boolean>(false);
   const item = props.item;
+  const [title, setTitle] = useState('');
 
   const titleRef = useRef<HTMLLabelElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
+  // const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.value = item.title;
-    }
-  }, [isEdit]);
+    setTitle(item.title);
+  }, []);
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.value = item.title;
+  //   }
+  // }, [isEdit]);
   return (
     <div className={`photo-card  ${item.id % 2 == 0 ? 'bg-gray' : ''}`}>
       <div className="photo-card-avt">
@@ -59,18 +62,22 @@ const PhotoCard = (props: Props) => {
               </label>
             ) : (
               <input
-                ref={inputRef}
+                // ref={inputRef}
                 onBlur={(e) => {
                   // props.changeState(title, item.id);
 
                   dispatch(
                     changePhoto({
                       ...item,
-                      title: e.target.value,
+                      title: title,
                     }),
                   );
 
                   setIsEdit(!isEdit);
+                }}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
                 }}
                 autoFocus
               />
