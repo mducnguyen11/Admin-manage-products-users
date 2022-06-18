@@ -1,25 +1,34 @@
 import { IPhoto } from 'models/photo';
+import { changePhoto } from 'modules/photo/redux/photoReducer';
 import React, { memo } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from 'redux/reducer';
+import { Action } from 'typesafe-actions';
 import './PhotoCard.scss';
 
 interface Props {
   item: IPhoto;
-  changeState: Function;
+  changeState?: Function;
   isLoading?: boolean;
 }
 const PhotoCard = (props: Props) => {
+  const isLoading = false;
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [isEdit, setIsEdit] = useState<Boolean>(false);
   const item = props.item;
-  const isLoading = props.isLoading;
-  const [title, setTitle] = useState(props.item.title);
-  useEffect(() => {
-    setTitle(item.title);
-  }, [item.title]);
-  const titleRef = useRef<HTMLLabelElement>(null);
 
+  const titleRef = useRef<HTMLLabelElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = item.title;
+    }
+  }, [isEdit]);
   return (
     <div className={`photo-card  ${item.id % 2 == 0 ? 'bg-gray' : ''}`}>
       <div className="photo-card-avt">
@@ -50,13 +59,18 @@ const PhotoCard = (props: Props) => {
               </label>
             ) : (
               <input
-                onBlur={() => {
-                  props.changeState(title, item.id);
+                ref={inputRef}
+                onBlur={(e) => {
+                  // props.changeState(title, item.id);
+
+                  dispatch(
+                    changePhoto({
+                      ...item,
+                      title: e.target.value,
+                    }),
+                  );
+
                   setIsEdit(!isEdit);
-                }}
-                value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
                 }}
                 autoFocus
               />

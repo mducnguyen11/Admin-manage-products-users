@@ -5,8 +5,14 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import PhotoCard from '../../components/PhotoCard/PhotoCard';
-import PhotoCardSkeleton from 'modules/photo/components/PhotoCardSkeleton/PhotoCardSkeleton';
-import { setListPhotos, setMoreCompare, setPhotosLoading } from 'modules/photo/redux/photoReducer';
+import PhotoPageSkeleton from 'modules/photo/components/PhotoPageSkeleton/PhotoPageSkeleton';
+import {
+  setListPhotos,
+  setMoreCompare,
+  setMorePhotos,
+  comfirmListPhotos,
+  resetListPhotos,
+} from 'modules/photo/redux/photoReducer';
 import './PhotoPage.scss';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import { API_PATHS } from 'configs/api';
@@ -17,46 +23,56 @@ const PhotoPage = (props: Props) => {
   const photosFromReduxStore = useSelector((state: AppState) => {
     return state.photos.listPhotos;
   });
-  const isLoading = useSelector((state: AppState) => {
-    return state.photos.isLoading;
-  });
-  const compare = useSelector((state: AppState) => {
-    return state.photos.compare;
-  });
-  const [photoList, setPhotoList] = useState<IPhoto[]>(new Array(compare || 5));
+  const [isLoading, setIsLoading] = useState(false);
+
+  console.log('photosFromReduxStore :', photosFromReduxStore);
+  const getPhotos = React.useCallback(async () => {
+    setIsLoading(true);
+
+    // console.log('comapre : ', compare);
+    const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_start=0&_end=5`));
+    if (json.length > 0) {
+      const xx = [...json];
+      dispatch(setListPhotos([...xx]));
+    } else {
+      console.log(json);
+    }
+
+    setIsLoading(false);
+  }, [dispatch]);
+  // func get more photo
+  const getMorePhotos = React.useCallback(async () => {
+    setIsLoading(true);
+
+    const json = await dispatch(
+      fetchThunk(
+        API_PATHS.photoList + `?_start=${photosFromReduxStore.length}&_end=${photosFromReduxStore.length + 5}`,
+      ),
+    );
+    if (json.length > 0) {
+      const xx = [...json];
+      dispatch(setMorePhotos([...xx]));
+    } else {
+      console.log(json);
+    }
+    console.log('dispathch stop loading');
+    setIsLoading(false);
+  }, [dispatch, photosFromReduxStore]);
+  // get data
   useEffect(() => {
-    if (photosFromReduxStore) {
-      setPhotoList(photosFromReduxStore);
-    }
-  }, [dispatch, isLoading, photosFromReduxStore]);
-
-  const handleRestore = () => {
-    console.log('restore', photosFromReduxStore);
-    setPhotoList(photosFromReduxStore || []);
-  };
+    getPhotos();
+  }, []);
   const handleConfirm = () => {
-    dispatch(setListPhotos(photoList));
+    dispatch(comfirmListPhotos());
   };
-
-  const changePhotosList = (title: string, id: number) => {
-    console.log('title + ' + title + 'id :' + id);
-    const xx: IPhoto[] = [...photoList];
-    const i = photoList?.findIndex((a) => a.id == id);
-    if (i != undefined && i >= 0) {
-      xx[i] = {
-        ...xx[i],
-        title: title,
-      };
-    }
-    console.log('xx :', xx[0]);
-    console.log('xx :', photosFromReduxStore);
-    setPhotoList([...xx]);
+  const handleReset = () => {
+    dispatch(resetListPhotos());
   };
   useEffect(() => {
     const xx = () => {
       if (window.pageYOffset > document.body.clientHeight - screen.height - 30) {
         if (isLoading === false) {
-          dispatch(setMoreCompare());
+          getMorePhotos();
         }
       }
     };
@@ -66,42 +82,26 @@ const PhotoPage = (props: Props) => {
     };
   }, [isLoading]);
 
-  const getPhotos = React.useCallback(async () => {
-    console.log('dispathch start loading');
-    dispatch(setPhotosLoading());
-    const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_page=1&_limit=${compare}`));
-    if (json.length > 0) {
-      const xx = [...json];
-      dispatch(setListPhotos([...xx]));
-
-      console.log('dispathed data :', xx);
-    } else {
-      console.log(json);
-    }
-    console.log('dispathch stop loading');
-  }, [dispatch, compare]);
-
   return (
     <div className="photos-page">
       <div className="photos-page-btns">
         <button onClick={handleConfirm}>confirm all</button>
-        <button onClick={handleRestore}>restore</button>
+        <button onClick={handleReset}>reset</button>
+        <button> cccc</button>
       </div>
-      {!isLoading ? (
+      {isLoading ? (
         <>
-          {' '}
-          {photoList.map((a, i) => {
-            return <PhotoCard isLoading={isLoading} changeState={changePhotosList} item={a} key={i} />;
-          })}
+          <PhotoPageSkeleton />
         </>
-      ) : (
+      ) : null}
+      {photosFromReduxStore.map((a, i) => {
+        return <PhotoCard key={i} item={a} />;
+      })}
+      {isLoading ? (
         <>
-          <PhotoCardSkeleton />
-          <PhotoCardSkeleton />
-          <PhotoCardSkeleton />
-          <PhotoCardSkeleton />
+          <PhotoPageSkeleton />
         </>
-      )}
+      ) : null}
       {/* {isLoading ? <h2 className="photos-page-loading"> Loading ....</h2> : null} */}
     </div>
   );

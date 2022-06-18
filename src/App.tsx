@@ -11,7 +11,7 @@ import { fetchThunk } from './modules/common/redux/thunk';
 import { API_PATHS } from './configs/api';
 import { RESPONSE_STATUS_SUCCESS } from './utils/httpResponseCode';
 import { setUserInfo } from './modules/auth/redux/authReducer';
-import { setListPhotos, setPhotosLoading, stopPhotosLoading } from './modules/photo/redux/photoReducer';
+import { setListPhotos } from './modules/photo/redux/photoReducer';
 
 function App() {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -21,12 +21,10 @@ function App() {
   const photosFromReduxStore = useSelector((state: AppState) => {
     return state.photos.listPhotos;
   });
-  const isLoading = useSelector((state: AppState) => {
-    return state.photos.isLoading;
-  });
-  const { compare } = useSelector((state: AppState) => ({
-    compare: state.photos.compare,
-  }));
+
+  // const { compare } = useSelector((state: AppState) => ({
+  //   compare: state.photos.compare,
+  // }));
 
   const getProfile = React.useCallback(async () => {
     const accessToken = Cookies.get(ACCESS_TOKEN_KEY);
@@ -38,25 +36,25 @@ function App() {
     }
   }, [dispatch, user]);
 
-  const getPhotos = React.useCallback(async () => {
-    console.log('dispathch start loading');
-    dispatch(setPhotosLoading());
-    const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_page=1&_limit=${compare}`));
-    if (json.length > 0) {
-      const xx = [...json];
-      dispatch(setListPhotos([...xx]));
+  // const getPhotos = React.useCallback(async () => {
+  //   console.log('dispathch start loading');
+  //   dispatch(setPhotosLoading());
+  //   const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_page=1&_limit=${compare}`));
+  //   if (json.length > 0) {
+  //     const xx = [...json];
+  //     dispatch(setListPhotos([...xx]));
 
-      console.log('dispathed data :', xx);
-    } else {
-      console.log(json);
-    }
-    console.log('dispathch stop loading');
-  }, [dispatch, compare]);
+  //     console.log('dispathed data :', xx);
+  //   } else {
+  //     console.log(json);
+  //   }
+  //   console.log('dispathch stop loading');
+  // }, [dispatch, compare]);
 
   React.useEffect(() => {
     getProfile();
-    getPhotos();
-  }, [compare, getProfile, getPhotos]);
+    // getPhotos();
+  }, [getProfile]);
 
   return (
     <>
