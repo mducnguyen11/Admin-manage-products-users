@@ -1,0 +1,20 @@
+.transactions-table {
+  width: 80%;
+  padding: 20px;
+  min-width: 1100px;
+  background-color: rgb(233, 231, 231);
+  display: flex;
+  margin: 20px auto;
+  height: fit-content;
+  min-height: 800px;
+  flex-direction: column;
+  gap: 20px;
+  color: rgb(18, 70, 70);
+}
+
+.w-14 {
+  width: 11%;
+}
+.w-rest {
+  flex: 1;
+}

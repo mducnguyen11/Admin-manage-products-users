@@ -24,4 +24,5 @@ export const API_PATHS = {
   register: `http://api.training.div3.pgtest.co/api/v1/auth/register`,
   regionList: 'http://api.training.div3.pgtest.co/api/v1/location',
   photoList: 'https://jsonplaceholder.typicode.com/photos',
+  transactionsData: 'https://62ae9c32645d00a28a0a6840.mockapi.io/payrolllist',
 };

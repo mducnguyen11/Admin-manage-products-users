@@ -1,0 +1,54 @@
+.table-row {
+  background-color: aliceblue;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+
+  h6 {
+    margin-bottom: 0;
+  }
+  display: flex;
+  align-items: center;
+  &-btns {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    & button {
+      padding: 5px 15px;
+      border-radius: 30px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &:hover {
+        background-color: rgb(132, 127, 235);
+        color: white;
+      }
+      & p {
+        margin-bottom: 0;
+        padding: 0 25px;
+        font-weight: 600;
+      }
+      & i {
+        font-size: 20px;
+        padding-top: 3px;
+      }
+    }
+    & i {
+      font-size: 25px;
+      padding-top: 3px;
+      cursor: pointer;
+    }
+  }
+
+  .table-detail-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: paleturquoise;
+    box-shadow: 24;
+    padding: 32px;
+  }
+}

@@ -1,0 +1,24 @@
+.table-select-form {
+  background-color: white;
+  outline: none;
+
+  border-radius: 10px;
+  border: 2px solid rgb(167, 167, 167);
+  outline: 2px solid rgba(2, 2, 2, 0.1);
+  & select {
+    border-radius: 0px;
+    width: 140px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    padding: 7px 0px;
+    padding-left: 15px;
+    margin-right: 10px;
+    background-color: transparent;
+    option {
+      padding: 10px;
+      height: 20px;
+      min-height: 30px;
+    }
+  }
+}

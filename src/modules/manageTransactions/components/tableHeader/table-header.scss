@@ -1,0 +1,22 @@
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & h4 {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  & button {
+    border: none;
+    font-weight: 500;
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(105, 146, 232);
+    padding: 5px 15px;
+    &:hover {
+      background-color: rgb(67, 67, 241);
+      color: rgb(255, 255, 255);
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.table-pagination {
+  display: flex;
+  margin-left: auto;
+  justify-content: flex-end;
+  gap: 4px;
+  &-item {
+    padding: 5px 10px;
+    background-color: rgb(255, 255, 255);
+    &:hover {
+      background-color: rgb(165, 165, 165);
+      color: white;
+    }
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 2px solid rgb(124, 184, 253);
+  }
+  .disable-item {
+    cursor: default;
+    border: 2px solid rgb(157, 157, 157);
+    color: rgb(150, 153, 155);
+    &:hover {
+      color: rgb(150, 153, 155);
+      background-color: white;
+    }
+  }
+  .table-pagination-active {
+    color: rgb(206, 110, 110);
+    border: 2px solid rgb(206, 110, 110);
+  }
+}
