@@ -64,6 +64,7 @@ const PhotoPage = (props: Props) => {
   }, []);
   const handleConfirm = () => {
     dispatch(comfirmListPhotos());
+    alert('thanh cong');
   };
   const handleReset = () => {
     dispatch(resetListPhotos());
