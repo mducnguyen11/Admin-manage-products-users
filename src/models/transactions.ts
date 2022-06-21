@@ -1,4 +1,4 @@
-export interface Transactions {
+export interface Transaction {
   approved: boolean;
   async_status: string;
   canceled: boolean;

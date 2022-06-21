@@ -4,7 +4,7 @@ import TableHeader from '../tableHeader/TableHeader';
 import TableFilter from '../tableFilter/TableFilter';
 import TableContent from '../tableContent/TableContent';
 import { useState, useEffect } from 'react';
-import { iFilter, Transactions } from 'models/transactions';
+import { iFilter, Transaction } from 'models/transactions';
 import axios from 'axios';
 import { API_PATHS } from 'configs/api';
 import moment from 'moment';
@@ -12,32 +12,67 @@ import { formatStatus, formatDate } from 'modules/manageTransactions/utils';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import TablePagination from '../tablePagination/TablePagination';
+import { useSelector, useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from 'redux/reducer';
+import { Action } from 'typesafe-actions';
+
+import { setPayrollsList, setPage } from 'modules/manageTransactions/redux/transactions';
 interface Props {}
 
 const TransactionsTable = (props: Props) => {
-  const [data, setdata] = useState<Transactions[]>([]);
-  const [dataPresent, setDataPresent] = useState<Transactions[]>([]);
-  const [dataRender, setDataRender] = useState<Transactions[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
+  const [dataCurrent, setDataCurrent] = useState<Transaction[]>([]); // data afterfilter
+  const [dataRender, setDataRender] = useState<Transaction[]>([]); // data of a per page
+  const [isLoading, setIsLoading] = useState(false);
+  const [filter, setFilter] = useState<iFilter>({
+    status: '',
+    from: '',
+    to: '',
+    invoice: '',
+  });
+  const page = useSelector((state: AppState) => state.transactions.page);
+  const data = useSelector((state: AppState) => state.transactions.payrollsList);
   const getData = useCallback(async () => {
+    setIsLoading(true);
+    console.log('Statrt call api get data ....');
     const res = await axios.get(API_PATHS.transactionsData);
-    console.log(res.data);
-    setdata(res.data);
-    setDataPresent(res.data);
-    setDataRender(res.data.slice(0, page * 5));
-  }, [setdata, setDataPresent]);
+    dispatch(setPayrollsList(res.data));
+    setDataCurrent(res.data);
+    console.log('Set data to render');
+    let newarr: Transaction[] = [];
+    console.log('page :', page, ' datacurrent length :', res.data.length);
+    if (page * 5 >= res.data.length + 5) {
+      dispatch(setPage(page - 1));
+    } else {
+      if (page == 0) {
+        console.log('page : 0 so dispatch 1');
+        dispatch(setPage(1));
+      } else {
+        if (page * 5 < res.data.length) {
+          newarr = res.data.slice((page - 1) * 5, page * 5);
+        } else {
+          newarr = res.data.slice((page - 1) * 5, res.data.length);
+        }
+      }
+    }
+    setDataRender(newarr);
+    setIsLoading(false);
+  }, [setDataCurrent, page]);
+
   useEffect(() => {
     getData();
   }, []);
+
   const handleFilter = (a: iFilter) => {
+    setFilter(a);
     console.log('aplly from table', a);
     let xx = [...data];
     if (a.status == '' && a.from == '' && a.invoice == '' && a.to == '') {
-      setDataPresent(data);
+      setDataCurrent(data);
       setDataRender(data.slice(0, 5));
-      return setPage(1);
+      return dispatch(setPage(1));
     }
     console.log('hahahacÁI');
     if (a.status) {
@@ -56,43 +91,52 @@ const TransactionsTable = (props: Props) => {
         }
       });
     }
-    if (a.from && a.to) {
+    if (a.from) {
       xx = xx.filter((ax) => {
-        if (
-          moment(formatDate(ax.date_confirmed)).isAfter(a.from) &&
-          !moment(formatDate(ax.date_confirmed)).isAfter(a.to)
-        ) {
+        if (moment(formatDate(ax.date_confirmed)).isAfter(a.from)) {
           return ax;
         }
       });
     }
-    setDataPresent(xx);
+    if (a.to) {
+      xx = xx.filter((ax) => {
+        if (!moment(formatDate(ax.date_confirmed)).isAfter(a.to)) {
+          return ax;
+        }
+      });
+    }
+    setDataCurrent(xx);
     setDataRender(xx.slice(0, 5));
-    setPage(1);
+    dispatch(setPage(1));
   };
-  const handleDeleteTransaction = async (id: string) => {
+  const handleDeleteTransaction = async (id: string, total: string) => {
+    console.log('delete row - total :', total);
     setIsLoading(true);
     await axios.delete(API_PATHS.transactionsData + '/' + id);
     getData();
-    setIsLoading(false);
   };
-  const changePage = (newpage: number) => {
-    console.log(newpage);
-    const newarr = dataPresent.slice((newpage - 1) * 5, newpage * 5);
+
+  useEffect(() => {
+    console.log('change page :', page, 'total :', dataCurrent.length);
+    let newarr = [];
+    if (page * 5 <= dataCurrent.length - 1) {
+      console.log('vclll 11111111111111111ae', dataCurrent.length, page);
+      newarr = dataCurrent.slice((page - 1) * 5, page * 5);
+    } else {
+      console.log('vclll ae', dataCurrent.length, page);
+      newarr = dataCurrent.slice((page - 1) * 5, dataCurrent.length);
+    }
     console.log('new arrray');
     console.log(newarr);
     setDataRender(newarr);
-    setPage(newpage);
-  };
-
-  console.log('render');
+  }, [page]);
   return (
     <div className="transactions-table">
       <div className="transactions-table-header">
         <TableHeader />
       </div>
       <div className="transactions-table-filter">
-        <TableFilter changeFilter={handleFilter} />
+        <TableFilter filter={filter} changeFilter={handleFilter} />
       </div>
       {isLoading ? (
         <Box sx={{ display: 'flex', position: 'fixed', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}>
@@ -103,7 +147,7 @@ const TransactionsTable = (props: Props) => {
         <TableContent handleDelete={handleDeleteTransaction} data={dataRender} />
       </div>
       <div className="transactions-table-pagination">
-        <TablePagination changePage={changePage} count={5} total={dataPresent.length} page={page} />
+        <TablePagination count={5} total={dataCurrent.length} page={page} />
       </div>
     </div>
   );

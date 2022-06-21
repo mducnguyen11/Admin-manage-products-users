@@ -1,6 +1,6 @@
 import React from 'react';
 import './row-table.scss';
-import { Transactions } from 'models/transactions';
+import { Transaction } from 'models/transactions';
 import { formatStatus, formatDate, STATUS_NAME } from 'modules/manageTransactions/utils';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -15,7 +15,7 @@ import axios from 'axios';
 import { API_PATHS } from 'configs/api';
 
 interface Props {
-  item: Transactions;
+  item: Transaction;
   handleDelete: Function;
 }
 const style = {
@@ -41,7 +41,7 @@ const RowTable = (props: Props) => {
   };
 
   const handleDeleteTransaction = async () => {
-    props.handleDelete(props.item.id);
+    props.handleDelete(props.item.id, props.item.volume_input_in_input_currency);
     setIsWarningOpen(false);
   };
   const handleCloseError = () => {
@@ -76,7 +76,32 @@ const RowTable = (props: Props) => {
           aria-describedby="keep-mounted-modal-description"
         >
           <Box className="table-detail-modal" sx={style}>
-            casi ccc nhe ae
+            <div className="table-row">
+              <h6>Status : {status}</h6>
+            </div>
+
+            <div className="table-row">
+              <h6>Curency : {props.item.currency}</h6>
+            </div>
+            <div className="table-row">
+              <h6>Total : {props.item.volume_input_in_input_currency}</h6>
+            </div>
+            <div className="table-row">
+              <h6>Invoice # : {props.item.payroll_id}</h6>
+            </div>
+            <div className="table-row">
+              <h6>Payment type : {props.item.payment_type}</h6>
+            </div>
+            <div className="table-row">
+              <h6>Async status : {props.item.async_status}</h6>
+            </div>
+            <div className="table-row">
+              <h6>
+                <a target="_blank" rel="noreferrer" href={API_PATHS.transactionsData + '/' + props.item.id}>
+                  Link Data
+                </a>
+              </h6>
+            </div>
           </Box>
         </Modal>
         <div>

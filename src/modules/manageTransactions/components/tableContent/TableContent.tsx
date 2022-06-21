@@ -1,9 +1,9 @@
 import React from 'react';
 import './table-content.scss';
-import { Transactions } from 'models/transactions';
+import { Transaction } from 'models/transactions';
 import RowTable from '../rowTable/RowTable';
 interface Props {
-  data?: Transactions[];
+  data?: Transaction[];
   handleDelete: Function;
 }
 

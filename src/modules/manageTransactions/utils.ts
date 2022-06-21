@@ -1,4 +1,4 @@
-import { Transactions } from 'models/transactions';
+import { Transaction } from 'models/transactions';
 import moment from 'moment';
 
 export const STATUS_NAME = {
@@ -9,7 +9,7 @@ export const STATUS_NAME = {
   SPENDING: 'Spending',
 };
 
-export const formatStatus = (item: Transactions) => {
+export const formatStatus = (item: Transaction) => {
   if (item.received) {
     return STATUS_NAME.RECEIVED;
   }
