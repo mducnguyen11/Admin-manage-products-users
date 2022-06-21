@@ -17,6 +17,7 @@
     "@types/react-dom": "^17.0.0",
     "axios": "^0.27.2",
     "connected-react-router": "^6.9.1",
+    "dinero.js": "^2.0.0-alpha.8",
     "formik": "^2.2.9",
     "history": "^4.10.1",
     "js-cookie": "^3.0.1",

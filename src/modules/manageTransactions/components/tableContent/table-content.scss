@@ -3,6 +3,24 @@
     width: 100%;
     display: flex;
     padding-left: 20px;
+    padding-bottom: 10px;
+
+    &-sort-item {
+      display: flex;
+      align-items: center;
+      margin-left: -3px;
+      & i {
+        padding: 0px 0px 7px 10px;
+        cursor: pointer;
+      }
+    }
+    .btn-clear-sort {
+      cursor: pointer;
+      color: rgb(55, 18, 179);
+      &:hover {
+        color: rgb(5, 74, 5);
+      }
+    }
   }
   min-height: 450px;
 }

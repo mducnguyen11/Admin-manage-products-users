@@ -21052,7 +21052,7 @@ const dt = {
 const TableHeader = (props: Props) => {
   const postdt = async () => {
     const xx = dt.payrolls.slice(70, 99);
-    console.log('loadinngggg');
+    console.log('loadinngggg'); 
     for (let i = 0; i < xx.length; i++) {
       await axios.post(API_PATHS.transactionsData, xx[i]);
     }

@@ -1,6 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import './transactions-table.scss';
 import TableHeader from '../tableHeader/TableHeader';
+import { dinero, lessThan } from 'dinero.js';
+import * as curentcyx from '@dinero.js/currencies';
 import TableFilter from '../tableFilter/TableFilter';
 import TableContent from '../tableContent/TableContent';
 import { useState, useEffect } from 'react';
@@ -26,6 +28,7 @@ const TransactionsTable = (props: Props) => {
   const [dataCurrent, setDataCurrent] = useState<Transaction[]>([]); // data afterfilter
   const [dataRender, setDataRender] = useState<Transaction[]>([]); // data of a per page
   const [isLoading, setIsLoading] = useState(false);
+  const [sort, setSort] = useState<{ date?: string; total?: string }>({ date: '', total: '' });
   const [filter, setFilter] = useState<iFilter>({
     status: '',
     from: '',
@@ -59,8 +62,8 @@ const TransactionsTable = (props: Props) => {
     }
     setDataRender(newarr);
     setIsLoading(false);
-  }, [setDataCurrent, page]);
-
+  }, [page]);
+  console.log('TRansaction Table redner');
   useEffect(() => {
     getData();
   }, []);
@@ -126,10 +129,100 @@ const TransactionsTable = (props: Props) => {
       console.log('vclll ae', dataCurrent.length, page);
       newarr = dataCurrent.slice((page - 1) * 5, dataCurrent.length);
     }
-    console.log('new arrray');
-    console.log(newarr);
+
     setDataRender(newarr);
-  }, [page]);
+  }, [dataCurrent, page]);
+
+  const handleSort = (objsort: { date?: string; total?: string }) => {
+    console.log('sort with :', objsort);
+    if (objsort.date == sort.date && objsort.total == sort.total) {
+      return;
+    }
+    if (objsort.date) {
+      switch (objsort.date) {
+        case 'increase':
+          console.log('mathch date ins ');
+          setDataCurrent(
+            [...dataCurrent].sort((a, b) => {
+              if (
+                lessThan(
+                  dinero({
+                    amount: a.volume_input_in_input_currency,
+                    currency: curentcyx[a.currency as keyof typeof curentcyx],
+                  }),
+                  dinero({
+                    amount: b.volume_input_in_input_currency,
+                    currency: curentcyx[b.currency as keyof typeof curentcyx],
+                  }),
+                )
+              ) {
+                return 1;
+              } else {
+                return -1;
+              }
+            }),
+          );
+          break;
+        case 'decrease':
+          console.log('mathch date des ');
+          setDataCurrent(
+            [...dataCurrent].sort((a, b) => {
+              if (
+                lessThan(
+                  dinero({
+                    amount: a.volume_input_in_input_currency,
+                    currency: curentcyx[a.currency as keyof typeof curentcyx],
+                  }),
+                  dinero({
+                    amount: b.volume_input_in_input_currency,
+                    currency: curentcyx[b.currency as keyof typeof curentcyx],
+                  }),
+                )
+              ) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }),
+          );
+          break;
+        default:
+          handleFilter(filter);
+          break;
+      }
+    }
+    if (objsort.total) {
+      console.log('mathch total ');
+      switch (objsort.total) {
+        case 'increase':
+          setDataCurrent([
+            ...[...dataCurrent].sort((a, b) => {
+              if (a.volume_input_in_input_currency > b.volume_input_in_input_currency) {
+                return 1;
+              } else {
+                return -1;
+              }
+            }),
+          ]);
+          break;
+        case 'decrease':
+          setDataCurrent([
+            ...[...dataCurrent].sort((a, b) => {
+              if (a.volume_input_in_input_currency > b.volume_input_in_input_currency) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }),
+          ]);
+          break;
+        default:
+          handleFilter(filter);
+          break;
+      }
+    }
+    setSort(objsort);
+  };
   return (
     <div className="transactions-table">
       <div className="transactions-table-header">
@@ -144,7 +237,7 @@ const TransactionsTable = (props: Props) => {
         </Box>
       ) : null}
       <div className="transactions-table-content">
-        <TableContent handleDelete={handleDeleteTransaction} data={dataRender} />
+        <TableContent sort={sort} changeSort={handleSort} handleDelete={handleDeleteTransaction} data={dataRender} />
       </div>
       <div className="transactions-table-pagination">
         <TablePagination count={5} total={dataCurrent.length} page={page} />
@@ -153,4 +246,4 @@ const TransactionsTable = (props: Props) => {
   );
 };
 
-export default TransactionsTable;
+export default memo(TransactionsTable);
