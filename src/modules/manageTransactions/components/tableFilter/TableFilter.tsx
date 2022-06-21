@@ -10,15 +10,17 @@ import { formatDate } from 'modules/manageTransactions/utils';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from 'redux/reducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'typesafe-actions';
+import { setFilter } from 'modules/manageTransactions/redux/transactions';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-interface Props {
-  changeFilter: Function;
-  filter: iFilter;
-}
+interface Props {}
 const statusop = [
   {
     value: 'Spending',
@@ -39,41 +41,33 @@ const statusop = [
 ];
 
 const TableFilter = (props: Props) => {
-  const { changeFilter } = props;
-
-  const handleChangeState = (a: {}) => {
+  const filter = useSelector((state: AppState) => state.transactions.filter);
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const handleChangeState = (a: iFilter) => {
     console.log('change filter from TableFilter');
-    changeFilter({
-      ...props.filter,
-      ...a,
-    });
+    dispatch(setFilter(a));
   };
 
   return (
     <div className="table-filter">
       <div className="table-filter-list">
         <div className="table-filter-form">
-          <SelectForm changeState={handleChangeState} value={props.filter?.status} name="status" options={statusop} />
+          <SelectForm changeState={handleChangeState} value={filter?.status} name="status" options={statusop} />
         </div>
         <div className="table-filter-form">
           <InputDateForm
             changeState={handleChangeState}
-            value={props.filter?.from ? props.filter.from : ''}
+            value={filter?.from ? filter.from : ''}
             label="From"
             name="from"
           />
         </div>
 
         <div className="table-filter-form">
-          <InputDateForm
-            changeState={handleChangeState}
-            value={props.filter?.to ? props.filter.to : ''}
-            label="To"
-            name="to"
-          />
+          <InputDateForm changeState={handleChangeState} value={filter.to} label="To" name="to" />
         </div>
         <div className="table-filter-form">
-          <InputForm name="invoice" label="Invoice" value={props.filter.invoice} changeState={handleChangeState} />
+          <InputForm name="invoice" label="Invoice" value={filter.invoice} changeState={handleChangeState} />
         </div>
       </div>
       <div className="table-filter-btns">
@@ -81,11 +75,12 @@ const TableFilter = (props: Props) => {
           onClick={() => {
             // formatDate(filter.from) <= formatDate(filter.to)
             // if (moment(filter.to).isAfter(filter.from) || filter.to == filter.from) {
-            changeFilter(props.filter);
+            // changeFilter(filter);
             // } else {
             //   console.log('false');
             //   handleShowError();
             // }
+            alert('You dont have to clcik this button');
           }}
           className="table-filter-btns-apply"
         >
@@ -94,7 +89,7 @@ const TableFilter = (props: Props) => {
 
         <button
           onClick={() => {
-            changeFilter({
+            handleChangeState({
               status: '',
               from: '',
               to: '',

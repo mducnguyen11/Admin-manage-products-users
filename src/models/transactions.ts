@@ -33,3 +33,8 @@ export interface iFilter {
   to: string;
   invoice: string;
 }
+
+export interface iSort {
+  date?: string;
+  total?: string;
+}

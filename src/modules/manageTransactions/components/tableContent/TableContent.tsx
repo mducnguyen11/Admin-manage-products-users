@@ -4,15 +4,19 @@ import { Transaction } from 'models/transactions';
 import RowTable from '../rowTable/RowTable';
 import { formatDate } from 'modules/manageTransactions/utils';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from 'redux/reducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'typesafe-actions';
+import { setSort } from 'modules/manageTransactions/redux/transactions';
 interface Props {
   data: Transaction[];
   handleDelete: Function;
-  changeSort: Function;
-  sort: { date?: string; total?: string };
 }
 
 const TableContent = (props: Props) => {
-  const { sort, changeSort } = props;
+  const sort = useSelector((state: AppState) => state.transactions.sort);
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   return (
     <div className="table-content">
@@ -25,16 +29,18 @@ const TableContent = (props: Props) => {
           {sort?.date == 'decrease' ? (
             <i
               onClick={() => {
-                changeSort({ date: 'increase' });
+                dispatch(setSort({ date: 'increase' }));
               }}
               className="bx bxs-chevrons-up"
             ></i>
           ) : (
             <i
               onClick={() => {
-                changeSort({
-                  date: 'decrease',
-                });
+                dispatch(
+                  setSort({
+                    date: 'decrease',
+                  }),
+                );
               }}
               className="bx bxs-chevrons-down"
             ></i>
@@ -48,16 +54,18 @@ const TableContent = (props: Props) => {
           {sort?.total == 'decrease' ? (
             <i
               onClick={() => {
-                changeSort({ total: 'increase' });
+                dispatch(setSort({ total: 'increase' }));
               }}
               className="bx bxs-chevrons-up"
             ></i>
           ) : (
             <i
               onClick={() => {
-                changeSort({
-                  total: 'decrease',
-                });
+                dispatch(
+                  setSort({
+                    total: 'decrease',
+                  }),
+                );
               }}
               className="bx bxs-chevrons-down"
             ></i>
@@ -69,10 +77,12 @@ const TableContent = (props: Props) => {
         <div className="w-14 btn-clear-sort">
           <h6
             onClick={() => {
-              changeSort({
-                date: 'no sort',
-                total: 'no sort',
-              });
+              dispatch(
+                setSort({
+                  date: 'no sort',
+                  total: 'no sort',
+                }),
+              );
             }}
           >
             Clear sort
