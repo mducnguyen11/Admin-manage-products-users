@@ -1,0 +1,35 @@
+.new-product-page {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .product-name {
+    font-size: 25px;
+  }
+  &-back-btn {
+    & button {
+      cursor: pointer;
+      & i {
+        padding: 7px;
+      }
+      border-radius: 48%;
+    }
+  }
+  background-color: rgb(27, 27, 56);
+
+  &-tabs-navigation {
+    display: flex;
+    border-bottom: 1px solid #696974;
+    & p {
+      margin: 0;
+      padding: 0;
+      font-size: 15px;
+      height: 32px;
+      padding: 0 15px;
+      cursor: pointer;
+      &.tab-active {
+        border-bottom: 2px solid blueviolet;
+      }
+    }
+  }
+}

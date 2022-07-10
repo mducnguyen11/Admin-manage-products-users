@@ -1,0 +1,87 @@
+.checkmarks-form {
+  width: 100%;
+  background-color: rgb(37, 37, 71);
+  position: relative;
+  box-sizing: border-box;
+  color: white;
+  min-height: 40px;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  &-value {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    &-list {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+    }
+    &-item {
+      font-size: 14px;
+      padding-left: 10px;
+      background-color: plum;
+      display: flex;
+      align-items: center;
+      height: 20px;
+      & i {
+        padding: 5px;
+        cursor: pointer;
+        &:hover {
+          color: black;
+          background-color: rgb(215, 160, 206);
+        }
+      }
+    }
+    &-input {
+      border: none;
+      outline: none;
+      margin-top: 3px;
+      flex: 1;
+      color: white;
+      padding-left: 10px;
+      background-color: transparent;
+      min-height: 20px;
+      min-width: 200px;
+    }
+  }
+  .checkmarks-form-open-value {
+    padding: 10px;
+    transition: transform 0.5s ease;
+    &.list-open {
+      transform: rotate(180deg);
+    }
+    cursor: pointer;
+  }
+  &-list {
+    position: absolute;
+    right: 0;
+    left: 0;
+    max-height: 300px;
+    overflow-y: scroll;
+    z-index: 11;
+  }
+  &-item {
+    background-color: rgb(58, 58, 89);
+    margin-bottom: 0px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(88, 88, 121);
+    }
+    & p {
+      padding: 7px 0px 0px 15px;
+      width: 100%;
+    }
+  }
+  & span {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,67 @@
+.user-detail-page {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 15px;
+  background-color: rgb(27, 27, 56);
+  .user-name {
+    font-size: 25px;
+  }
+  &-back-btn {
+    & button {
+      cursor: pointer;
+      & i {
+        padding: 7px;
+        color: black;
+      }
+      border-radius: 48%;
+    }
+  }
+  &-tabs-navigation {
+    display: flex;
+    border-bottom: 1px solid #696974;
+    & p {
+      margin: 0;
+      padding: 0;
+      font-size: 15px;
+      height: 32px;
+      padding: 0 15px;
+      cursor: pointer;
+      &.tab-active {
+        border-bottom: 2px solid blueviolet;
+      }
+    }
+  }
+  & a {
+    color: blue;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .user-detail-section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+    .user-detail-row-item {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      .user-detail-row-name {
+        flex: 2;
+        text-align: right;
+      }
+      .user-detail-row-value {
+        flex: 5;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        & a {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

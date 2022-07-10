@@ -1,14 +1,15 @@
+import { CircularProgress } from '@mui/material';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import './Button.scss';
+import './button.scss';
 interface Props {
-  loading: boolean;
+  loading?: boolean;
   message: string;
 }
 const Button = (props: Props) => {
   return (
     <button className="btn btn-primary" type="submit">
-      {props.loading && <div className="spinner-border spinner-border-sm text-light mr-2" role="status" />}
+      {props.loading && <CircularProgress size={20} />}
       <p>
         <FormattedMessage id={props.message} />
       </p>

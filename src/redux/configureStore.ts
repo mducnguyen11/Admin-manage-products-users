@@ -21,9 +21,7 @@ const persistConfig = {
 
 export default function configureStore(preloadedState: any) {
   const sagaMiddleware = createSagaMiddleware();
-
   const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
-
   const store = createStore(
     persistedReducer, // root reducer with router state
     preloadedState,

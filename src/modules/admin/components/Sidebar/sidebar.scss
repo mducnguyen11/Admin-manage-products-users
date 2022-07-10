@@ -1,0 +1,20 @@
+.sidebar {
+  background-color: rgb(50, 50, 89);
+  position: relative;
+  left: 0px;
+  min-height: 100vh;
+  height: 100%;
+  width: 255px;
+  & a {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 15px;
+    color: white;
+    &:hover {
+      color: rgb(171, 77, 171);
+    }
+  }
+  &.false-expanded {
+    width: fit-content;
+  }
+}

@@ -4,7 +4,6 @@ import { AppState } from '../../../redux/reducer';
 import { RESPONSE_STATUS_UNAUTHORIZED } from '../../../utils/httpResponseCode';
 import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 import Cookies from 'js-cookie';
-
 export function fetchThunk(
   url: string,
   method: 'get' | 'post' | 'delete' | 'put' = 'get',
@@ -28,10 +27,6 @@ export function fetchThunk(
     });
 
     const json = await res.json();
-
-    if (res.status === RESPONSE_STATUS_UNAUTHORIZED) {
-      // dispatch logout, remove access token here.
-    }
 
     return json;
     // throw new Error('Error');

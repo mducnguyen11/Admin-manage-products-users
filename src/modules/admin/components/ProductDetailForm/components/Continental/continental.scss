@@ -1,0 +1,13 @@
+.product-detail-continental {
+  .select-form-new-country {
+    width: 210px;
+  }
+  .product-detail-newcountry-input {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    .add-action {
+      cursor: pointer;
+    }
+  }
+}

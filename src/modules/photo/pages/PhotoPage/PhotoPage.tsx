@@ -28,7 +28,6 @@ const PhotoPage = (props: Props) => {
   console.log('photosFromReduxStore :', photosFromReduxStore);
   const getPhotos = React.useCallback(async () => {
     setIsLoading(true);
-
     // console.log('comapre : ', compare);
     const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_start=0&_end=5`));
     if (json.length > 0) {

@@ -1,0 +1,68 @@
+.switch {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  height: 25px;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid #fff;
+  * {
+    margin: 0;
+  }
+  & div {
+    display: block;
+    width: 80px;
+  }
+  .switch-yes-value {
+    display: flex;
+    align-items: center;
+    background-color: rgb(33, 143, 107);
+    &-block {
+      width: 23px;
+      height: 23px;
+      background-color: rgb(255, 255, 255);
+    }
+    & p {
+      padding-left: 10px;
+      flex: 1;
+    }
+  }
+  .switch-no-value-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 80px;
+    overflow: hidden;
+    color: black;
+  }
+  .switch-no-value {
+    transform: translateX(100%);
+    background-color: aliceblue;
+    color: rgb(0, 0, 0);
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    & p {
+      padding-left: 0px;
+      flex: 1;
+      position: relative;
+      top: -2px;
+    }
+    &.switch-transform {
+      transform: translateX(0);
+    }
+    .switch-no-value-block {
+      width: 24px;
+      height: 24px;
+      background-color: rgb(255, 255, 255);
+      border-right: 3px solid rgb(21, 108, 79);
+    }
+  }
+  &.switch-no {
+    border: 2px solid rgb(21, 108, 79);
+  }
+}

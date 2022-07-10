@@ -20,5 +20,7 @@
   "locationCountryRequire" : "Vui lòng chọn quốc gia",
   "genderRequire" :"Vui lòng chọn giới tính",
   "locationCityRequire" : "Vui lòng chọn thành phố",
-  "setLocationCountryFirst": "Vui lòng chọn quốc gia trước"
+  "setLocationCountryFirst": "Vui lòng chọn quốc gia trước",
+  "requiredField" : "This field is required",
+  "confirmPasswordNotMatch" : "Confirm password not match"
 }

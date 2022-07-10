@@ -18,20 +18,16 @@ function App() {
   const { user } = useSelector((state: AppState) => ({
     user: state.profile.user,
   }));
-  const photosFromReduxStore = useSelector((state: AppState) => {
-    return state.photos.listPhotos;
-  });
-
-  // const { compare } = useSelector((state: AppState) => ({
-  //   compare: state.photos.compare,
-  // }));
 
   const getProfile = React.useCallback(async () => {
     const accessToken = Cookies.get(ACCESS_TOKEN_KEY);
+    console.log('user :', user, accessToken);
     if (accessToken && !user) {
-      const json = await dispatch(fetchThunk(API_PATHS.userProfile));
-      if (json?.code === RESPONSE_STATUS_SUCCESS) {
-        dispatch(setUserInfo({ ...json.data, token: accessToken }));
+      console.log('get user ');
+      const json = await dispatch(fetchThunk(API_PATHS.getCommonRole, 'post'));
+      console.log(json.user);
+      if (json?.success) {
+        dispatch(setUserInfo(json.user));
       }
     }
   }, [dispatch, user]);
@@ -53,7 +49,6 @@ function App() {
 
   React.useEffect(() => {
     getProfile();
-    // getPhotos();
   }, [getProfile]);
 
   return (

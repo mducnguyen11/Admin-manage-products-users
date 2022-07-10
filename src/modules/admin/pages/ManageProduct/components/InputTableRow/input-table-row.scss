@@ -1,0 +1,27 @@
+.input-table-row {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  height: 36px;
+  width: 100px;
+
+  & p {
+    font-size: 12px;
+    margin-bottom: 0px;
+    padding: 0px 7px;
+    color: black;
+    border-right: 1px solid #333;
+  }
+  & input {
+    border: none;
+    margin-right: 5px;
+    outline: none;
+    padding-left: 10px;
+    flex: 1;
+    overflow: hidden;
+    & :focus {
+      color: red;
+      box-shadow: 5px rgb(116, 116, 205);
+    }
+  }
+}

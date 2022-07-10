@@ -1,0 +1,12 @@
+.product-detail-tax-class-input {
+  display: flex;
+  width: 380px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

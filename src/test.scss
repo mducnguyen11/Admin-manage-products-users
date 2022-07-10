@@ -1,0 +1,30 @@
+.test-file {
+  width: 200px;
+  height: 200px;
+  background-color: aqua;
+  position: relative;
+  & input {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+// console.log('format dataa : ', {
+//   ...a,
+//   memberships: a.memberships.map((a) => Number(a.membership_id)),
+//   categories: a.categories.map((a) => Number(a.category_id)),
+//   arrival_date: new Date(Number(a.arrival_date)).toISOString().split('T')[0],
+// });
+// return {
+//   ...a,
+//   memberships: a.memberships.map((a) => Number(a.membership_id)),
+//   categories: a.categories.map((a) => Number(a.category_id)),
+//   arrival_date: new Date(Number(a.arrival_date)).toISOString().split('T')[0],
+//   shipping_to_zones: a.shipping.map((a) => {
+//     return { id: a.id, price: a.price };
+//   }),
+// };

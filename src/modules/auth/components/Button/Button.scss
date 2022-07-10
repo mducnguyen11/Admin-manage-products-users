@@ -1,12 +1,7 @@
-.btn{
-	display: flex;
-	margin: 20px 0px;	
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	& p{
-			padding-left: 10px;
-			margin-bottom: 0px;
-	}
-	
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
 }

@@ -5,6 +5,7 @@ import authReducer, { AuthState } from '../modules/auth/redux/authReducer';
 import intlReducer, { IntlState } from '../modules/intl/redux/intlReducer';
 import photoReducer, { PhotoState } from '../modules/photo/redux/photoReducer';
 import transactionsReducer, { TransactionsState } from 'modules/manageTransactions/redux/transactions';
+import loadingReducer, { AdminLoadingState } from '../modules/admin/redux/loadingReducer';
 
 export interface AppState {
   router: RouterState;
@@ -12,6 +13,7 @@ export interface AppState {
   profile: AuthState;
   photos: PhotoState;
   transactions: TransactionsState;
+  loading: AdminLoadingState;
 }
 
 export default function createRootReducer(history: History) {
@@ -21,5 +23,6 @@ export default function createRootReducer(history: History) {
     profile: authReducer,
     photos: photoReducer,
     transactions: transactionsReducer,
+    loading: loadingReducer,
   });
 }

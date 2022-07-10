@@ -1,16 +1,17 @@
-import React from 'react';
-import { compare, dinero, lessThan } from 'dinero.js';
-import * as xx from '@dinero.js/currencies';
-interface Props {}
+import React, { useState } from 'react';
+import 'react-day-picker/dist/style.css';
+import { addDays, format } from 'date-fns';
+import { DateRange, DayPicker } from 'react-day-picker';
 
-const Testvl = (props: Props) => {
-  // const d1 = ;
-  // const d2 = dinero({ amount: 800, currency: USD });
-  const gh = 'USD';
-  console.log(
-    compare(dinero({ amount: 500, currency: xx[gh as keyof typeof xx] }), dinero({ amount: 800, currency: xx.EUR })),
-  );
-  return <div>Testvl</div>;
-};
+const pastMonth = new Date(2020, 10, 15);
 
-export default Testvl;
+export default function App() {
+  const defaultSelected: DateRange = {
+    from: pastMonth,
+    to: addDays(pastMonth, 0),
+  };
+  const [range, setRange] = useState<DateRange | undefined>();
+  console.log(range);
+
+  return <DayPicker mode="range" defaultMonth={pastMonth} selected={range} onSelect={setRange} />;
+}

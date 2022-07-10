@@ -1,0 +1,140 @@
+.product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .product-detail-row {
+    display: flex;
+    margin: 30px 0px;
+    align-items: center;
+    width: 100%;
+    &-name {
+      width: 20%;
+      text-align: right;
+      &-p {
+        float: right;
+        margin: 0px;
+        padding-right: 20px;
+      }
+    }
+  }
+  &-category-input {
+    width: 660px;
+  }
+  &-description-input {
+    width: 660px;
+    color: black;
+  }
+  &-row-switch-input {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  &-vendor-input {
+    width: 430px;
+  }
+  &-title-input {
+    width: 430px;
+  }
+  &-sku-input {
+    width: 430px;
+  }
+  &-brand-input {
+    width: 430px;
+  }
+
+  &-arrivaldate-input {
+    height: 40px;
+    border: 1px solid;
+    border-color: #a16eff;
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+    position: relative;
+    & * {
+      color: white;
+    }
+    & input {
+      background-color: transparent;
+      padding: 0;
+      height: 100%;
+      padding-left: 10px;
+      border: none;
+      outline: none;
+    }
+  }
+  &-name-input {
+    width: 430px;
+  }
+  .product-detail-arrival-date-picker {
+    position: absolute;
+    background-color: rgb(58, 58, 89);
+    z-index: 10;
+    right: 0;
+    transform: translateX(120%);
+    & button {
+      &:hover {
+        & span {
+          color: black;
+        }
+      }
+    }
+  }
+  &-memberships-input {
+    width: 430px;
+  }
+  &-condition-input {
+    width: 430px;
+  }
+  &-metatag-input {
+    width: 430px;
+  }
+  &-name-input {
+    & input {
+      font-weight: bold;
+    }
+  }
+  &-btn {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: rgb(50, 50, 89);
+    box-shadow: 0 0 13px 0 #b18aff;
+  }
+  .product-basic-detail,
+  .product-price-inventory,
+  .product-shipping {
+    padding-bottom: 20px;
+    border-bottom: 15px solid rgb(50, 50, 89);
+    margin-bottom: 20px;
+  }
+  .product-detail-row {
+    &-input {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .error-message {
+      position: absolute;
+      font-size: 12px;
+      line-height: 25px;
+      color: red;
+      bottom: -25px;
+    }
+  }
+  .error-row {
+    position: relative;
+    top: -30px;
+    & span {
+      margin-left: 20%;
+      position: absolute;
+      font-size: 12px;
+      line-height: 25px;
+      color: red;
+    }
+  }
+  &-newcountry-input {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+}

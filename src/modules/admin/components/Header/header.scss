@@ -1,0 +1,35 @@
+.header {
+  display: flex;
+  background-color: rgb(50, 50, 89);
+  color: white;
+  align-items: center;
+  padding: 20px 0px;
+  width: 100%;
+  max-width: 1900px;
+  margin: auto;
+  position: fixed;
+  top: 0px;
+  z-index: 10;
+  right: 0px;
+  left: 0px;
+  box-shadow: 0 5px 10px 0 #1a1f33;
+  > * {
+    padding: 0px 15px;
+  }
+  &-sidebar-icon {
+    color: rgb(186, 186, 186);
+    & i {
+      font-size: 25px;
+    }
+    &:hover {
+      color: white;
+    }
+  }
+  &-title {
+    margin-bottom: 4px;
+    font-size: 20px;
+  }
+  &-space {
+    flex: 1;
+  }
+}

@@ -1,0 +1,22 @@
+.admin-layout {
+  position: relative;
+  width: 100%;
+  max-width: 1900px;
+  box-sizing: border-box;
+  display: flex;
+  margin: auto;
+  &-container {
+    display: flex;
+    margin-top: 70px;
+    position: relative;
+    width: 100%;
+  }
+  .admin-layout-sidebar {
+    background-color: red;
+  }
+  .admin-layout-content {
+    flex: 1;
+    background-color: rgb(27, 27, 56);
+    padding: 40px;
+  }
+}
