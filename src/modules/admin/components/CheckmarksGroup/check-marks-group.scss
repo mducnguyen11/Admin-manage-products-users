@@ -29,37 +29,44 @@
   &-ops {
     position: relative;
   }
-  &-list {
+  &-list-options {
     position: absolute;
     background-color: rgb(50, 50, 89);
     left: 0;
     right: 0;
     top: 5px;
-    z-index: 10;
+    z-index: 11;
     &-group-name {
       padding: 5px;
-    }
-    &-item {
-      padding-left: 15px;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      &:hover {
-        background-color: rgb(75, 75, 100);
-      }
-      & i {
-        font-size: 17px;
-      }
-      & p {
-        padding-left: 15px;
-        padding-bottom: 2px;
-      }
     }
     &-group-name {
       font-size: 14px;
       margin-left: 10px;
       color: rgb(198, 194, 194);
     }
+  }
+  &-option {
+    padding-left: 15px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(75, 75, 100);
+    }
+    & i {
+      font-size: 17px;
+    }
+    & p {
+      padding-left: 15px;
+      padding-bottom: 2px;
+    }
+  }
+  &-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 }

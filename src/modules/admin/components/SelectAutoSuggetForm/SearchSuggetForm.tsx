@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import './search-sugget-form.scss';
 interface Props {
   value: string;
   changeData: Function;
@@ -46,7 +45,7 @@ const SelectAutoSuggetForm = (props: Props) => {
     setValueName(findNameByValue(props.value, props.options));
   }, [props.value, props.options]);
   const handleSuggetValue = (e: string) => {
-    if (e.length >= 2) {
+    if (e.length >= 0) {
       const xx = props.options.filter((a, i) => {
         if (a.name.includes(e)) {
           return a;
@@ -60,8 +59,8 @@ const SelectAutoSuggetForm = (props: Props) => {
 
   return (
     <>
-      <div className="admin-select-form">
-        <div className="admin-select-form-value">
+      <div className="select-form">
+        <div className="select-form-value">
           <input
             onChange={(e) => {
               setValueName(e.target.value);
@@ -70,7 +69,7 @@ const SelectAutoSuggetForm = (props: Props) => {
               handleSuggetValue(e.target.value);
             }}
             value={valueName}
-            className="admin-select-form-input search-sugget"
+            className="select-form-input search-sugget"
             type="text"
           />
           <i
@@ -81,39 +80,56 @@ const SelectAutoSuggetForm = (props: Props) => {
           ></i>
         </div>
         {open ? (
-          <div className="admin-select-form-list">
-            <>
-              {props.options.length > 0 || props.value !== '' ? (
-                <>
-                  {listValueSugget.map((a, i) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setOpen(false);
-                          console.log('idd : ', a.id);
-                          if (props.value !== a.id) {
-                            const ob: { [key: string]: any } = {};
-                            ob[props.name] = a.id;
-                            props.changeData(ob);
-                          }
-                        }}
-                        key={i}
-                        className="admin-select-form-item"
-                      >
-                        <p className="admin-select-form-item-value">{a.name}</p>
-                      </div>
-                    );
-                  })}
-                </>
-              ) : (
-                <div className="admin-select-form-item">{props.value == '' ? null : <p>No option</p>}</div>
-              )}
-            </>
-          </div>
+          <>
+            {' '}
+            <div className="select-form-list-options">
+              <>
+                {valueName !== '' ? (
+                  <>
+                    {listValueSugget.length > 0 ? (
+                      <>
+                        {listValueSugget.map((a, i) => {
+                          return (
+                            <div
+                              onClick={() => {
+                                setOpen(false);
+                                console.log('idd : ', a.id);
+                                if (props.value !== a.id) {
+                                  const ob: { [key: string]: any } = {};
+                                  ob[props.name] = a.id;
+                                  props.changeData(ob);
+                                }
+                              }}
+                              key={i}
+                              className="select-form-option"
+                            >
+                              <p className="select-form-option-value">{a.name}</p>
+                            </div>
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <>
+                        <div className="select-form-option">
+                          <p>No option</p>
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : null}
+              </>
+            </div>
+            <div
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="select-form-options-background"
+            ></div>
+          </>
         ) : null}
       </div>
       {props.error && valueName == '' ? (
-        <div className="search-sugget-form-error">
+        <div className="select-form-error-message">
           <span className="error-message">
             {' '}
             <FormattedMessage id={props.error} />{' '}

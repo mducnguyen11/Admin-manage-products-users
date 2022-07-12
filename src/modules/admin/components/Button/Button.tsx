@@ -1,6 +1,4 @@
 import React from 'react';
-import { isPropertyAssignment } from 'typescript';
-import './button.scss';
 
 interface Props {
   children: React.ReactNode;

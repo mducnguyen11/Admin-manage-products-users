@@ -9,9 +9,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { fetchThunk } from './modules/common/redux/thunk';
 import { API_PATHS } from './configs/api';
-import { RESPONSE_STATUS_SUCCESS } from './utils/httpResponseCode';
 import { setUserInfo } from './modules/auth/redux/authReducer';
-import { setListPhotos } from './modules/photo/redux/photoReducer';
 
 function App() {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -23,7 +21,6 @@ function App() {
     const accessToken = Cookies.get(ACCESS_TOKEN_KEY);
     if (accessToken && !user) {
       const json = await dispatch(fetchThunk(API_PATHS.getCommonRole, 'post'));
-      console.log(json.user);
       if (json?.success) {
         dispatch(setUserInfo(json.user));
       }

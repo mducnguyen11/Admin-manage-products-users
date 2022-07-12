@@ -52,7 +52,6 @@ export const formatTimeStampToDate = (a: string | number) => {
 
 export const validateProductDataField = (a: IProductDetailDataField, listFieldRequired: string[]) => {
   const error: { [key: string]: string } = {};
-  console.log('a :', [...Object.keys(a)]);
   const ll: any[] = [];
   [...Object.keys(a)].forEach((b) => {
     if (listFieldRequired.findIndex((x) => x == b) > -1) {
@@ -66,9 +65,13 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
     }
     if (key == 'shipping' && a.shipping) {
       if (a.shipping.length > 0) {
-        if (a['shipping'][0].price == '') {
-          error['shipping'] = 'requiredField';
-        }
+        a.shipping.forEach((b) => {
+          if (b.price == '' || b.price == '0.0000' || b.price == '0.00') {
+            error['shipping'] = 'requiredField';
+          }
+        });
+      } else {
+        error['shipping'] = 'requiredField';
       }
     }
     if (key == 'images') {

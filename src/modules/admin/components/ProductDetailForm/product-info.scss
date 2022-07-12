@@ -112,17 +112,8 @@
       display: flex;
       flex-direction: column;
     }
-    .error-row {
-      .error-message {
-        position: absolute;
-        font-size: 12px;
-        line-height: 25px;
-        color: red;
-        bottom: -25px;
-      }
-    }
   }
-  .error-row {
+  .error-message-row {
     position: relative;
     top: -30px;
     & span {

@@ -1,6 +1,8 @@
 import { formateDateToTimeStamp, formatTimeStampToDateString } from 'modules/admin/ultis';
 import React, { useEffect, useState } from 'react';
 import { DateRange, DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import './filter-date-range.scss';
 interface Props {
   value: string[];
   onChange: Function;
@@ -85,30 +87,38 @@ const FilterDateRange = (props: Props) => {
         className={openDatePicker ? 'bx bx-chevron-down open-list' : 'bx bx-chevron-down'}
       ></i>
       {openDatePicker ? (
-        <div className="filter-field-input-daypicker">
-          <DayPicker
-            mode="range"
-            selected={range}
-            defaultMonth={range?.from}
-            onSelect={(a) => {
-              const tt = handleDateSelect(a);
-              let z = '';
-              tt.forEach((l, i) => {
-                console.log('L ', l);
-                if (i == 0) {
-                  z += l;
-                } else {
-                  z += ',' + l;
-                }
-              });
-              console.log('tt :', tt);
-              setInputValueDateRange(z);
-              props.onChange({
-                date_range: tt,
-              });
+        <>
+          <div className="filter-field-input-daypicker">
+            <DayPicker
+              mode="range"
+              selected={range}
+              defaultMonth={range?.from}
+              onSelect={(a) => {
+                const tt = handleDateSelect(a);
+                let z = '';
+                tt.forEach((l, i) => {
+                  console.log('L ', l);
+                  if (i == 0) {
+                    z += l;
+                  } else {
+                    z += ',' + l;
+                  }
+                });
+                console.log('tt :', tt);
+                setInputValueDateRange(z);
+                props.onChange({
+                  date_range: tt,
+                });
+              }}
+            />
+          </div>
+          <div
+            onClick={() => {
+              setOpenDatePicker(false);
             }}
-          />
-        </div>
+            className="filter-field-input-daypicker-background"
+          ></div>
+        </>
       ) : null}
     </div>
   );

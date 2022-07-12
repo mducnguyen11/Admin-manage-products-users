@@ -1,4 +1,3 @@
-import './admin-select-form.scss';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -27,48 +26,56 @@ const SelectForm = (props: Props) => {
   }, [props.value, props.options]);
 
   return (
-    <div className="admin-select-form">
+    <div className="select-form">
       <div
         onClick={() => {
           setOpen(!open);
         }}
-        className="admin-select-form-value"
+        className="select-form-value"
       >
-        <p className="admin-select-form-value-text">
+        <p className="select-form-value-text">
           {text}
           <i className={open ? 'bx bx-chevron-down list-open' : 'bx bx-chevron-down'}></i>
         </p>
       </div>
-      <div className="admin-select-form-error-message">
+      <div className="select-form-error-message">
         {props.error ? <span className="error-message"> {<FormattedMessage id={props.error} />}</span> : null}
       </div>
       {open ? (
-        <div className="admin-select-form-list">
-          {props.options.map((a, i) => {
-            return (
-              <div key={i} className="admin-select-form-item">
-                <p
-                  onClick={() => {
-                    setOpen(!open);
-                    if (props.value !== a.id) {
-                      if (props.key_name) {
-                        const xx: obj = {};
-                        xx[props.key_name] = a.id;
-                        props.onChange(xx);
-                      } else {
-                        props.onChange(a.id);
+        <>
+          <div className="select-form-list-options">
+            {props.options.map((a, i) => {
+              return (
+                <div key={i} className="select-form-option">
+                  <p
+                    onClick={() => {
+                      setOpen(!open);
+                      if (props.value !== a.id) {
+                        if (props.key_name) {
+                          const xx: obj = {};
+                          xx[props.key_name] = a.id;
+                          props.onChange(xx);
+                        } else {
+                          props.onChange(a.id);
+                        }
                       }
-                    }
-                  }}
-                  className="admin-select-form-item-value"
-                >
-                  {' '}
-                  {a.name}{' '}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+                    }}
+                    className="select-form-option-value"
+                  >
+                    {' '}
+                    {a.name}{' '}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+          <div
+            onClick={() => {
+              setOpen(false);
+            }}
+            className="select-form-options-background"
+          ></div>
+        </>
       ) : null}
     </div>
   );

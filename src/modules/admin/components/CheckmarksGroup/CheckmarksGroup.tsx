@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './memberships.scss';
+import './check-marks-group.scss';
 interface Props {
   value: string[];
   onChange: Function;
@@ -47,43 +47,52 @@ const CheckmarksGroup = (props: Props) => {
       </div>
       <div className="checkmarks-group-ops">
         {open ? (
-          <div className="checkmarks-group-list">
-            {props.options.map((a, i) => {
-              return (
-                <div key={a.name}>
-                  <div className="checkmarks-group-list-group-name">{a.name}</div>
-                  {a.options.map((x, i) => {
-                    return (
-                      <div
-                        key={x.id}
-                        onClick={() => {
-                          console.log('id : ', x.id);
-                          const obj: { [key: string]: any } = {};
-                          if (props.value.includes(x.id)) {
-                            console.log('include ');
-                            obj[props.key_name as keyof typeof obj] = [...props.value.filter((a) => a !== x.id)];
-                          } else {
-                            console.log('nooo include ');
-                            obj[props.key_name as keyof typeof obj] = [...props.value, x.id];
-                          }
-                          props.onChange(obj);
-                        }}
-                        className="checkmarks-group-list-item"
-                      >
-                        {props.value.findIndex((v) => v == x.id) > -1 ? (
-                          <i className="bx bxs-check-square"></i>
-                        ) : (
-                          <i className="bx bx-check-square"></i>
-                        )}
+          <>
+            {' '}
+            <div className="checkmarks-group-list-options">
+              {props.options.map((a, i) => {
+                return (
+                  <div key={a.name}>
+                    <div className="checkmarks-group-list-options-group-name">{a.name}</div>
+                    {a.options.map((x, i) => {
+                      return (
+                        <div
+                          key={x.id}
+                          onClick={() => {
+                            console.log('id : ', x.id);
+                            const obj: { [key: string]: any } = {};
+                            if (props.value.includes(x.id)) {
+                              console.log('include ');
+                              obj[props.key_name as keyof typeof obj] = [...props.value.filter((a) => a !== x.id)];
+                            } else {
+                              console.log('nooo include ');
+                              obj[props.key_name as keyof typeof obj] = [...props.value, x.id];
+                            }
+                            props.onChange(obj);
+                          }}
+                          className="checkmarks-group-option"
+                        >
+                          {props.value.findIndex((v) => v == x.id) > -1 ? (
+                            <i className="bx bxs-check-square"></i>
+                          ) : (
+                            <i className="bx bx-check-square"></i>
+                          )}
 
-                        <p>{x.name}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
+                          <p>{x.name}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="checkmarks-group-background"
+            ></div>
+          </>
         ) : null}
       </div>
     </div>

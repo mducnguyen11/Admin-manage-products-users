@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 interface Props {
   value: string;
@@ -14,18 +14,20 @@ const SelectAPISuggetForm = (props: Props) => {
   const [valueName, setValueName] = useState<string>('');
   return (
     <>
-      <div className="admin-select-form">
-        <div className="admin-select-form-value select-vendor-value">
+      <div className="select-form">
+        <div className="select-form-value">
           <input
             onChange={(e) => {
               setValueName(e.target.value);
-              setOpen(true);
+              if (!open) {
+                setOpen(true);
+              }
               const ob: { [key: string]: any } = {};
               ob[props.name] = e.target.value;
               props.onChange(ob);
             }}
             value={valueName}
-            className="admin-select-form-input search-sugget"
+            className="select-form-input admin-input-form"
             type="text"
           />
           {open ? (
@@ -40,9 +42,9 @@ const SelectAPISuggetForm = (props: Props) => {
           ) : null}
         </div>
         {open ? (
-          <div className="admin-select-form-list">
+          <div className="select-form-list-options">
             <>
-              {props.options.length > 0 ? (
+              {open && props.options.length > 0 ? (
                 <>
                   {props.options.map((a, i) => {
                     return (
@@ -58,16 +60,16 @@ const SelectAPISuggetForm = (props: Props) => {
                           }
                         }}
                         key={i}
-                        className="admin-select-form-item"
+                        className="select-form-option"
                       >
-                        <p className="admin-select-form-item-value">{a.name}</p>
+                        <p className="select-form-option-value">{a.name}</p>
                       </div>
                     );
                   })}
                 </>
               ) : (
-                <div className="admin-select-form-item">
-                  <p className="admin-select-form-item-value">No vendor match</p>
+                <div className="select-form-option">
+                  <p className="select-form-option-value">No vendor match</p>
                 </div>
               )}
             </>
@@ -75,10 +77,12 @@ const SelectAPISuggetForm = (props: Props) => {
         ) : null}
       </div>
       {props.errorMessage && valueName == '' ? (
-        <span className="error-message">
-          {' '}
-          <FormattedMessage id={props.errorMessage} />{' '}
-        </span>
+        <div className="select-form-error-message">
+          <span className="error-message">
+            {' '}
+            <FormattedMessage id={props.errorMessage} />{' '}
+          </span>
+        </div>
       ) : null}
     </>
   );

@@ -68,7 +68,7 @@ const ManageProducts = (props: Props) => {
   const getProducts = React.useCallback(async () => {
     dispatch(setLoading());
     const res = await dispatch(fetchThunk(API_PATHS.getProductsList, 'post', { ...filter }));
-    console.log('Manage product : ', res);
+
     if (res.data) {
       const ll = res.data.map((a: IProductTableItem, i: number) => {
         return {

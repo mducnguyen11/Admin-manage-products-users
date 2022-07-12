@@ -1,5 +1,4 @@
-.admin-select-form {
-  background-color: rgb(37, 37, 71);
+.select-form {
   position: relative;
   &:hover {
     background-color: rgb(44, 44, 76);
@@ -10,36 +9,38 @@
   border-radius: 4px;
   &-value {
     overflow: hidden;
+    position: relative;
+    z-index: 10;
     display: flex;
     height: 40px;
+    background-color: rgb(37, 37, 71);
     align-items: center;
+    padding-right: 10px;
     cursor: pointer;
     .select-list-icon {
       display: flex;
       margin-left: auto;
       padding-top: 0px;
     }
-    .admin-select-form-value-text {
+    .select-form-value-text {
       cursor: pointer;
       width: 100%;
       display: flex;
       margin: auto;
-      // margin-bottom: 0;
       margin-left: 15px;
-
-      & i {
-        margin: auto;
-        margin-right: 5px;
-        font-size: 20px;
-        transform: rotate(0);
-        transition: transform 0.5s ease;
-        &.list-open {
-          transform: rotate(180deg);
-        }
+    }
+    & i {
+      margin: auto;
+      margin-right: 5px;
+      font-size: 20px;
+      transform: rotate(0);
+      transition: transform 0.5s ease;
+      &.list-open {
+        transform: rotate(180deg);
       }
     }
   }
-  &-list {
+  &-list-options {
     position: absolute;
     right: 0;
     left: 0;
@@ -47,7 +48,7 @@
     overflow-y: scroll;
     z-index: 11;
   }
-  &-item {
+  &-option {
     background-color: rgb(58, 58, 89);
     margin-bottom: 0px;
     width: 100%;
@@ -65,19 +66,31 @@
       width: 100%;
     }
   }
-  & span {
-    font-size: 12px;
+  &-options-background {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 9;
   }
-}
-
-.admin-select-form-error-message {
-  position: relative;
-  width: 100%;
-  & span {
-    position: absolute;
-    padding-top: 5px;
-    color: red;
-    left: 0;
-    font-size: 12px;
+  &-error-message {
+    position: relative;
+    width: 100%;
+    & span {
+      position: absolute;
+      padding-top: 5px;
+      color: red;
+      left: 0;
+      font-size: 12px;
+    }
+  }
+  &-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    flex: 1;
+    padding-left: 10px;
+    color: white;
   }
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import './admin-input-form.scss';
 interface Props {
   type?: string;
   placeholder?: string;
@@ -35,9 +34,7 @@ const InputField = (props: Props) => {
           }
         }}
         onBlur={async () => {
-          console.log('vcl');
           if (props.value !== text) {
-            console.log('a');
             if (props.key_name) {
               const objz: { [key: string]: any } = {};
               objz[props.key_name as keyof typeof objz] = text;

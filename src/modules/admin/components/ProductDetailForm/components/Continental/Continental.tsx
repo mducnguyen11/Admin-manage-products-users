@@ -103,13 +103,7 @@ const Continental = (props: Props) => {
               </div>
               <div className="product-detail-row-input product-detail-continental-input">
                 <div className="continental-input ">
-                  <InputWithUnit
-                    error={a.price == '0' || a.price == '' || a.price == '0.00' ? props.errorMessage : ''}
-                    currentUnit="$"
-                    value={a.price}
-                    name={a.id}
-                    onChange={handleChange}
-                  />
+                  <InputWithUnit currentUnit="$" value={a.price} name={a.id} onChange={handleChange} />
                 </div>
               </div>
             </div>
@@ -146,7 +140,11 @@ const Continental = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="error-row"></div>
+      <div className="error-message-row">
+        {props.errorMessage ? (
+          <span className="error-message"> {<FormattedMessage id={props.errorMessage} />}</span>
+        ) : null}
+      </div>
     </>
   );
 };

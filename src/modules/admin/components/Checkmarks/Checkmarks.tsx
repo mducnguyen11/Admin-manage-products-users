@@ -45,7 +45,7 @@ const Checkmarks = (props: Props) => {
     ]);
   };
   return (
-    <div className=" checkmarks-form">
+    <div className="checkmarks-form">
       <div className="checkmarks-form-value">
         <div className="checkmarks-form-value-list">
           {props.value.map((a) => {
@@ -89,10 +89,10 @@ const Checkmarks = (props: Props) => {
         {props.error ? <span className="error-message"> {<FormattedMessage id={props.error} />}</span> : null}
       </div>
       {open ? (
-        <div className=" checkmarks-form-list">
+        <div className="checkmarks-form-list-options">
           {listOp.map((a, i) => {
             return (
-              <div key={i} className="checkmarks-form-item">
+              <div key={i} className="checkmarks-form-option">
                 <p
                   onClick={() => {
                     console.log('vcl ae', a);
@@ -112,7 +112,7 @@ const Checkmarks = (props: Props) => {
                     }
                     setOpen(!open);
                   }}
-                  className="checkmarks-form-item-value"
+                  className="checkmarks-form-option-value"
                 >
                   {' '}
                   {a.name}{' '}

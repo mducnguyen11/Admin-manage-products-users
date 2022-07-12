@@ -51,11 +51,10 @@ const NewProductPage = (props: Props) => {
     const formData = new FormData();
     formData.append('productDetail', JSON.stringify(formatProductDataToPayload(a)));
     const ress = await axios.post(API_PATHS.createNewProduct, formData, AxiosFormDataConfig);
-    console.log('create prodcut : ', ress);
+
     if (ress.data.success) {
       handleShowAlertSuccess();
       const ll = listImgUpload.map(async (a, i) => {
-        console.log('start upload img : ', i);
         const formData = new FormData();
         formData.append('images[]', a.file);
         formData.append('productId', ress.data.data);
@@ -74,7 +73,6 @@ const NewProductPage = (props: Props) => {
     dispatch(stopLoading());
   };
 
-  console.log('redbner');
   return (
     <div className="new-product-page">
       <div className="new-product-page-back-btn">

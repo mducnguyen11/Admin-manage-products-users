@@ -13,54 +13,63 @@ const Memberships = (props: Props) => {
         <p className="product-detail-row-name-p">Memberships</p>
       </div>
       <div className="product-detail-row-input product-detail-memberships-input ">
-        <div className="admin-select-form">
+        <div className="select-form">
           <div
             onClick={() => {
               setOpen(!open);
             }}
-            className="admin-select-form-value product-detail-membership-value"
+            className="select-form-value product-detail-membership-value"
           >
             {props.value.length > 0 ? (
               props.value.map((a, i) => {
                 return (
-                  <p className="admin-select-form-value-text product-detail-membership-value-item" key={i}>
+                  <p className="select-form-value-text product-detail-membership-value-item" key={i}>
                     {a.membership_id == '4' ? 'General' : ''}
                     <i className={open ? 'bx bx-chevron-down list-open' : 'bx bx-chevron-down'}></i>
                   </p>
                 );
               })
             ) : (
-              <p className="admin-select-form-value-text product-detail-membership-value-item">
+              <p className="select-form-value-text product-detail-membership-value-item">
                 <i className={open ? 'bx bx-chevron-down list-open' : 'bx bx-chevron-down'}></i>
               </p>
             )}
           </div>
           {open ? (
-            <div className="admin-select-form-list product-detail-membership-list">
+            <>
+              {' '}
+              <div className="select-form-list-options product-detail-membership-list">
+                <div
+                  onClick={() => {
+                    if (props.value.findIndex((a) => a.membership_id == '4') == -1) {
+                      props.onChange({
+                        memberships: [{ membership_id: '4' }],
+                      });
+                    } else {
+                      props.onChange({
+                        memberships: [],
+                      });
+                    }
+                  }}
+                  className="select-form-option select-form-memberships-icon"
+                >
+                  {props.value != undefined ? (
+                    props.value.findIndex((a) => a.membership_id == '4') == -1 ? (
+                      <i className="select-form-item-check-icon bx bx-check-square"></i>
+                    ) : (
+                      <i className="select-form-item-check-icon bx bxs-check-square"></i>
+                    )
+                  ) : null}
+                  <p className="select-form-option-value">General</p>
+                </div>
+              </div>
               <div
                 onClick={() => {
-                  if (props.value.findIndex((a) => a.membership_id == '4') == -1) {
-                    props.onChange({
-                      memberships: [{ membership_id: '4' }],
-                    });
-                  } else {
-                    props.onChange({
-                      memberships: [],
-                    });
-                  }
+                  setOpen(false);
                 }}
-                className="admin-select-form-item select-form-memberships-icon"
-              >
-                {props.value != undefined ? (
-                  props.value.findIndex((a) => a.membership_id == '4') == -1 ? (
-                    <i className="admin-select-form-item-check-icon bx bx-check-square"></i>
-                  ) : (
-                    <i className="admin-select-form-item-check-icon bx bxs-check-square"></i>
-                  )
-                ) : null}
-                <p className="admin-select-form-item-value">General</p>
-              </div>
-            </div>
+                className="select-form-options-background"
+              ></div>
+            </>
           ) : null}
         </div>
       </div>

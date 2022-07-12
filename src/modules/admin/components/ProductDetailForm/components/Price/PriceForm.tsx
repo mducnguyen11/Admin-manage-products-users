@@ -87,7 +87,6 @@ const PriceForm = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="error-row"></div>
     </>
   );
 };

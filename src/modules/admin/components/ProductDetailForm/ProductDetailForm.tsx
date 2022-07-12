@@ -72,7 +72,6 @@ const ProductDetailForm = (props: Props) => {
   };
 
   const handleChangeProduct = (a: IProductDetailDataField) => {
-    console.log('change : ', a);
     handleValidate(a, props.listFieldRequired);
     setProductdetail({
       ...productdetail,
@@ -82,7 +81,7 @@ const ProductDetailForm = (props: Props) => {
   const handleSaveProduct = async () => {
     const tt = validateProductDataField(productdetail, props.listFieldRequired);
     if (tt.validate) {
-      await props.onSave(productdetail, [...listImgUpload]);
+      props.onSave(productdetail, [...listImgUpload]);
       setListImgUpload([]);
     } else {
       setErrors(tt.error);

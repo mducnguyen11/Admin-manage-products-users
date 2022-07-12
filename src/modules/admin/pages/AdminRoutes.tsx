@@ -4,12 +4,12 @@ import AdminLayout from 'layout/adminLayout/AdminLayout';
 import AdminProtectedRoute from 'modules/common/components/AdminProtectedRoute';
 import LoadingLayout from 'layout/loadingLayout/LoadingLayout';
 
-const ManageProducts = lazy(() => import('modules/admin/pages/product/ManageProduct/ManageProducts'));
+const ManageProducts = lazy(() => import('modules/admin/pages/product/ManageProduct/ManageProductsPage'));
 const ProductDetail = lazy(() => import('modules/admin/pages/product/ProductDetail/ProductDetailPage'));
 const NewProductPage = lazy(() => import('modules/admin/pages/product/NewProduct/NewProductPage'));
-const ManageUsers = lazy(() => import('modules/admin/pages/user/ManageUser/ManageUsers'));
+const ManageUsers = lazy(() => import('modules/admin/pages/user/ManageUser/ManageUsersPage'));
 const UserDetailPage = lazy(() => import('modules/admin/pages/user/UserDetail/UserDetailPage'));
-const NewUser = lazy(() => import('modules/admin/pages/user/NewUser/NewUser'));
+const NewUser = lazy(() => import('modules/admin/pages/user/NewUser/NewUserPage'));
 import Home from './Home/Home';
 
 interface Props {}

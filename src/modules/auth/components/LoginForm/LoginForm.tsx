@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './login-form.scss';
 import { Formik, Form, Field } from 'formik';
 import { ILoginParams } from 'models/auth';
