@@ -1,5 +1,5 @@
 import { API_PATHS } from 'configs/api';
-import SearchSuggetForm from 'modules/admin/components/SelectAutoSuggetForm/SearchSuggetForm';
+import SearchSuggetForm from 'modules/admin/components/SelectAutoDebounce/SelectAutoDebounce';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 

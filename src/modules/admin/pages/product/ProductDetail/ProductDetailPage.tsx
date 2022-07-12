@@ -120,16 +120,7 @@ const ProductDetail = (props: Props) => {
                 onSave={handleSaveProduct}
                 actionName="Save product"
                 product={product}
-                listFieldRequired={[
-                  'name',
-                  'images',
-                  'quantity',
-                  'brand',
-                  'categories',
-                  'description',
-                  'price',
-                  'shipping',
-                ]}
+                listFieldRequired={['name', 'images', 'quantity', 'brand', 'categories', 'description', 'price']}
               />
             ) : null}
           </Tab>

@@ -34,12 +34,8 @@ const Home = (props: Props) => {
   };
   useEffect(() => {
     getCategories();
-  }, []);
-  useEffect(() => {
-    getAllCountry();
-  }, []);
-  useEffect(() => {
     getVendorList();
+    getAllCountry();
   }, []);
 
   return <></>;

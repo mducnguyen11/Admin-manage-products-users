@@ -12,9 +12,10 @@ interface Props {
 }
 const InputField = (props: Props) => {
   const [text, setText] = useState('');
-  const [change, setChange] = useState(false);
   useEffect(() => {
-    setText(props.value);
+    if (props.value !== text) {
+      setText(props.value);
+    }
   }, [props.value]);
   return (
     <div className="admin-input-form-wrapper">
@@ -29,25 +30,21 @@ const InputField = (props: Props) => {
         value={text}
         onChange={(e) => {
           setText(e.target.value);
-          if (!change) {
-            setChange(true);
+          if (props.error) {
+            const objz: { [key: string]: any } = {};
+            objz[props.key_name as keyof typeof objz] = e.target.value;
+            props.onChange(objz);
           }
         }}
-        onBlur={async () => {
+        onBlur={() => {
           if (props.value !== text) {
             if (props.key_name) {
               const objz: { [key: string]: any } = {};
               objz[props.key_name as keyof typeof objz] = text;
-              await props.onChange(objz);
-              if (change) {
-                setChange(false);
-              }
+              props.onChange(objz);
             } else {
               if (props.value !== text) {
-                await props.onChange(text);
-              }
-              if (change) {
-                setChange(false);
+                props.onChange(text);
               }
             }
           } else {
@@ -55,24 +52,16 @@ const InputField = (props: Props) => {
               if (props.key_name) {
                 const objz: { [key: string]: any } = {};
                 objz[props.key_name as keyof typeof objz] = '';
-                await props.onChange(objz);
-                if (change) {
-                  setChange(false);
-                }
+                props.onChange(objz);
               } else {
-                await props.onChange('');
-                if (change) {
-                  setChange(false);
-                }
+                props.onChange('');
               }
             }
           }
         }}
       />
       <div className="input-error-message">
-        {props.error && !change ? (
-          <span className="error-message"> {<FormattedMessage id={props.error} />}</span>
-        ) : null}
+        {props.error ? <span className="error-message"> {<FormattedMessage id={props.error} />}</span> : null}
       </div>
     </div>
   );

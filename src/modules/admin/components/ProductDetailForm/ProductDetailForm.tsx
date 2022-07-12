@@ -51,10 +51,13 @@ const ProductDetailForm = (props: Props) => {
       file: any;
     }[]
   >([]);
-
   const [errors, setErrors] = useState<ErrorData>({});
   const handleValidate = (a: IProductDetailDataField, listFieldRequired: string[]) => {
-    const tt = validateProductDataField({ ...a }, listFieldRequired);
+    const tt: { validate: boolean; error: { [key: string]: string } } = validateProductDataField(
+      { ...a },
+      listFieldRequired,
+    );
+
     if (!tt.validate) {
       setErrors({
         ...errors,
@@ -70,7 +73,6 @@ const ProductDetailForm = (props: Props) => {
       });
     }
   };
-
   const handleChangeProduct = (a: IProductDetailDataField) => {
     handleValidate(a, props.listFieldRequired);
     setProductdetail({
@@ -87,7 +89,7 @@ const ProductDetailForm = (props: Props) => {
       setErrors(tt.error);
     }
   };
-
+  console.log(errors);
   useEffect(() => {
     setProductdetail(props.product);
   }, [props.product]);

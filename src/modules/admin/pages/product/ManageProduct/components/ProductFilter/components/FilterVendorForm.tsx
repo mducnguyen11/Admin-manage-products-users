@@ -1,5 +1,5 @@
 import { API_PATHS } from 'configs/api';
-import SelectAPISuggetForm from 'modules/admin/components/SelectAPISuggetForm/SelectAPISuggetForm';
+import SelectAPISuggetForm from 'modules/admin/components/SelectAsyncDebounce/SelectAsyncDebounce';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';

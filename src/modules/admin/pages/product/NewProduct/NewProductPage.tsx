@@ -96,7 +96,6 @@ const NewProductPage = (props: Props) => {
             'description',
             'price',
             'quantity',
-            'shipping',
             'images',
           ]}
           actionName="Add product"
