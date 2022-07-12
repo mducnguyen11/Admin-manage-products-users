@@ -10,7 +10,7 @@ const ProtectedRoute = (props: Props) => {
     return (
       <Redirect
         to={{
-          pathname: '/pages/products/manage-product',
+          pathname: '/pages/',
         }}
       />
     );

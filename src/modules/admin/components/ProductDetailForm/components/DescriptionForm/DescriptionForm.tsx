@@ -1,7 +1,7 @@
 import JoditEditor from 'jodit-react';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import './description-form.scss';
 interface Props {
   value: string;
   onChange: Function;
@@ -27,9 +27,11 @@ const DescriptionForm = (props: Props) => {
           }}
         />
         {props.errorMessage ? (
-          <span className="error-message">
-            <FormattedMessage id={props.errorMessage} />
-          </span>
+          <div className="description-form-error-message">
+            <span className="error-message">
+              <FormattedMessage id={props.errorMessage} />
+            </span>
+          </div>
         ) : null}
       </div>
     </div>

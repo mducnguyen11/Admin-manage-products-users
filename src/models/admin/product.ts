@@ -1,11 +1,3 @@
-export interface ICategoryItem {
-  id: string;
-  name: string;
-  parentId: string;
-  path: string;
-  pos: string;
-}
-
 export interface IFilterProduct {
   page: number;
   count: number;
@@ -18,7 +10,18 @@ export interface IFilterProduct {
   order_by: string;
   search_type: string;
 }
-
+export const defaultFilterProductValue = {
+  page: 1,
+  count: 25,
+  search: '',
+  category: '0',
+  stock_status: 'all',
+  availability: 'all',
+  vendor: '',
+  sort: 'name',
+  order_by: 'ASC',
+  search_type: '',
+};
 export interface IProductTableItem {
   amount: string;
   arrivalDate: string;

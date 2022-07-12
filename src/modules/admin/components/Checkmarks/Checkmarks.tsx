@@ -1,13 +1,15 @@
 import './chekcmarks.scss';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   value: { id: string; name: string; [key: string]: any }[];
-  onChange: Function;
+  onChange: (a: { [key: string]: { id: string; name: string; [key: string]: any }[] }) => void;
   key_name: string;
   className?: string;
   options: { id: string; name: string; [key: string]: any }[];
   helperText?: string;
+  error?: string;
 }
 
 const Checkmarks = (props: Props) => {
@@ -82,6 +84,9 @@ const Checkmarks = (props: Props) => {
             setOpen(!open);
           }}
         ></i>
+      </div>
+      <div className="checkmarks-form-error-message">
+        {props.error ? <span className="error-message"> {<FormattedMessage id={props.error} />}</span> : null}
       </div>
       {open ? (
         <div className=" checkmarks-form-list">

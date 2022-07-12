@@ -9,7 +9,7 @@ interface Props {
 }
 
 const AdminLayout = (props: Props) => {
-  const [expandSidebar, setExpandSidebar] = useState(true);
+  const [expandSidebar, setExpandSidebar] = useState(false);
   const route = useSelector((state: AppState) => state.router.location);
   useEffect(() => {
     window.scrollTo(0, 0);

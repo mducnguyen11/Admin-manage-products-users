@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import './images-form.scss';
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
   }[];
   changeListImagesCurrent: Function;
   deleted_images: number[];
+  error?: string;
 }
 const not_available_img_url = 'https://admin.gearfocus.div4.pgtest.co/assets/images/no-image-icon.png';
 
@@ -25,22 +27,16 @@ const ImageForm = (props: Props) => {
     });
   };
   const handleUploadImage = async (e: any) => {
+    const z: any[] = [];
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = () => {
-        if (reader.readyState == 2) {
-          if (typeof reader.result == 'string') {
-            props.changeImagesUpload([
-              ...props.listImgUpload,
-              {
-                image: reader.result,
-                file: e.target.files[0],
-              },
-            ]);
-          }
-        }
-      };
+      const files = e.target.files;
+      for (let i = 0; i < files.length; i++) {
+        z.push({
+          image: URL.createObjectURL(files[i]),
+          file: files[i],
+        });
+      }
+      props.changeImagesUpload([...props.listImgUpload, ...z]);
     } catch (error) {
       console.log('fail image');
     }
@@ -84,10 +80,18 @@ const ImageForm = (props: Props) => {
             onChange={handleUploadImage}
             className="images-form-add-input"
             type="file"
+            multiple
           />
           {/* <i onClick={handleRemoveImg} className="image-item-remove-icon bx bx-x"></i> */}
         </div>
       </div>
+      {props.error ? (
+        <div className="images-form-error-message">
+          <span className="error-message">
+            <FormattedMessage id={props.error} />
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Route, Switch, useLocation, useParams } from 'react-router-dom';
 import { ROUTES } from './configs/routes';
 import CheckUserRoute from './modules/common/components/CheckUserRoute';
 import FallbackLoading from 'modules/common/components/FallbackLoading/FallbackLoading';
-const AdminRoutes = lazy(() => import('./modules/admin/pages/AdminRoutes/AdminRoutes'));
+const AdminRoutes = lazy(() => import('./modules/admin/pages/AdminRoutes'));
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage/LoginPage'));
 interface Props {}
 

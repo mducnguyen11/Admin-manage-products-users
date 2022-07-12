@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './loading-layout.scss';
-import LoadingLayoutCircular from './components/LoadingLayoutCircular';
+import Circular from './components/Circular';
 interface Props {
   children?: React.ReactNode;
 }
@@ -9,7 +9,7 @@ interface Props {
 const LoadingLayout = (props: Props) => {
   return (
     <>
-      <LoadingLayoutCircular />
+      <Circular />
       <>{props.children}</>
     </>
   );

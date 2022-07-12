@@ -3,7 +3,7 @@ import InputWithUnit from '../InputWithType/InputWithUnit';
 import '../Price/price-form.scss';
 
 import { API_PATHS } from 'configs/api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
@@ -29,20 +29,13 @@ interface Country {
 }
 
 const Continental = (props: Props) => {
-  console.log('contienental redner  ');
   const [continentalList, setContinentalList] = useState<{ id: string; zone_name: string; price: string }[]>(
     props.continentalList,
   );
-  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [listCountry, setListCountry] = useState<Country[]>([]);
+  const listCountry = useSelector((state: AppState) => state.country.country);
+
   const [countrySelect, setCountrySelect] = useState<string>('0');
-  useEffect(() => {
-    const getCountryList = async () => {
-      const res = await dispatch(fetchThunk(API_PATHS.getCommonCountry));
-      setListCountry(res.data);
-    };
-    getCountryList();
-  }, []);
+
   useEffect(() => {
     setContinentalList(props.continentalList);
   }, [props.continentalList]);
@@ -58,7 +51,7 @@ const Continental = (props: Props) => {
           });
         }
       });
-      console.log('list :', ax);
+
       if (ax.length > 0) {
         setContinentalList([...continentalList, ax[0]]);
         props.onChange({
@@ -71,7 +64,6 @@ const Continental = (props: Props) => {
 
   const handleChange = (a: { [key: string]: string }) => {
     const xx = Object.keys(a)[0];
-    console.log('new price : ', a[xx]);
     const ll = continentalList.map((b) => {
       if (xx == b.id) {
         console.log(b);
@@ -111,7 +103,13 @@ const Continental = (props: Props) => {
               </div>
               <div className="product-detail-row-input product-detail-continental-input">
                 <div className="continental-input ">
-                  <InputWithUnit currentUnit="$" value={a.price} name={a.id} onChange={handleChange} />
+                  <InputWithUnit
+                    error={a.price == '0' || a.price == '' || a.price == '0.00' ? props.errorMessage : ''}
+                    currentUnit="$"
+                    value={a.price}
+                    name={a.id}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
             </div>
@@ -148,13 +146,7 @@ const Continental = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="error-row">
-        {props.errorMessage ? (
-          <span className="error-message">
-            <FormattedMessage id={'requiredField'} />
-          </span>
-        ) : null}
-      </div>
+      <div className="error-row"></div>
     </>
   );
 };

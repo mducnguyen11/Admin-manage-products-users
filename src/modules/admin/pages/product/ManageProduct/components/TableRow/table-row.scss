@@ -1,0 +1,87 @@
+.table-row {
+  height: 50px;
+  &.table-row-disabled {
+    opacity: 0.4;
+  }
+  .table-row-price-value,
+  .table-row-instock-value {
+    padding: 0px 10px;
+  }
+  &:hover {
+    .table-row-price-value,
+    .table-row-instock-value {
+      background-color: aqua;
+      color: black;
+    }
+  }
+  .table-row-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 40px;
+    margin-left: -5px;
+    overflow: hidden;
+    max-width: 300px;
+    text-overflow: clip;
+    & a {
+      color: #6666b3;
+    }
+    .power-disabled {
+      color: rgb(20, 150, 68);
+    }
+    .table-row-item-value {
+      padding: 0px 5px 0px 7px;
+      width: 100%;
+      margin-bottom: 0px;
+      height: 40px;
+      line-height: 40px;
+      display: block;
+      overflow: hidden;
+    }
+    .table-row-price,
+    .table-row-instock {
+      max-width: 150px;
+      text-overflow: clip;
+    }
+    .table-row-actions {
+      height: 40px;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      border-right: 2px dashed rgb(212, 189, 189);
+      gap: 5px;
+      & input {
+        margin: 0px 7px 0px 0px;
+        margin-bottom: 0px;
+      }
+      & i {
+        border-left: 1px solid rgb(254, 254, 254);
+        padding: 0px 7px;
+        margin-bottom: 0px;
+        cursor: pointer;
+      }
+    }
+    .table-row-delete-action {
+      width: 40px;
+      height: 40px;
+      position: relative;
+
+      .table-row-delete-action-icon {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(117, 138, 255);
+        border-radius: 6px;
+        cursor: pointer;
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}

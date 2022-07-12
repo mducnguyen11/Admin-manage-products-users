@@ -6,7 +6,6 @@ import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import { API_PATHS } from 'configs/api';
-import { FormattedMessage } from 'react-intl';
 import Checkmarks from 'modules/admin/components/Checkmarks/Checkmarks';
 interface Props {
   value: {
@@ -37,9 +36,10 @@ const CategoryForm = (props: Props) => {
     getCategoryList();
   }, []);
   const handleChange = (a: {
-    categories: {
+    [key: string]: {
       id: string;
       name: string;
+      [key: string]: any;
     }[];
   }) => {
     props.onChange({
@@ -65,12 +65,8 @@ const CategoryForm = (props: Props) => {
           value={props.value}
           onChange={handleChange}
           options={listCategory}
+          error={props.errorMessage}
         />
-        {props.errorMessage ? (
-          <span className="error-message">
-            <FormattedMessage id={props.errorMessage} />
-          </span>
-        ) : null}
       </div>
     </div>
   );

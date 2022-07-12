@@ -24,12 +24,11 @@ const PriceForm = (props: Props) => {
         <div className="product-detail-price-input">
           <div className="price">
             <InputWithUnit
+              error={props.errorMessage}
               currentUnit="$"
               value={props.price}
               name="price"
-              onChange={(a: { price: string }) => {
-                props.onChange(a);
-              }}
+              onChange={props.onChange}
             />
           </div>
           <div className="sale">
@@ -88,13 +87,7 @@ const PriceForm = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="error-row">
-        {props.errorMessage ? (
-          <span className="error-message">
-            <FormattedMessage id={'requiredField'} />
-          </span>
-        ) : null}
-      </div>
+      <div className="error-row"></div>
     </>
   );
 };

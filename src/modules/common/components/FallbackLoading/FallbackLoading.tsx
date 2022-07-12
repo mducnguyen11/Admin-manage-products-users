@@ -6,7 +6,7 @@ interface Props {}
 const FallbackLoading = (props: Props) => {
   return (
     <Box sx={{ width: '100%' }}>
-      <LinearProgress />
+      <LinearProgress color="primary" />
     </Box>
   );
 };

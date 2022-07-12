@@ -1,0 +1,11 @@
+.description-form-error-message {
+  position: relative;
+  width: 100%;
+  & span {
+    position: absolute;
+    padding-top: 5px;
+    color: red;
+    left: 0;
+    font-size: 12px;
+  }
+}

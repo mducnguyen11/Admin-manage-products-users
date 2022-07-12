@@ -6,6 +6,9 @@ import intlReducer, { IntlState } from '../modules/intl/redux/intlReducer';
 import photoReducer, { PhotoState } from '../modules/photo/redux/photoReducer';
 import transactionsReducer, { TransactionsState } from 'modules/manageTransactions/redux/transactions';
 import loadingReducer, { AdminLoadingState } from '../modules/admin/redux/loadingReducer';
+import countryReducer, { CountryState } from 'modules/admin/redux/countryReducer';
+import categoriesReducer, { CategoriesState } from 'modules/admin/redux/categoriesReducer';
+import vendorsReducer, { VendorsState } from 'modules/admin/redux/vendorReducer';
 
 export interface AppState {
   router: RouterState;
@@ -14,6 +17,9 @@ export interface AppState {
   photos: PhotoState;
   transactions: TransactionsState;
   loading: AdminLoadingState;
+  country: CountryState;
+  categories: CategoriesState;
+  vendors: VendorsState;
 }
 
 export default function createRootReducer(history: History) {
@@ -24,5 +30,8 @@ export default function createRootReducer(history: History) {
     photos: photoReducer,
     transactions: transactionsReducer,
     loading: loadingReducer,
+    country: countryReducer,
+    categories: categoriesReducer,
+    vendors: vendorsReducer,
   });
 }

@@ -45,12 +45,8 @@ const BrandForm = (props: Props) => {
           value={props.value}
           onChange={handleChange}
           options={listBrands}
+          error={props.errorMessage}
         />
-        {props.errorMessage ? (
-          <span className="error-message">
-            <FormattedMessage id={props.errorMessage} />
-          </span>
-        ) : null}
       </div>
     </div>
   );

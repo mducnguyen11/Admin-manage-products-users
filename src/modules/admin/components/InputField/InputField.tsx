@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import './Input-form.scss';
+import './admin-input-form.scss';
 interface Props {
   type?: string;
   placeholder?: string;
@@ -15,23 +15,21 @@ const InputField = (props: Props) => {
   const [text, setText] = useState('');
   const [change, setChange] = useState(false);
   useEffect(() => {
-    console.log('props change');
     setText(props.value);
   }, [props.value]);
   return (
-    <div className="input-form-wrapper">
+    <div className="admin-input-form-wrapper">
       <input
         onClick={() => {
           props.onClick ? props.onClick() : () => {};
         }}
-        className={`input-form ${props.className ? props.className : ''}`}
+        className={`admin-input-form ${props.className ? props.className : ''}`}
         type={props.type || 'text'}
         name={props.key_name}
         placeholder={props.placeholder ? props.placeholder : ''}
         value={text}
         onChange={(e) => {
           setText(e.target.value);
-          console.log(change);
           if (!change) {
             setChange(true);
           }
@@ -74,7 +72,11 @@ const InputField = (props: Props) => {
           }
         }}
       />
-      {props.error && !change ? <span className="error-message"> {<FormattedMessage id={props.error} />}</span> : null}
+      <div className="input-error-message">
+        {props.error && !change ? (
+          <span className="error-message"> {<FormattedMessage id={props.error} />}</span>
+        ) : null}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
-import './select-form.scss';
+import './admin-select-form.scss';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
   value: string;
@@ -8,6 +9,7 @@ interface Props {
   className?: string;
   options: { id: string; name: string; [key: string]: any }[];
   helperText?: string;
+  error?: string;
 }
 interface obj {
   [key: string]: string;
@@ -25,23 +27,26 @@ const SelectForm = (props: Props) => {
   }, [props.value, props.options]);
 
   return (
-    <div className="select-form">
+    <div className="admin-select-form">
       <div
         onClick={() => {
           setOpen(!open);
         }}
-        className="select-form-value"
+        className="admin-select-form-value"
       >
-        <p className="select-form-value-text">
+        <p className="admin-select-form-value-text">
           {text}
           <i className={open ? 'bx bx-chevron-down list-open' : 'bx bx-chevron-down'}></i>
         </p>
       </div>
+      <div className="admin-select-form-error-message">
+        {props.error ? <span className="error-message"> {<FormattedMessage id={props.error} />}</span> : null}
+      </div>
       {open ? (
-        <div className="select-form-list">
+        <div className="admin-select-form-list">
           {props.options.map((a, i) => {
             return (
-              <div key={i} className="select-form-item">
+              <div key={i} className="admin-select-form-item">
                 <p
                   onClick={() => {
                     setOpen(!open);
@@ -55,7 +60,7 @@ const SelectForm = (props: Props) => {
                       }
                     }
                   }}
-                  className="select-form-item-value"
+                  className="admin-select-form-item-value"
                 >
                   {' '}
                   {a.name}{' '}
@@ -65,7 +70,6 @@ const SelectForm = (props: Props) => {
           })}
         </div>
       ) : null}
-      {props.helperText ? <span className="helper-text">{props.helperText}</span> : null}
     </div>
   );
 };

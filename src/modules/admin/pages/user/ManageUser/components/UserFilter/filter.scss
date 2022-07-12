@@ -1,0 +1,103 @@
+.filter {
+  background-color: rgb(50, 50, 89);
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin-right: auto;
+  &-main {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    height: fit-content;
+    border-bottom: 1px solid rgb(38, 3, 91);
+  }
+  .flex-1 {
+    flex: 1;
+  }
+  .filter-expand {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    & i {
+      position: relative;
+      top: 15px;
+      color: rgb(24, 158, 138);
+      font-size: 22px;
+      margin: auto;
+      cursor: pointer;
+    }
+  }
+
+  &-additional {
+    color: white;
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+    &-listfield {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      gap: 10px;
+    }
+    &-field {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      min-height: 40px;
+      & label {
+        flex: 3;
+        text-align: right;
+      }
+      .filter-field-input {
+        min-width: 200px;
+        position: relative;
+        height: 100%;
+        flex: 5;
+        .filter-field-input-value {
+          cursor: pointer;
+          background-color: rgb(37, 37, 71);
+          height: 100%;
+          display: flex;
+          align-items: center;
+          font-size: 13px;
+          &:first-child {
+            padding-left: 10px;
+          }
+        }
+        & i {
+          position: absolute;
+          right: 5px;
+          cursor: pointer;
+          top: 30%;
+          transition: transform 0.5s ease;
+          &.open-list {
+            transform: rotate(180deg);
+          }
+        }
+        &-daypicker {
+          position: absolute;
+          background-color: rgb(50, 50, 89);
+          border: 2px solid rgb(0, 0, 0);
+          margin-top: 10px;
+        }
+      }
+      &-radio-item {
+        flex: 5;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 240px;
+      }
+    }
+  }
+  & button {
+    margin-left: auto;
+  }
+  .filter-main-field {
+    width: 300px;
+    height: fit-content;
+    min-height: 40px;
+  }
+}

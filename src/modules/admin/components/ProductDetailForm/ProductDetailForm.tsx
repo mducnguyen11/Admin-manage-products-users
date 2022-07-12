@@ -22,7 +22,13 @@ import VendorForm from './components/VendorForm/VendorForm';
 interface Props {
   product: IProductDetailData;
   actionName: string;
-  onSave: Function;
+  onSave: (
+    a: IProductDetailData,
+    b: {
+      image: string;
+      file: any;
+    }[],
+  ) => void;
   listFieldRequired: string[];
 }
 interface ErrorData {
@@ -65,8 +71,8 @@ const ProductDetailForm = (props: Props) => {
     }
   };
 
-  console.log(errors);
   const handleChangeProduct = (a: IProductDetailDataField) => {
+    console.log('change : ', a);
     handleValidate(a, props.listFieldRequired);
     setProductdetail({
       ...productdetail,
@@ -109,18 +115,7 @@ const ProductDetailForm = (props: Props) => {
   return (
     <div className="product-detail">
       <div className="product-basic-detail">
-        <div className="product-detail-row">
-          <div className="product-detail-row-name">
-            <p className="product-detail-row-name-p">Vendor</p>
-          </div>
-          <div className="product-detail-row-input product-detail-vendor-input">
-            <VendorForm
-              errorMessage={errors.vendor_id}
-              value={productdetail.vendor_id}
-              onChange={handleChangeProduct}
-            />
-          </div>
-        </div>
+        <VendorForm errorMessage={errors.vendor_id} value={productdetail.vendor_id} onChange={handleChangeProduct} />
         <InputKey
           errorMessage={errors.name}
           value={productdetail?.name}
@@ -199,13 +194,11 @@ const ProductDetailForm = (props: Props) => {
       <div className="product-maketing">
         <h2 className="section-title">Maketing</h2>
         <MetaTag og_tags={productdetail.og_tags} value={productdetail?.og_tags_type} onChange={handleChangeProduct} />
-
         <MetaDescType
           meta_description={productdetail.meta_description}
           value={productdetail?.meta_desc_type}
           onChange={handleChangeProduct}
         />
-
         <InputKey
           key_name="meta_keywords"
           text="Meta keywords"

@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
-import './vendor.scss';
+import './search-sugget-form.scss';
 interface Props {
   value: string;
   changeData: Function;
-  errorMessage?: string;
+  error?: string;
   options: {
     id: string | number;
     name: string;
@@ -44,7 +43,6 @@ const SelectAutoSuggetForm = (props: Props) => {
     [],
   );
   useEffect(() => {
-    console.log('props.value :', props.value);
     setValueName(findNameByValue(props.value, props.options));
   }, [props.value, props.options]);
   const handleSuggetValue = (e: string) => {
@@ -62,8 +60,8 @@ const SelectAutoSuggetForm = (props: Props) => {
 
   return (
     <>
-      <div className="select-form">
-        <div className="select-form-value select-vendor-value">
+      <div className="admin-select-form">
+        <div className="admin-select-form-value">
           <input
             onChange={(e) => {
               setValueName(e.target.value);
@@ -72,7 +70,7 @@ const SelectAutoSuggetForm = (props: Props) => {
               handleSuggetValue(e.target.value);
             }}
             value={valueName}
-            className="select-form-input search-sugget"
+            className="admin-select-form-input search-sugget"
             type="text"
           />
           <i
@@ -83,7 +81,7 @@ const SelectAutoSuggetForm = (props: Props) => {
           ></i>
         </div>
         {open ? (
-          <div className="select-form-list">
+          <div className="admin-select-form-list">
             <>
               {props.options.length > 0 || props.value !== '' ? (
                 <>
@@ -100,25 +98,27 @@ const SelectAutoSuggetForm = (props: Props) => {
                           }
                         }}
                         key={i}
-                        className="select-form-item"
+                        className="admin-select-form-item"
                       >
-                        <p className="select-form-item-value">{a.name}</p>
+                        <p className="admin-select-form-item-value">{a.name}</p>
                       </div>
                     );
                   })}
                 </>
               ) : (
-                <div className="select-form-item">{props.value == '' ? null : <p>No option</p>}</div>
+                <div className="admin-select-form-item">{props.value == '' ? null : <p>No option</p>}</div>
               )}
             </>
           </div>
         ) : null}
       </div>
-      {props.errorMessage && valueName == '' ? (
-        <span className="error-message">
-          {' '}
-          <FormattedMessage id={props.errorMessage} />{' '}
-        </span>
+      {props.error && valueName == '' ? (
+        <div className="search-sugget-form-error">
+          <span className="error-message">
+            {' '}
+            <FormattedMessage id={props.error} />{' '}
+          </span>
+        </div>
       ) : null}
     </>
   );

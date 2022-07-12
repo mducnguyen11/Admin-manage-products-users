@@ -13,30 +13,30 @@ const Memberships = (props: Props) => {
         <p className="product-detail-row-name-p">Memberships</p>
       </div>
       <div className="product-detail-row-input product-detail-memberships-input ">
-        <div className="select-form">
+        <div className="admin-select-form">
           <div
             onClick={() => {
               setOpen(!open);
             }}
-            className="select-form-value product-detail-membership-value"
+            className="admin-select-form-value product-detail-membership-value"
           >
             {props.value.length > 0 ? (
               props.value.map((a, i) => {
                 return (
-                  <p className="select-form-value-text product-detail-membership-value-item" key={i}>
+                  <p className="admin-select-form-value-text product-detail-membership-value-item" key={i}>
                     {a.membership_id == '4' ? 'General' : ''}
                     <i className={open ? 'bx bx-chevron-down list-open' : 'bx bx-chevron-down'}></i>
                   </p>
                 );
               })
             ) : (
-              <p className="select-form-value-text product-detail-membership-value-item">
+              <p className="admin-select-form-value-text product-detail-membership-value-item">
                 <i className={open ? 'bx bx-chevron-down list-open' : 'bx bx-chevron-down'}></i>
               </p>
             )}
           </div>
           {open ? (
-            <div className="select-form-list product-detail-membership-list">
+            <div className="admin-select-form-list product-detail-membership-list">
               <div
                 onClick={() => {
                   if (props.value.findIndex((a) => a.membership_id == '4') == -1) {
@@ -49,16 +49,16 @@ const Memberships = (props: Props) => {
                     });
                   }
                 }}
-                className="select-form-item select-form-memberships-icon"
+                className="admin-select-form-item select-form-memberships-icon"
               >
                 {props.value != undefined ? (
                   props.value.findIndex((a) => a.membership_id == '4') == -1 ? (
-                    <i className="select-form-item-check-icon bx bx-check-square"></i>
+                    <i className="admin-select-form-item-check-icon bx bx-check-square"></i>
                   ) : (
-                    <i className="select-form-item-check-icon bx bxs-check-square"></i>
+                    <i className="admin-select-form-item-check-icon bx bxs-check-square"></i>
                   )
                 ) : null}
-                <p className="select-form-item-value">General</p>
+                <p className="admin-select-form-item-value">General</p>
               </div>
             </div>
           ) : null}

@@ -4,7 +4,7 @@ interface Props {
   value: string[];
   onChange: Function;
   options: { name: string; options: { id: string; name: string; [key: string]: any }[] }[];
-  name: string;
+  key_name: string;
   placeholder: string;
 }
 
@@ -61,10 +61,10 @@ const CheckmarksGroup = (props: Props) => {
                           const obj: { [key: string]: any } = {};
                           if (props.value.includes(x.id)) {
                             console.log('include ');
-                            obj[props.name as keyof typeof obj] = [...props.value.filter((a) => a !== x.id)];
+                            obj[props.key_name as keyof typeof obj] = [...props.value.filter((a) => a !== x.id)];
                           } else {
                             console.log('nooo include ');
-                            obj[props.name as keyof typeof obj] = [...props.value, x.id];
+                            obj[props.key_name as keyof typeof obj] = [...props.value, x.id];
                           }
                           props.onChange(obj);
                         }}

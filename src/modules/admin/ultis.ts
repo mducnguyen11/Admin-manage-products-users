@@ -1,11 +1,11 @@
 import { IProductDataPayload, IProductDetailData, IProductDetailDataField } from 'models/admin/product';
-import { IUserDataField, IUserDataPayloadCreate } from 'models/admin/user';
-import { IUserDetailData, IUserDataPayloadUpdate } from 'models/admin/user';
+import { IUserDataField } from 'models/admin/user';
+import { IUserDetailData, IUserDataPayload } from 'models/admin/user';
 export const formatProductDataToPayload = (a: IProductDetailData): IProductDataPayload => {
   const xx: any = {
     memberships: a.memberships.map((a) => Number(a.membership_id)),
     categories: a.categories.map((a) => Number(a.category_id)),
-    arrival_date: FormatTimeStampToDateString(a.arrival_date),
+    arrival_date: formatTimeStampToDateString(a.arrival_date),
     shipping_to_zones: a.shipping.map((v) => {
       return {
         id: Number(v.id),
@@ -55,14 +55,13 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
   console.log('a :', [...Object.keys(a)]);
   const ll: any[] = [];
   [...Object.keys(a)].forEach((b) => {
-    console.log('b :', b);
     if (listFieldRequired.findIndex((x) => x == b) > -1) {
       return ll.push(b);
     }
   });
-  console.log('ll', ll);
+
   ll.forEach((key) => {
-    if (!a[key as keyof typeof a]) {
+    if (!a[key as keyof typeof a] || a[key as keyof typeof a]?.length == 0) {
       error[key as keyof typeof error] = 'requiredField';
     }
     if (key == 'shipping' && a.shipping) {
@@ -72,15 +71,11 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
         }
       }
     }
-    console.log('cureent error : ', error);
     if (key == 'images') {
-      console.log('images :', a);
       if (a.images && a.images.length == 0) {
         if (a.imagesOrder && a.imagesOrder.length > 0) {
-          console.log('deltete');
           delete error.images;
         } else {
-          console.log('no 1 deltete');
           error.images = 'requiredField';
         }
       } else {
@@ -96,7 +91,7 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
   };
 };
 
-export const FormatTimeStampToDateString = (g: string): string => {
+export const formatTimeStampToDateString = (g: string): string => {
   if (g == '0') {
     return '--';
   } else {
@@ -121,10 +116,10 @@ export const FormatTimeStampToDateString = (g: string): string => {
     return y;
   }
 };
-export const FormateDateToTimeStamp = (a: Date): string => {
+export const formateDateToTimeStamp = (a: Date): string => {
   return (a.getTime() / 1000).toString();
 };
-export const formatToUserPayloadCreate = (a: IUserDetailData): IUserDataPayloadCreate => {
+export const formatToUserPayloadCreate = (a: IUserDetailData): IUserDataPayload => {
   const xx = {
     access_level: a.access_level,
     confirm_password: a.confirm_password || '',
@@ -140,9 +135,8 @@ export const formatToUserPayloadCreate = (a: IUserDetailData): IUserDataPayloadC
 
   return xx;
 };
-export const FormatDateToDateString = (a: Date): string => {
+export const formatDateToDateString = (a: Date): string => {
   const tt = a?.toLocaleDateString().split('/');
-  console.log(tt);
   let y = '';
   tt?.reverse().forEach((a, i) => {
     if (a.length == 1) {
@@ -162,7 +156,7 @@ export const FormatDateToDateString = (a: Date): string => {
   return y;
 };
 
-export const formartUserToPayload = (a: IUserDetailData): IUserDataPayloadUpdate => {
+export const formartUserToPayload = (a: IUserDetailData): IUserDataPayload => {
   const setPassword = (password: string | undefined): string => {
     if (password) {
       return password;
@@ -239,4 +233,73 @@ export const STOCK_STATUS = [
     id: 'out',
     name: 'SOLD',
   },
+];
+
+export const MEMBERSHIPS_OPTIONS = [
+  {
+    name: 'Memberships',
+    options: [
+      {
+        id: 'M_4',
+        name: 'General',
+      },
+    ],
+  },
+  {
+    name: 'Spending Memberships',
+    options: [
+      {
+        id: 'P_4',
+        name: 'General',
+      },
+    ],
+  },
+];
+
+export const USER_STATUS_OPTIONS = [
+  {
+    name: 'Any status',
+    id: 'All',
+  },
+  {
+    name: 'Enable',
+    id: 'E',
+  },
+  {
+    name: 'Disable',
+    id: 'D',
+  },
+  {
+    name: 'Unapproved vendor',
+    id: 'U',
+  },
+];
+
+export const USER_TYPES = [
+  {
+    id: 'individual',
+    name: 'Individual',
+  },
+  {
+    id: 'business',
+    name: 'Business',
+  },
+];
+
+export const ACCESS_LEVEL_OPTIONS = [
+  { id: '10', name: 'Vendor' },
+  {
+    id: '100',
+    name: 'Administrator',
+  },
+];
+export const USER_MEMBERSHIPS_OPTIONS = [
+  { id: '4', name: 'General' },
+  { id: '', name: 'Ignore Membersghip' },
+];
+
+export const USER_ACCOUNT_STATUS_OPTIONS = [
+  { id: 'E', name: 'Enabled' },
+  { id: 'D', name: 'Disabled' },
+  { id: 'U', name: 'Unappoveed Vendor' },
 ];

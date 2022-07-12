@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import './arrival-date.scss';
-import { FormateDateToTimeStamp, formatTimeStampToDate } from 'modules/admin/ultis';
+import { formateDateToTimeStamp, formatTimeStampToDate } from 'modules/admin/ultis';
 interface Props {
   value: string;
   onChange: Function;
@@ -13,9 +13,8 @@ const ArrivalDate = (props: Props) => {
   const [open, setOpen] = useState(false);
 
   const handleSelect = (a: any) => {
-    console.log('haha', FormateDateToTimeStamp(a));
     props.onChange({
-      arrival_date: FormateDateToTimeStamp(a),
+      arrival_date: formateDateToTimeStamp(a),
     });
   };
   return (

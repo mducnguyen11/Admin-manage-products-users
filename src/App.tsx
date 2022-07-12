@@ -21,9 +21,7 @@ function App() {
 
   const getProfile = React.useCallback(async () => {
     const accessToken = Cookies.get(ACCESS_TOKEN_KEY);
-    console.log('user :', user, accessToken);
     if (accessToken && !user) {
-      console.log('get user ');
       const json = await dispatch(fetchThunk(API_PATHS.getCommonRole, 'post'));
       console.log(json.user);
       if (json?.success) {
@@ -31,21 +29,6 @@ function App() {
       }
     }
   }, [dispatch, user]);
-
-  // const getPhotos = React.useCallback(async () => {
-  //   console.log('dispathch start loading');
-  //   dispatch(setPhotosLoading());
-  //   const json = await dispatch(fetchThunk(API_PATHS.photoList + `?_page=1&_limit=${compare}`));
-  //   if (json.length > 0) {
-  //     const xx = [...json];
-  //     dispatch(setListPhotos([...xx]));
-
-  //     console.log('dispathed data :', xx);
-  //   } else {
-  //     console.log(json);
-  //   }
-  //   console.log('dispathch stop loading');
-  // }, [dispatch, compare]);
 
   React.useEffect(() => {
     getProfile();

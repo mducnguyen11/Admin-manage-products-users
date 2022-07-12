@@ -36,10 +36,8 @@ const ImagesProductForm = (props: Props) => {
       file: any;
     }[],
   ) => {
-    console.log('list uplaod L ', a);
     props.changeImagesUpload(a);
   };
-  console.log('ImagesProductForm props :', props.listImagesCurrent);
 
   return (
     <div className=" product-detail-row product-detail-images">
@@ -48,17 +46,13 @@ const ImagesProductForm = (props: Props) => {
       </div>
       <div className=" product-detail-row-input product-detail-vendor-input">
         <ImageForm
+          error={props.errorMessage}
           deleted_images={props.deleted_images}
           changeListImagesCurrent={handleChangeListImagesCurrent}
           listImgUpload={props.listImgUpload}
           changeImagesUpload={handleChangeListImagesUpload}
           listImagesCurrent={props.listImagesCurrent}
         />
-        {props.errorMessage ? (
-          <span className="error-message">
-            <FormattedMessage id={props.errorMessage} />
-          </span>
-        ) : null}
       </div>
     </div>
   );

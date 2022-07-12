@@ -7,6 +7,7 @@ interface Props {
   value: string;
   onChange: Function;
   name: string;
+  error?: string;
 }
 
 const InputWithUnit = (props: Props) => {
@@ -19,6 +20,7 @@ const InputWithUnit = (props: Props) => {
         key_name={props.name}
         className="input"
         type="text"
+        error={props.error}
       />
     </div>
   );

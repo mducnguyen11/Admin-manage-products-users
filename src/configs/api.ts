@@ -37,6 +37,7 @@ export const API_PATHS = {
   getProductsList: `${getBaseUrl(APIService.public)}/products/list`,
   headerNotification: `${getBaseUrl(APIService.admin)}/commons/header.notifications`,
   deleteProductsbyIDArray: `${getBaseUrl(APIService.admin)}/products/edit`,
+  editProduct: `${getBaseUrl(APIService.admin)}/products/edit`,
   saveEditProducts: `${getBaseUrl(APIService.admin)}/products/edit`,
   getProductDetail: `${getBaseUrl(APIService.admin)}/products/detail`,
   createNewProduct: `${getBaseUrl(APIService.admin)}/products/create`,

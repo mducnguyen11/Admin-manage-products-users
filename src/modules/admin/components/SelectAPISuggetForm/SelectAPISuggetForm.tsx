@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 interface Props {
   value: string;
-  changeData: Function;
+  onChange: Function;
   onSearch: Function;
   errorMessage?: string;
   name: string;
@@ -14,18 +14,18 @@ const SelectAPISuggetForm = (props: Props) => {
   const [valueName, setValueName] = useState<string>('');
   return (
     <>
-      <div className="select-form">
-        <div className="select-form-value select-vendor-value">
+      <div className="admin-select-form">
+        <div className="admin-select-form-value select-vendor-value">
           <input
             onChange={(e) => {
               setValueName(e.target.value);
               setOpen(true);
               const ob: { [key: string]: any } = {};
               ob[props.name] = e.target.value;
-              props.changeData(ob);
+              props.onChange(ob);
             }}
             value={valueName}
-            className="select-form-input search-sugget"
+            className="admin-select-form-input search-sugget"
             type="text"
           />
           {open ? (
@@ -40,7 +40,7 @@ const SelectAPISuggetForm = (props: Props) => {
           ) : null}
         </div>
         {open ? (
-          <div className="select-form-list">
+          <div className="admin-select-form-list">
             <>
               {props.options.length > 0 ? (
                 <>
@@ -54,20 +54,20 @@ const SelectAPISuggetForm = (props: Props) => {
                           if (props.value !== a.id) {
                             const ob: { [key: string]: any } = {};
                             ob[props.name] = a.id;
-                            props.changeData(ob);
+                            props.onChange(ob);
                           }
                         }}
                         key={i}
-                        className="select-form-item"
+                        className="admin-select-form-item"
                       >
-                        <p className="select-form-item-value">{a.name}</p>
+                        <p className="admin-select-form-item-value">{a.name}</p>
                       </div>
                     );
                   })}
                 </>
               ) : (
-                <div className="select-form-item">
-                  <p className="select-form-item-value">No vendor match</p>
+                <div className="admin-select-form-item">
+                  <p className="admin-select-form-item-value">No vendor match</p>
                 </div>
               )}
             </>

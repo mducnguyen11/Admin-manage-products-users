@@ -116,23 +116,7 @@ export interface IUserDataField {
   confirm_password?: string;
 }
 
-export interface IUserDataPayloadUpdate {
-  email: string;
-  firstName: string;
-  forceChangePassword: number;
-  id: string;
-  lastName: string;
-  membership_id: string;
-  password: string;
-  roles: number[];
-  status: string;
-  statusComment: string;
-  taxExempt: number;
-  confirm_password: string;
-  [key: string]: any;
-}
-
-export interface IUserDataPayloadCreate {
+export interface IUserDataPayload {
   access_level: string;
   confirm_password: string;
   email: string;
@@ -143,6 +127,7 @@ export interface IUserDataPayloadCreate {
   password: string;
   paymentRailsType: string;
   taxExempt: number;
+  [key: string]: any;
 }
 
 export interface INewUserData {
@@ -170,7 +155,7 @@ export interface INewUserDataField {
   paymentRailsType?: string;
   taxExempt?: number;
 }
-export const DèaultNewUserValue = {
+export const DefaultNewUserValue = {
   access_level: '10',
   companyName: '',
   default_card_id: '',
@@ -202,16 +187,3 @@ export const DèaultNewUserValue = {
   password: '',
   confirm_password: '',
 };
-
-// export const UserEmtyValue = {
-//   access_level: '',
-//   confirm_password: '',
-//   email: '',
-//   firstName: '',
-//   forceChangePassword: 0,
-//   lastName: '',
-//   membership_id: '',
-//   password: '',
-//   paymentRailsType: '',
-//   taxExempt: 0,
-// };

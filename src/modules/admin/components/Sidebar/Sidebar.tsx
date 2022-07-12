@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './sidebar.scss';
 import SidebarItem from './components/sideBarItem/SidebarItem';
-import { useSelector } from 'react-redux';
-import { AppState } from 'redux/reducer';
+
 interface Props {
   expand: boolean;
   expandSidebar: Function;
