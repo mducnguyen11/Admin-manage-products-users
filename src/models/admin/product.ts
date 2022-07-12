@@ -38,6 +38,7 @@ export interface IProductTableItem {
   vendor: string;
   vendorID: string;
   weight: string;
+  [key: string]: any;
 }
 
 export interface IProductDetailData {
