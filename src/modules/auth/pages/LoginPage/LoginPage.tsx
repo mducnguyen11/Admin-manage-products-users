@@ -1,20 +1,21 @@
+import { API_PATHS } from 'configs/api';
+import { ROUTES } from 'configs/routes';
+import { replace } from 'connected-react-router';
+import Cookies from 'js-cookie';
+import { ILoginParams } from 'models/auth';
+import LoginForm from 'modules/auth/components/LoginForm/LoginForm';
+import { setUserInfo } from 'modules/auth/redux/authReducer';
+import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useState } from 'react';
-import './login-page.scss';
-import logo from '../../../../logo-420-x-108.png';
-import LoginForm from '../../components/LoginForm/LoginForm';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../../redux/reducer';
+import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import { ILoginParams } from '../../../../models/auth';
-import { API_PATHS } from '../../../../configs/api';
-import { fetchThunk } from '../../../common/redux/thunk';
-import { setUserInfo } from '../../redux/authReducer';
-import { ACCESS_TOKEN_KEY } from '../../../../utils/constants';
-import Cookies from 'js-cookie';
-import { replace } from 'connected-react-router';
-import { ROUTES } from '../../../../configs/routes';
-import { getErrorMessageResponse } from '../../../../utils';
+import { getErrorMessageResponse } from 'utils';
+import { ACCESS_TOKEN_KEY } from 'utils/constants';
+import logo from 'logo-420-x-108.png';
+import './login-page.scss';
+
 interface Props {}
 
 const LoginPage = (props: Props) => {

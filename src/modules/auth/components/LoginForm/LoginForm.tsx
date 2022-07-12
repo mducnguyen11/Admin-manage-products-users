@@ -1,10 +1,11 @@
 import React from 'react';
-import { ILoginParams, ILoginValidation } from '../../../../models/auth';
-import Button from '../Button/Button';
-import InputForm from '../InputForm/InputForm';
+
 import './login-form.scss';
-import { yupValidateLogin } from '../../utils';
 import { Formik, Form, Field } from 'formik';
+import { ILoginParams } from 'models/auth';
+import { yupValidateLogin } from 'modules/auth/utils';
+import InputForm from '../InputForm/InputForm';
+import Button from '../Button/Button';
 interface Props {
   onLogin(values: ILoginParams): void;
   errorMessage: string;
