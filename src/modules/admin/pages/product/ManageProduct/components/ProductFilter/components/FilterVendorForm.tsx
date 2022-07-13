@@ -1,5 +1,5 @@
 import { API_PATHS } from 'configs/api';
-import SelectAPISuggetForm from 'modules/admin/components/SelectAsyncDebounce/SelectAsyncDebounce';
+import SelectAsyncDebounce from 'modules/admin/components/SelectAsyncDebounce/SelectAsyncDebounce';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -15,10 +15,12 @@ interface Props {
 const FilterVendorForm = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [list, setList] = useState<{ companyName: string; id: string; login: string; name: string }[]>([]);
+  const [loading, setLoading] = useState(false);
   const getVendorList = async (a: string) => {
     if (a.length >= 2) {
+      setLoading(true);
       const xx = await dispatch(fetchThunk(API_PATHS.getVendorsList, 'post', { search: a }));
-      console.log(xx);
+      setLoading(false);
       if (xx.data && xx.success) {
         setList(xx.data);
       } else {
@@ -30,16 +32,21 @@ const FilterVendorForm = (props: Props) => {
   };
 
   useEffect(() => {
-    getVendorList(props.value);
+    const v = setTimeout(() => {
+      getVendorList(props.value);
+    }, 1000);
+    return () => {
+      clearTimeout(v);
+    };
   }, [props.value]);
   return (
     <>
-      <SelectAPISuggetForm
+      <SelectAsyncDebounce
+        loading={loading}
         options={list}
         value={props.value}
         onChange={props.onChange}
         name="vendor"
-        onSearch={getVendorList}
       />
     </>
   );

@@ -1,15 +1,16 @@
+import { CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 interface Props {
   value: string;
   onChange: Function;
-  onSearch: Function;
   errorMessage?: string;
   name: string;
   options: { id: string; name: string; [key: string]: any }[];
+  loading?: boolean;
 }
 
-const SelectAPISuggetForm = (props: Props) => {
+const SelectAsyncDebounce = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [valueName, setValueName] = useState<string>('');
   return (
@@ -30,7 +31,8 @@ const SelectAPISuggetForm = (props: Props) => {
             className="select-form-input admin-input-form"
             type="text"
           />
-          {open ? (
+          {props.loading ? <CircularProgress size={20} /> : null}
+          {open && !props.loading ? (
             <>
               <i
                 onClick={() => {
@@ -87,4 +89,4 @@ const SelectAPISuggetForm = (props: Props) => {
   );
 };
 
-export default SelectAPISuggetForm;
+export default SelectAsyncDebounce;
