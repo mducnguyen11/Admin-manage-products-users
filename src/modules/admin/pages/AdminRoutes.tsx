@@ -18,7 +18,7 @@ const AdminPage = (props: Props) => {
   return (
     <LoadingLayout>
       <AdminLayout>
-        <Suspense fallback={<FallbackLoading />}>
+        <Suspense fallback={<></>}>
           <AdminProtectedRoute exact path="/pages/">
             <Home />
           </AdminProtectedRoute>

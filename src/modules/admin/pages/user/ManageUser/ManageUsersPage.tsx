@@ -43,15 +43,12 @@ const ManageUsers = (props: Props) => {
       page: newPage + 1,
     });
   }, []);
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFilter({
-        ...filter,
-        count: parseInt(event.target.value, 10),
-      });
-    },
-    [setFilter],
-  );
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFilter({
+      ...filter,
+      count: parseInt(event.target.value, 10),
+    });
+  };
   const getUsers = React.useCallback(async () => {
     dispatch(setLoading());
     const res = await dispatch(fetchThunk(API_PATHS.getUserList, 'post', { ...filter }));
@@ -113,13 +110,15 @@ const ManageUsers = (props: Props) => {
     });
     setListUsers([...xx]);
   };
-  const handleChangeFilter = useCallback((a: Object) => {
-    console.log('setFilter :', a);
-    setFilter({
-      ...filter,
-      ...a,
-    });
-  }, []);
+  const handleChangeFilter = useCallback(
+    (a: Object) => {
+      setFilter({
+        ...filter,
+        ...a,
+      });
+    },
+    [setFilter],
+  );
   return (
     <div className="manage-users">
       <h2 className="title">Search for User</h2>
