@@ -83,6 +83,7 @@ const ManageUsers = (props: Props) => {
     setListUsers(ll);
   };
   const handleRemoveSelected = async () => {
+    setOpenDeleteModal(false);
     dispatch(setLoading());
     const dd = listUsers.filter((a) => a.select_checked == true);
     const params = [

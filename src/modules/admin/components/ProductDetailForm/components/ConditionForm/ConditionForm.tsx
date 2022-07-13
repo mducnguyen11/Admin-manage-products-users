@@ -1,7 +1,7 @@
 import SelectForm from 'modules/admin/components/SelectForm/SelectForm';
 import React, { useEffect, useState } from 'react';
 import UserCondition from '../UserCondition/UserCondition';
-import './condition.scss';
+
 interface Props {
   value: string;
   onChange: Function;
@@ -36,6 +36,7 @@ const ConditionForm = (props: Props) => {
             className="product-detail-condition-input-value select-form"
             key_name="inventory_tracking"
             value={value}
+            helperText="Select Used Condition"
             onChange={handleChange}
             options={[
               {
@@ -44,7 +45,6 @@ const ConditionForm = (props: Props) => {
               },
             ]}
           />
-          <span>Select Used Condition</span>
         </div>
       </div>
       {value !== '1' ? <UserCondition value="" changeData={() => {}} /> : null}

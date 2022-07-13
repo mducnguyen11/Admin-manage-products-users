@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './memberships.scss';
+
 interface Props {
   value: { membership_id: string }[];
   onChange: Function;

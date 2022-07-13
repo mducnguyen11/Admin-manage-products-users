@@ -10,7 +10,7 @@ const NewProductPage = lazy(() => import('modules/admin/pages/product/NewProduct
 const ManageUsers = lazy(() => import('modules/admin/pages/user/ManageUser/ManageUsersPage'));
 const UserDetailPage = lazy(() => import('modules/admin/pages/user/UserDetail/UserDetailPage'));
 const NewUser = lazy(() => import('modules/admin/pages/user/NewUser/NewUserPage'));
-import Home from './Home/Home';
+import Home from './home/Home';
 
 interface Props {}
 

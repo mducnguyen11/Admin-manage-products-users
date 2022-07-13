@@ -28,9 +28,12 @@ const HeaderNotification = (props: Props) => {
   const [headerNotification, setHeaderNotification] = useState<HeaderNotificationState>(new HeaderNotificationState());
   const w1 = useRef<HTMLDivElement>(null);
   const getHeaderNotification = React.useCallback(async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.headerNotification, 'post'));
-
-    setHeaderNotification(res.data);
+    try {
+      const res = await dispatch(fetchThunk(API_PATHS.headerNotification, 'post'));
+      setHeaderNotification(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   }, [setHeaderNotification, dispatch, fetchThunk]);
   useEffect(() => {
     getHeaderNotification();

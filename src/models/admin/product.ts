@@ -10,6 +10,18 @@ export interface IFilterProduct {
   order_by: string;
   search_type: string;
 }
+export interface IFilterProductField {
+  page?: number;
+  count?: number;
+  search?: string;
+  category?: string;
+  stock_status?: string;
+  availability?: string;
+  vendor?: string;
+  sort?: string;
+  order_by?: string;
+  search_type?: string;
+}
 export const defaultFilterProductValue = {
   page: 1,
   count: 25,

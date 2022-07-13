@@ -77,6 +77,7 @@ const SelectForm = (props: Props) => {
           ></div>
         </>
       ) : null}
+      {props.helperText ? <span className="select-form-helpertext">{props.helperText}</span> : null}
     </div>
   );
 };

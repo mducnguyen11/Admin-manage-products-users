@@ -11,7 +11,7 @@ import Memberships from './components/Memberships/Memberships';
 import TaxClass from './components/TaxClass/TaxClass';
 import PriceForm from './components/Price/PriceForm';
 import ArrivalDate from './components/ArrivalDate/ArrivalDate';
-import Continental from './components/Continental/Continental';
+import Continental from './components/Shipping/Continental';
 import MetaTag from './components/MetaTag/MetaTag';
 import MetaDescType from './components/MetaDescType/MetaDescType';
 import InputSwitch from './components/inputSwitch/InputSwitch';

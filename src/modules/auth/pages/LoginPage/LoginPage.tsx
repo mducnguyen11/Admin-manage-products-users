@@ -24,22 +24,25 @@ const LoginPage = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const onLogin = React.useCallback(
     async (values: ILoginParams) => {
-      setErrorMessage('');
       setLoading(true);
-      const res = await dispatch(
-        fetchThunk(API_PATHS.signIn, 'post', { email: values.email, password: values.password }),
-      );
-      console.log('res :', res);
-      setLoading(false);
-      if (res?.success) {
-        dispatch(setUserInfo(res.user));
-        Cookies.set(ACCESS_TOKEN_KEY, res.user_cookie);
-        dispatch(replace(ROUTES.admin));
-        return;
-      } else {
-        setErrorMessage(getErrorMessageResponse(res));
+      try {
+        const res = await dispatch(
+          fetchThunk(API_PATHS.signIn, 'post', { email: values.email, password: values.password }),
+        );
+        if (res?.success) {
+          dispatch(setUserInfo(res.user));
+          Cookies.set(ACCESS_TOKEN_KEY, res.user_cookie);
+          dispatch(replace(ROUTES.admin));
+          return;
+        } else {
+          setErrorMessage(getErrorMessageResponse(res));
+        }
+      } catch (error) {
+        console.log('');
       }
+      setLoading(false);
     },
+
     [dispatch],
   );
 

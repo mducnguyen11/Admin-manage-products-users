@@ -2,13 +2,9 @@ import React, { memo, useEffect, useState } from 'react';
 import InputWithUnit from '../InputWithType/InputWithUnit';
 import '../Price/price-form.scss';
 
-import { API_PATHS } from 'configs/api';
-import { useDispatch, useSelector } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
-import { Action } from 'typesafe-actions';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import './continental.scss';
+
 import { FormattedMessage } from 'react-intl';
 import SelectForm from 'modules/admin/components/SelectForm/SelectForm';
 
@@ -17,23 +13,14 @@ interface Props {
   onChange: Function;
   errorMessage?: string;
 }
-interface Country {
-  active_currency: any;
-  code: string;
-  code3: string;
-  country: string;
-  currency_id: string;
-  enabled: string;
-  id: string;
-  is_fraudlent: string;
-}
 
 const Continental = (props: Props) => {
   const [continentalList, setContinentalList] = useState<{ id: string; zone_name: string; price: string }[]>(
     props.continentalList,
   );
-  const listCountry = useSelector((state: AppState) => state.country.country);
 
+  const listCountry = useSelector((state: AppState) => state.country.country);
+  console.log(listCountry);
   const [countrySelect, setCountrySelect] = useState<string>('0');
 
   useEffect(() => {
@@ -62,11 +49,11 @@ const Continental = (props: Props) => {
     }
   };
 
-  const handleChange = (a: { [key: string]: string }) => {
+  const handleChangePrice = (a: { [key: string]: string }) => {
+    console.log(a);
     const xx = Object.keys(a)[0];
     const ll = continentalList.map((b) => {
       if (xx == b.id) {
-        console.log(b);
         return {
           ...b,
           price: a[xx],
@@ -92,6 +79,11 @@ const Continental = (props: Props) => {
     });
     return xx;
   };
+  const handleRemoveCountry = (a: string) => {
+    props.onChange({
+      shipping: continentalList.filter((b) => b.id !== a),
+    });
+  };
   return (
     <>
       {continentalList.map((a, i) => {
@@ -99,12 +91,22 @@ const Continental = (props: Props) => {
           <React.Fragment key={i}>
             <div className="product-detail-row product-detail-continental">
               <div className="product-detail-row-name">
-                <p className="product-detail-row-name-p"> {a.zone_name} </p>
+                <p className="product-detail-row-name-value"> {a.zone_name} </p>
               </div>
               <div className="product-detail-row-input product-detail-continental-input">
-                <div className="continental-input ">
-                  <InputWithUnit currentUnit="$" value={a.price} name={a.id} onChange={handleChange} />
-                </div>
+                <InputWithUnit currentUnit="$" value={a.price} name={a.id} onChange={handleChangePrice} />
+                {a.id !== '1' ? (
+                  <div className="product-detail-row-action">
+                    <p
+                      onClick={() => {
+                        handleRemoveCountry(a.id);
+                      }}
+                      className="action"
+                    >
+                      Remove
+                    </p>
+                  </div>
+                ) : null}
               </div>
             </div>
           </React.Fragment>
@@ -115,8 +117,8 @@ const Continental = (props: Props) => {
         <div className="product-detail-row-name">
           <p className="product-detail-row-name-p"></p>
         </div>
-        <div className=" product-detail-newcountry-input">
-          <div className="select-form-new-country">
+        <div className="product-detail-row-input product-detail-continental-input">
+          <div className="product-detail-row-input-container">
             <SelectForm
               key_name="country_id"
               onChange={(a: { country_id: string }) => {
@@ -133,8 +135,8 @@ const Continental = (props: Props) => {
               ]}
             />
           </div>
-          <div className="select-form-new-country">
-            <p onClick={handleAddCountry} className="add-action">
+          <div className="product-detail-row-action">
+            <p onClick={handleAddCountry} className="action">
               Add new{' '}
             </p>
           </div>

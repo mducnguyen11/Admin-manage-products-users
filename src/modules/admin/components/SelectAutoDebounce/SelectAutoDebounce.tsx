@@ -93,7 +93,6 @@ const SelectAutoSuggetForm = (props: Props) => {
                             <div
                               onClick={() => {
                                 setOpen(false);
-                                console.log('idd : ', a.id);
                                 if (props.value !== a.id) {
                                   const ob: { [key: string]: any } = {};
                                   ob[props.name] = a.id;

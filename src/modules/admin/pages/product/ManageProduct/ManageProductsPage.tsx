@@ -1,6 +1,11 @@
 import './manage-product.scss';
 import { API_PATHS } from 'configs/api';
-import { defaultFilterProductValue, IFilterProduct, IProductTableItem } from 'models/admin/product';
+import {
+  defaultFilterProductValue,
+  IFilterProduct,
+  IFilterProductField,
+  IProductTableItem,
+} from 'models/admin/product';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -91,33 +96,36 @@ const ManageProducts = (props: Props) => {
     getProducts();
   }, []);
   const handleChangeProduct = useCallback(
-    (xx: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
-      const iz = listProducts.findIndex((a) => a.product.id == xx.product.id);
-      const ll = [...listProducts];
-      let newArr = [...listProductsChange];
-      if ((iz >= 0 && xx.product.price !== ll[iz].product.price) || xx.product.amount !== ll[iz].product.amount) {
-        const i = listProductsChange.findIndex((a) => a.initialValue.id == xx.product.id);
+    (newProduct: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
+      const iz = listProducts.findIndex((a) => a.product.id == newProduct.product.id);
+      const newListProduct = [...listProducts];
+      let newListProductChange = [...listProductsChange];
+      if (
+        (iz >= 0 && newProduct.product.price !== newListProduct[iz].product.price) ||
+        newProduct.product.amount !== newListProduct[iz].product.amount
+      ) {
+        const i = listProductsChange.findIndex((a) => a.initialValue.id == newProduct.product.id);
         if (i !== -1) {
           if (
-            listProductsChange[i].initialValue.price == xx.product.price &&
-            listProductsChange[i].initialValue.amount == xx.product.amount
+            listProductsChange[i].initialValue.price == newProduct.product.price &&
+            listProductsChange[i].initialValue.amount == newProduct.product.amount
           ) {
-            newArr = newArr.filter((a) => a.initialValue.id !== xx.product.id);
+            newListProductChange = newListProductChange.filter((a) => a.initialValue.id !== newProduct.product.id);
           } else {
-            newArr[i].currentValue = { ...xx.product };
+            newListProductChange[i].currentValue = { ...newProduct.product };
           }
         } else {
-          newArr.push({
-            initialValue: { ...ll[iz].product },
-            currentValue: { ...xx.product },
+          newListProductChange.push({
+            initialValue: { ...newListProduct[iz].product },
+            currentValue: { ...newProduct.product },
           });
         }
       }
-      ll[iz] = {
-        ...xx,
+      newListProduct[iz] = {
+        ...newProduct,
       };
-      setListProducts(ll);
-      setListProductsChange(newArr);
+      setListProducts(newListProduct);
+      setListProductsChange(newListProductChange);
     },
     [listProducts, listProductsChange],
   );
@@ -133,7 +141,7 @@ const ManageProducts = (props: Props) => {
     },
     [listProducts],
   );
-  const handleDeleteUser = async () => {
+  const handleDeleteUser = useCallback(async () => {
     const xx: { id: string; delete: number }[] = [];
     setOpenDeleteModal(false);
     listProducts.forEach((a) => {
@@ -153,7 +161,7 @@ const ManageProducts = (props: Props) => {
       handleShowAlertError('Update fail');
     }
     dispatch(stopLoading());
-  };
+  }, [listProducts, getProducts]);
   const handleSaveChange = async () => {
     setOpenSaveModal(false);
     const payload: { params: { id: string; price: string; stock: string }[] } = { params: [] };
@@ -177,10 +185,10 @@ const ManageProducts = (props: Props) => {
     dispatch(stopLoading());
   };
   const handleUpdateEnable = useCallback(
-    async (a: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
+    async (productData: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
       const xx: { id: string; enable: number } = {
-        id: a.product.id,
-        enable: Number(a.product.enabled),
+        id: productData.product.id,
+        enable: Number(productData.product.enabled),
       };
       dispatch(setLoading());
       const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [xx] }));
@@ -194,20 +202,17 @@ const ManageProducts = (props: Props) => {
     },
     [getProducts, API_PATHS.deleteProductsbyIDArray, dispatch],
   );
-  const handleChangeSort = useCallback(
-    (a: { sort: string; order_by: string }) => {
-      console.log('change sort ', a);
-      setFilter({
-        ...filter,
-        ...a,
-      });
-    },
-    [setFilter],
-  );
+
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setFilter({
       ...filter,
       page: newPage + 1,
+    });
+  };
+  const handleChangeFilter = (a: IFilterProductField) => {
+    setFilter({
+      ...filter,
+      ...a,
     });
   };
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -223,20 +228,14 @@ const ManageProducts = (props: Props) => {
     <div className="manage-products">
       <h2 className="title">Products</h2>
       <div className="manage-product-filter">
-        <ProductFilter
-          onChange={(a: IFilterProduct) => {
-            console.log('filter new : ', a);
-            setFilter(a);
-          }}
-          filter={filter}
-        />
+        <ProductFilter onChange={handleChangeFilter} filter={filter} />
       </div>
       <Link to="/pages/products/new-product">
         <Button className="btn-add-product">Add Product</Button>
       </Link>
       <Table
         handleSelectAll={handleSelectAll}
-        handleChangeSort={handleChangeSort}
+        handleChangeSort={handleChangeFilter}
         sort={filter.sort}
         order_by={filter.order_by}
         handleUpdateEnable={handleUpdateEnable}

@@ -51,7 +51,6 @@ const SelectAPISuggetForm = (props: Props) => {
                       <div
                         onClick={() => {
                           setOpen(false);
-                          console.log('idd : ', a.id);
                           setValueName(a.name);
                           if (props.value !== a.id) {
                             const ob: { [key: string]: any } = {};
