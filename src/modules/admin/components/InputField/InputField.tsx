@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   onClick?: Function;
   error?: string;
+  onlyNumber?: boolean;
 }
 const InputField = (props: Props) => {
   const [text, setText] = useState('');
@@ -34,6 +35,15 @@ const InputField = (props: Props) => {
             const objz: { [key: string]: any } = {};
             objz[props.key_name as keyof typeof objz] = e.target.value;
             props.onChange(objz);
+          }
+        }}
+        onKeyPress={(e) => {
+          if (props.onlyNumber) {
+            if (!e.code.includes('Digit')) {
+              e.preventDefault();
+            } else {
+              return e;
+            }
           }
         }}
         onBlur={() => {

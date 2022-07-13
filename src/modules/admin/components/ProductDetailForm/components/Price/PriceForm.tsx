@@ -73,6 +73,7 @@ const PriceForm = (props: Props) => {
                 </div>
                 <div className="sale-input-value">
                   <InputForm
+                    onlyNumber
                     value={props.sale_price}
                     onChange={(a: { sale_price: string }) => {
                       setStartSale(true);

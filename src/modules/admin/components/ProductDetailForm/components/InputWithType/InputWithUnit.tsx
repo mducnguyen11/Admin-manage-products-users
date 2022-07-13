@@ -15,6 +15,7 @@ const InputWithUnit = (props: Props) => {
     <div className="input-with-unit">
       <p className="unit">{props.currentUnit}</p>
       <InputField
+        onlyNumber
         value={Number(props.value).toFixed(2)}
         onChange={props.onChange}
         key_name={props.name}
