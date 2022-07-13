@@ -18,13 +18,15 @@ const Vendor = (props: Props) => {
         <p className="product-detail-row-name-p">Vendor</p>
       </div>
       <div className="product-detail-row-input product-detail-vendor-input">
-        <SearchSuggetForm
-          name="vendor_id"
-          options={vendorList}
-          error={props.errorMessage}
-          value={props.value}
-          changeData={props.onChange}
-        />
+        <div className="product-detail-row-input-container">
+          <SearchSuggetForm
+            name="vendor_id"
+            options={vendorList}
+            error={props.errorMessage}
+            value={props.value}
+            changeData={props.onChange}
+          />
+        </div>
       </div>
     </div>
   );

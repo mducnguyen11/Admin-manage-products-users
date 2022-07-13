@@ -1,13 +1,13 @@
 import React from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
-import { Box } from '@mui/material';
+import './fallback-loading.scss';
+import { Box, CircularProgress } from '@mui/material';
 interface Props {}
 
 const FallbackLoading = (props: Props) => {
   return (
-    <Box sx={{ width: '100%' }}>
-      <LinearProgress color="primary" />
-    </Box>
+    <div className="fallback-modal">
+      <CircularProgress size={50} />
+    </div>
   );
 };
 

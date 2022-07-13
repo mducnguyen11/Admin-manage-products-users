@@ -89,7 +89,7 @@ const ProductDetailForm = (props: Props) => {
       setErrors(tt.error);
     }
   };
-  console.log(errors);
+
   useEffect(() => {
     setProductdetail(props.product);
   }, [props.product]);

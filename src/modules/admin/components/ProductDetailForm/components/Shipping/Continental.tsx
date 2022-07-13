@@ -1,10 +1,9 @@
+import '../Price/price-form.scss';
 import React, { memo, useEffect, useState } from 'react';
 import InputWithUnit from '../InputWithType/InputWithUnit';
-import '../Price/price-form.scss';
 
 import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
-
 import { FormattedMessage } from 'react-intl';
 import SelectForm from 'modules/admin/components/SelectForm/SelectForm';
 
@@ -20,7 +19,6 @@ const Continental = (props: Props) => {
   );
 
   const listCountry = useSelector((state: AppState) => state.country.country);
-  console.log(listCountry);
   const [countrySelect, setCountrySelect] = useState<string>('0');
 
   useEffect(() => {

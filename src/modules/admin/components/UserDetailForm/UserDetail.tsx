@@ -19,6 +19,7 @@ interface Props {
   user: IUserDetailData;
   onSave: (a: IUserDetailData) => void;
   listFieldRequired: string[];
+  actionName?: string;
 }
 
 const UserDetail = (props: Props) => {
@@ -169,13 +170,12 @@ const UserDetail = (props: Props) => {
             <Button
               onClick={() => {
                 const xx = handleValidate(user, user);
-                console.log(xx);
                 if (xx) {
                   props.onSave(user);
                 }
               }}
             >
-              Update User
+              {props.actionName ? props.actionName : 'Update User'}
             </Button>
           </div>
         </>

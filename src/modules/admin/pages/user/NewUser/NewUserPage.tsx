@@ -81,6 +81,7 @@ const NewUser = (props: Props) => {
               'password',
               'confirm_password',
             ]}
+            actionName="Create user"
             user={{ ...DefaultNewUserValue }}
             onSave={handleCreateUser}
           />
