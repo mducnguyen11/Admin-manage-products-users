@@ -61,9 +61,9 @@ const UserDetailPage = (props: Props) => {
   useEffect(() => {
     getUserData();
   }, [params.id]);
-  const hanlleUpdateUser = async (a: IUserDetailData) => {
+  const hanlleUpdateUser = async (user: IUserDetailData) => {
     dispatch(setLoading());
-    const res = await dispatch(fetchThunk(API_PATHS.userEdit, 'post', { params: [formartUserToPayload(a)] }));
+    const res = await dispatch(fetchThunk(API_PATHS.userEdit, 'post', { params: [formartUserToPayload(user)] }));
     if (res.success && res.data) {
       setUser(res.data.info);
       handleShowAlertSuccess('Update successfully');

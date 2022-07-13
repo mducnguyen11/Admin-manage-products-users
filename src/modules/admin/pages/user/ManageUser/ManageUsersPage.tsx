@@ -71,13 +71,13 @@ const ManageUsers = (props: Props) => {
   useEffect(() => {
     getUsers();
   }, [filter]);
-  const handleChangeRow = (xx: { select_checked: boolean; user: IUserDataTableItem }) => {
-    const iz = listUsers.findIndex((a) => a.user.profile_id == xx.user.profile_id);
-    const ll = [...listUsers];
-    ll[iz] = {
-      ...xx,
+  const handleChangeRow = (newUser: { select_checked: boolean; user: IUserDataTableItem }) => {
+    const iz = listUsers.findIndex((a) => a.user.profile_id == newUser.user.profile_id);
+    const newListUser = [...listUsers];
+    newListUser[iz] = {
+      ...newUser,
     };
-    setListUsers(ll);
+    setListUsers(newListUser);
   };
   const handleRemoveSelected = async () => {
     setOpenDeleteModal(false);

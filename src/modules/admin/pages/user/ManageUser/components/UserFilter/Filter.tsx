@@ -26,7 +26,6 @@ const UserFilter = (props: Props) => {
   }, [props.filter]);
 
   const handleChangeFilter = (a: Object) => {
-    console.log(a);
     setFilter({
       ...filter,
       ...a,

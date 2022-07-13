@@ -46,10 +46,10 @@ const ProductFilter = (props: Props) => {
       }
     }
   };
-  const handleChangeFilter = (a: Object) => {
+  const handleChangeFilter = (filterField: Object) => {
     setFilter({
       ...filter,
-      ...a,
+      ...filterField,
     });
   };
   return (
