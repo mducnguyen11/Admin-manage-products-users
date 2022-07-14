@@ -1,7 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import './button.scss';
+import './Button.scss';
 interface Props {
   loading?: boolean;
   message: string;
