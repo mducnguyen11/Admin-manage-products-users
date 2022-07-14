@@ -82,7 +82,6 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
           error.images = 'requiredField';
         }
       } else {
-        console.log('no 2 deltete');
         delete error.images;
       }
     }

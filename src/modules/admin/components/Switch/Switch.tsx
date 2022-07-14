@@ -8,7 +8,6 @@ interface Props {
 
 const Switch = (props: Props) => {
   const handleChange = () => {
-    console.log('clcik');
     const obj: { [key: string]: string } = {};
     if (props.value == 1) {
       obj[props.name] = '0';

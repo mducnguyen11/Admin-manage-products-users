@@ -95,7 +95,6 @@ const Checkmarks = (props: Props) => {
               <div key={i} className="checkmarks-form-option">
                 <p
                   onClick={() => {
-                    console.log('vcl ae', a);
                     setValue('');
                     if (props.value.findIndex((b) => b.id == a.id) == -1) {
                       const xx: { id: string; name: string } = { id: a.id, name: a.name };

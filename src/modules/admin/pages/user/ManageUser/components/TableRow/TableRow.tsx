@@ -47,7 +47,7 @@ const TableRow = (props: Props) => {
             className="table-row-item-value"
             to={'/pages/user/user-detail/' + item.user.profile_id + '?target=address'}
           >
-            {item.user.lastName + ' ' + item.user.fistName}
+            {(item.user.lastName || '') + ' ' + (item.user.fistName || '')}
           </Link>
         </div>
       </td>

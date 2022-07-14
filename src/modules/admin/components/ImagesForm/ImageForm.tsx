@@ -50,7 +50,7 @@ const ImageForm = (props: Props) => {
         {props.listImagesCurrent.map((a, i) => {
           return (
             <div key={i} className="image-item">
-              <img src={a.thumbs[0]} onError={(e) => (e.currentTarget.src = not_available_img_url)} />
+              <img src={a.file} onError={(e) => (e.currentTarget.src = not_available_img_url)} />
               <i
                 onClick={() => {
                   handleRemoveImgCurrent(a.id);
@@ -82,7 +82,6 @@ const ImageForm = (props: Props) => {
             type="file"
             multiple
           />
-          {/* <i onClick={handleRemoveImg} className="image-item-remove-icon bx bx-x"></i> */}
         </div>
       </div>
       {props.error ? (

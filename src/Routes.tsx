@@ -10,7 +10,7 @@ interface Props {}
 export const Routes = (props: Props) => {
   const location = useLocation();
   return (
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<FallbackLoading />}>
       <Switch location={location}>
         <CheckUserRoute path={ROUTES.login} component={LoginPage} />
         <AdminRoutes />

@@ -1,13 +1,16 @@
 import React from 'react';
 import './fallback-loading.scss';
-import { Box, CircularProgress } from '@mui/material';
-interface Props {}
+import { Box, CircularProgress, LinearProgress } from '@mui/material';
+interface Props {
+  children?: React.ReactNode;
+}
 
 const FallbackLoading = (props: Props) => {
   return (
-    <div className="fallback-modal">
-      <CircularProgress size={50} />
-    </div>
+    <Box sx={{ width: '100%', marginTop: '20px' }}>
+      <LinearProgress />
+      {props.children}
+    </Box>
   );
 };
 
