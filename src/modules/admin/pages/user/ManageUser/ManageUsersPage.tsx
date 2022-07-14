@@ -1,4 +1,4 @@
-import './manage-users.scss';
+import './ManageUsersPage.scss';
 import { API_PATHS } from 'configs/api';
 import { defaultFilterUserValue, IFilterUser, IUserDataTableItem } from 'models/admin/user';
 import { fetchThunk } from 'modules/common/redux/thunk';
@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import ProductFilter from './components/UserFilter/Filter';
-import ProductTable from './components/Table/Table';
+import UsersFilter from './components/Filter/UserFilter';
+import UsersTable from './components/Table/ProductTable';
 import TablePagination from '@mui/material/TablePagination';
 import { Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
 import { setLoading, stopLoading } from 'modules/admin/redux/loadingReducer';
@@ -53,13 +53,13 @@ const ManageUsers = (props: Props) => {
     dispatch(setLoading());
     const res = await dispatch(fetchThunk(API_PATHS.getUserList, 'post', { ...filter }));
     if (res.data.length > 0 && res.success) {
-      const ll = res.data.map((a: IUserDataTableItem, i: number) => {
+      const listUsers = res.data.map((item: IUserDataTableItem, i: number) => {
         return {
           select_checked: false,
-          user: a,
+          user: { ...item },
         };
       });
-      setListUsers(ll);
+      setListUsers(listUsers);
       setTotalItem(Number(res.recordsFiltered));
     } else {
       setAlertError('Have no product');
@@ -71,10 +71,10 @@ const ManageUsers = (props: Props) => {
   useEffect(() => {
     getUsers();
   }, [filter]);
-  const handleChangeRow = (newUser: { select_checked: boolean; user: IUserDataTableItem }) => {
-    const iz = listUsers.findIndex((a) => a.user.profile_id == newUser.user.profile_id);
+  const handleChangeUserDataRow = (newUser: { select_checked: boolean; user: IUserDataTableItem }) => {
+    const index = listUsers.findIndex((item) => item.user.profile_id == newUser.user.profile_id);
     const newListUser = [...listUsers];
-    newListUser[iz] = {
+    newListUser[index] = {
       ...newUser,
     };
     setListUsers(newListUser);
@@ -82,11 +82,11 @@ const ManageUsers = (props: Props) => {
   const handleRemoveSelected = async () => {
     setOpenDeleteModal(false);
     dispatch(setLoading());
-    const dd = listUsers.filter((a) => a.select_checked == true);
+    const selectedList = listUsers.filter((a) => a.select_checked == true);
     const params = [
-      ...dd.map((a) => {
+      ...selectedList.map((item) => {
         return {
-          id: a.user.profile_id,
+          id: item.user.profile_id,
           delete: 1,
         };
       }),
@@ -101,20 +101,20 @@ const ManageUsers = (props: Props) => {
     }
     dispatch(stopLoading());
   };
-  const handleSelectAll = (g: boolean) => {
-    const xx = listUsers.map((a) => {
+  const handleSelectAll = (value: boolean) => {
+    const newListUsers = listUsers.map((a) => {
       return {
         ...a,
-        select_checked: g,
+        select_checked: value,
       };
     });
-    setListUsers([...xx]);
+    setListUsers([...newListUsers]);
   };
   const handleChangeFilter = useCallback(
-    (a: Object) => {
+    (filterField: { [key: string]: any }) => {
       setFilter({
         ...filter,
-        ...a,
+        ...filterField,
       });
     },
     [setFilter],
@@ -123,18 +123,17 @@ const ManageUsers = (props: Props) => {
     <div className="manage-users">
       <h2 className="title">Search for User</h2>
       <div className="manage-users-filter">
-        <ProductFilter onChange={handleChangeFilter} filter={filter} />
+        <UsersFilter onChange={handleChangeFilter} filter={filter} />
       </div>
       <Link to="/pages/user/new-user">
         <Button className="btn-add-product">Add User</Button>
       </Link>
-      <ProductTable
+      <UsersTable
         handleSelectAll={handleSelectAll}
         handleChangeSort={handleChangeFilter}
         sort={filter.sort}
         order_by={filter.order_by}
-        handleUpdateEnable={() => {}}
-        handleChangeData={handleChangeRow}
+        handleChangeData={handleChangeUserDataRow}
         data={listUsers}
       />
       <div className="table-pagination">

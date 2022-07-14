@@ -1,33 +1,32 @@
 import React from 'react';
-import './radio-input.scss';
+import './RadioInput.scss';
 interface Props {
   value: string;
   options: { id: string; name: string; [key: string]: any }[];
   key_name: string;
   onChange: Function;
 }
-
 const RadioInput = (props: Props) => {
-  const hanleChange = (a: string) => {
-    const b: { [key: string]: any } = {};
-    b[props.key_name] = a;
-    props.onChange(b);
+  const hanleChange = (value: string) => {
+    const objectValue: { [key: string]: any } = {};
+    objectValue[props.key_name] = value;
+    props.onChange(objectValue);
   };
   return (
     <>
-      {props.options.map((a, i) => {
+      {props.options.map((option, i) => {
         return (
           <div key={i} className="radio-input-item">
             <input
-              checked={props.value == a.id}
+              checked={props.value == option.id}
               onChange={() => {
-                hanleChange(a.id);
+                hanleChange(option.id);
               }}
               type="radio"
               name={props.key_name}
-              value={a.id}
+              value={option.id}
             />
-            <label>{a.name}</label>
+            <label>{option.name}</label>
           </div>
         );
       })}

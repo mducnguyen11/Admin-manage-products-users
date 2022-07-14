@@ -1,8 +1,8 @@
-import './new-user.scss';
+import './NewUser.scss';
 import { Alert, Snackbar } from '@mui/material';
 import { API_PATHS } from 'configs/api';
 import { DefaultNewUserValue, IUserDetailData } from 'models/admin/user';
-import UserDetail from 'modules/admin/components/UserDetailForm/UserDetail';
+import UserDetailForm from 'modules/admin/components/UserDetailForm/UserDetailForm';
 import { setLoading, stopLoading } from 'modules/admin/redux/loadingReducer';
 import { formatToUserPayloadCreate } from 'modules/admin/ultis';
 import { fetchThunk } from 'modules/common/redux/thunk';
@@ -20,11 +20,11 @@ const NewUser = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [alertSuccess, setAlertSuccess] = React.useState('');
   const [alertError, setAlertError] = React.useState<string>('');
-  const handleShowAlertSuccess = (a: string) => {
-    setAlertSuccess(a);
+  const handleShowAlertSuccess = (text: string) => {
+    setAlertSuccess(text);
   };
-  const handleShowAlertError = (a: string) => {
-    setAlertError(a);
+  const handleShowAlertError = (text: string) => {
+    setAlertError(text);
   };
   const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -39,10 +39,10 @@ const NewUser = (props: Props) => {
     setAlertError('');
   };
 
-  const handleCreateUser = async (a: IUserDetailData) => {
+  const handleCreateUser = async (newUser: IUserDetailData) => {
     try {
       dispatch(setLoading());
-      const res = await dispatch(fetchThunk(API_PATHS.createNewUser, 'post', formatToUserPayloadCreate(a)));
+      const res = await dispatch(fetchThunk(API_PATHS.createNewUser, 'post', formatToUserPayloadCreate(newUser)));
       dispatch(stopLoading());
       if (res.success) {
         handleShowAlertSuccess('User have created');
@@ -71,7 +71,7 @@ const NewUser = (props: Props) => {
       <h2 className="user-name">Create profile</h2>
       <div className="user-detail-content">
         <div className="user-detail">
-          <UserDetail
+          <UserDetailForm
             listFieldRequired={[
               'firstName',
               'lastName',

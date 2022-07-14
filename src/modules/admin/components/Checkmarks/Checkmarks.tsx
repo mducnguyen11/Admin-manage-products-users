@@ -1,4 +1,4 @@
-import './chekcmarks.scss';
+import './Checkmarks.scss';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 

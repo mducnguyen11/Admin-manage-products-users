@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import './images-form.scss';
+import './ImagesForm.scss';
 interface Props {
   listImagesCurrent: {
     id: string;
@@ -27,22 +27,22 @@ const ImageForm = (props: Props) => {
     });
   };
   const handleUploadImage = async (e: any) => {
-    const z: any[] = [];
+    const listImagesUploaded: any[] = [];
     try {
       const files = e.target.files;
       for (let i = 0; i < files.length; i++) {
-        z.push({
+        listImagesUploaded.push({
           image: URL.createObjectURL(files[i]),
           file: files[i],
         });
       }
-      props.changeImagesUpload([...props.listImgUpload, ...z]);
+      props.changeImagesUpload([...props.listImgUpload, ...listImagesUploaded]);
     } catch (error) {
       console.log('fail image');
     }
   };
-  const handleRemoveImgupload = (a: string) => {
-    props.changeImagesUpload(props.listImgUpload.filter((b) => b.image !== a));
+  const handleRemoveImgupload = (imageName: string) => {
+    props.changeImagesUpload(props.listImgUpload.filter((b) => b.image !== imageName));
   };
   return (
     <div className="images-form">

@@ -9,7 +9,7 @@ interface Props {
     name: string;
     [key: string]: any;
   }[];
-  name: string;
+  key_name: string;
 }
 
 const SelectAutoSuggetForm = (props: Props) => {
@@ -25,9 +25,9 @@ const SelectAutoSuggetForm = (props: Props) => {
   const findNameByValue = useCallback(
     (value: string, options: { id: string | number; name: string; [key: string]: any }[]): string => {
       if (value !== '') {
-        const i = options.findIndex((a) => {
-          if (a.id.toString() == value) {
-            return a;
+        const i = options.findIndex((option) => {
+          if (option.id.toString() == value) {
+            return option;
           }
         });
         if (i >= 0) {
@@ -95,7 +95,7 @@ const SelectAutoSuggetForm = (props: Props) => {
                                 setOpen(false);
                                 if (props.value !== a.id) {
                                   const ob: { [key: string]: any } = {};
-                                  ob[props.name] = a.id;
+                                  ob[props.key_name] = a.id;
                                   props.changeData(ob);
                                 }
                               }}

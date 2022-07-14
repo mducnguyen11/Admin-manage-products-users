@@ -1,5 +1,5 @@
 import React from 'react';
-import './sidebar.scss';
+import './Sidebar.scss';
 import SidebarItem from './components/sideBarItem/SidebarItem';
 
 interface Props {

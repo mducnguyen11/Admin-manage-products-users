@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './switch.scss';
+import './Switch.scss';
 interface Props {
   value: number;
   name: string;

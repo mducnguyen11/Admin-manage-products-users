@@ -1,5 +1,5 @@
 import React from 'react';
-import './input-table-row.scss';
+import './InputTableRow.scss';
 interface Props {
   unit?: string;
   value: string;

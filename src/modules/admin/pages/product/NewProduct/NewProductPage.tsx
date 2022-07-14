@@ -1,14 +1,15 @@
+import './NewProductPage.scss';
 import axios from 'axios';
 import { API_PATHS } from 'configs/api';
 import React, { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import { setLoading, stopLoading } from 'modules/admin/redux/loadingReducer';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import { Alert, Snackbar } from '@mui/material';
-import './new-product-page.scss';
+
 import { formatProductDataToPayload } from 'modules/admin/ultis';
 import ProductDetailForm from 'modules/admin/components/ProductDetailForm/ProductDetailForm';
 import { AxiosFormDataConfig } from 'modules/common/components/AxiosConfig/AxiosConfig';

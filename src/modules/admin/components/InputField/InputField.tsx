@@ -12,10 +12,10 @@ interface Props {
   onlyNumber?: boolean;
 }
 const InputField = (props: Props) => {
-  const [text, setText] = useState('');
+  const [textValue, setTextValue] = useState('');
   useEffect(() => {
-    if (props.value !== text) {
-      setText(props.value);
+    if (props.value !== textValue) {
+      setTextValue(props.value);
     }
   }, [props.value]);
   return (
@@ -28,9 +28,9 @@ const InputField = (props: Props) => {
         type={props.type || 'text'}
         name={props.key_name}
         placeholder={props.placeholder ? props.placeholder : ''}
-        value={text}
+        value={textValue}
         onChange={(e) => {
-          setText(e.target.value);
+          setTextValue(e.target.value);
           if (props.error) {
             const objz: { [key: string]: any } = {};
             objz[props.key_name as keyof typeof objz] = e.target.value;
@@ -47,18 +47,18 @@ const InputField = (props: Props) => {
           }
         }}
         onBlur={() => {
-          if (props.value !== text) {
+          if (props.value !== textValue) {
             if (props.key_name) {
               const objz: { [key: string]: any } = {};
-              objz[props.key_name as keyof typeof objz] = text;
+              objz[props.key_name as keyof typeof objz] = textValue;
               props.onChange(objz);
             } else {
-              if (props.value !== text) {
-                props.onChange(text);
+              if (props.value !== textValue) {
+                props.onChange(textValue);
               }
             }
           } else {
-            if (props.value == text && text == '') {
+            if (props.value == textValue && textValue == '') {
               if (props.key_name) {
                 const objz: { [key: string]: any } = {};
                 objz[props.key_name as keyof typeof objz] = '';

@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderNotification from './components/HeaderNotiFication/HeaderNotification';
 import HeaderUser from './components/HeaderUser/HeaderUser';
-import './header.scss';
+import './Header.scss';
 
 interface Props {
   expandSidebar: Function;

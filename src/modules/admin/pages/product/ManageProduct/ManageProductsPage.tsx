@@ -1,4 +1,4 @@
-import './manage-product.scss';
+import './ManageProductsPage.scss';
 import { API_PATHS } from 'configs/api';
 import {
   defaultFilterProductValue,
@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import ProductFilter from './components/ProductFilter/ProductFilter';
+import ProductFilter from './components/Filter/ProductFilter';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -22,7 +22,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TablePagination from '@mui/material/TablePagination';
 import { Alert, Snackbar } from '@mui/material';
 import { setLoading, stopLoading } from 'modules/admin/redux/loadingReducer';
-import Table from './components/Table/Table';
+import Table from './components/Table/ProductTable';
 import Button from 'modules/admin/components/Button/Button';
 interface Props {}
 
@@ -130,28 +130,28 @@ const ManageProducts = (props: Props) => {
     setListProducts(newListProduct);
     setListProductsChange(newListProductChange);
   };
-  const handleSelectAll = (g: boolean) => {
-    const xx = listProducts.map((a) => {
+  const handleSelectAll = (value: boolean) => {
+    const newProductList = listProducts.map((item) => {
       return {
-        ...a,
-        select_checked: g,
+        ...item,
+        select_checked: value,
       };
     });
-    setListProducts([...xx]);
+    setListProducts([...newProductList]);
   };
   const handleDeleteUser = async () => {
-    const xx: { id: string; delete: number }[] = [];
+    const paramsPayload: { id: string; delete: number }[] = [];
     setOpenDeleteModal(false);
-    listProducts.forEach((a) => {
-      if (a.delete_checked) {
-        xx.push({
-          id: a.product.id,
+    listProducts.forEach((item) => {
+      if (item.delete_checked) {
+        paramsPayload.push({
+          id: item.product.id,
           delete: 1,
         });
       }
     });
     dispatch(setLoading());
-    const res = await dispatch(fetchThunk(API_PATHS.deleteProductsbyIDArray, 'post', { params: xx }));
+    const res = await dispatch(fetchThunk(API_PATHS.deleteProductsbyIDArray, 'post', { params: paramsPayload }));
     await getProducts();
     if (res.data) {
       handleShowAlertSuccess();

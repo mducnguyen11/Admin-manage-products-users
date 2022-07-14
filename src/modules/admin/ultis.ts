@@ -89,7 +89,7 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
 
   return {
     validate: Object.keys(error).length == 0,
-    error: error,
+    errors: error,
   };
 };
 

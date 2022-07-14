@@ -1,4 +1,4 @@
-import './user-detail-page.scss';
+import './UserDetailPage.scss';
 import { API_PATHS } from 'configs/api';
 import { IUserDetailData } from 'models/admin/user';
 import Tab from 'modules/admin/components/Tab/Tab';
@@ -11,7 +11,7 @@ import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import { setLoading, stopLoading } from 'modules/admin/redux/loadingReducer';
 import { Alert, Snackbar } from '@mui/material';
-import UserDetail from 'modules/admin/components/UserDetailForm/UserDetail';
+import UserDetailForm from 'modules/admin/components/UserDetailForm/UserDetailForm';
 import { formartUserToPayload } from 'modules/admin/ultis';
 
 interface Props {}
@@ -97,7 +97,7 @@ const UserDetailPage = (props: Props) => {
         {user ? (
           <div className="user-detail-page-tabs-content">
             <Tab value={0} index={tab}>
-              <UserDetail
+              <UserDetailForm
                 listFieldRequired={['firstName', 'lastName', 'email', 'status']}
                 onSave={hanlleUpdateUser}
                 user={user}

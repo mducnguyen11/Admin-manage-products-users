@@ -1,23 +1,23 @@
-import './product-info.scss';
+import './ProductDetailForm.scss';
 import { IProductDetailData, IProductDetailDataField } from 'models/admin/product';
 import React, { useEffect, useState } from 'react';
 import { formatTimeStampToDate, validateProductDataField } from 'modules/admin/ultis';
-import BrandForm from './components/BrandForm/BrandForm';
-import ConditionForm from './components/ConditionForm/ConditionForm';
-import ImagesProductForm from './components/ImagesProductForm/ImagesProductForm';
-import CategoryForm from './components/CategoryForm/CategoryForm';
-import DescriptionForm from './components/DescriptionForm/DescriptionForm';
-import Memberships from './components/Memberships/Memberships';
-import TaxClass from './components/TaxClass/TaxClass';
-import PriceForm from './components/Price/PriceForm';
-import ArrivalDate from './components/ArrivalDate/ArrivalDate';
-import Continental from './components/Shipping/Continental';
-import MetaTag from './components/MetaTag/MetaTag';
-import MetaDescType from './components/MetaDescType/MetaDescType';
-import InputSwitch from './components/inputSwitch/InputSwitch';
+import ProductBrand from './components/ProductBrand/ProductBrand';
+import ProductCondition from './components/ProductCondition/ProductCondition';
+import ProductImages from './components/ProductImages/ProductImages';
+import ProductCategory from './components/ProductCategory/ProductCategory';
+import ProductDescription from './components/ProductDescription/ProductDescription';
+import ProductMemberships from './components/ProductMemberships/ProductMemberships';
+import ProductTaxClass from './components/ProductTaxClass/ProductTaxClass';
+import ProductPrice from './components/ProductPrice/ProductPrice';
+import ProductArrivalDate from './components/ProductArrivalDate/ProductArrivalDate';
+import ProductShipping from './components/ProductShipping/ProductShipping';
+import ProductMetaTag from './components/ProductMetaTag/ProductMetaTag';
+import ProductMetaDescType from './components/ProductMetaDescType/ProductMetaDescType';
+import ProductInputSwitch from './components/ProductInputSwitch/ProductInputSwitch';
 import Button from 'modules/admin/components/Button/Button';
-import InputKey from './components/NormalInputRow/NormalInputRow';
-import VendorForm from './components/VendorForm/VendorForm';
+import ProductInputRow from './components/ProductInputRow/ProductInputRow';
+import ProductVendor from './components/ProductVendor/ProductVendor';
 
 interface Props {
   product: IProductDetailData;
@@ -52,41 +52,41 @@ const ProductDetailForm = (props: Props) => {
     }[]
   >([]);
   const [errors, setErrors] = useState<ErrorData>({});
-  const handleValidate = (a: IProductDetailDataField, listFieldRequired: string[]) => {
-    const tt: { validate: boolean; error: { [key: string]: string } } = validateProductDataField(
-      { ...a },
+  const handleValidate = (productDataFieldChange: IProductDetailDataField, listFieldRequired: string[]) => {
+    const validateResult: { validate: boolean; errors: { [key: string]: string } } = validateProductDataField(
+      productDataFieldChange,
       listFieldRequired,
     );
 
-    if (!tt.validate) {
+    if (!validateResult.validate) {
       setErrors({
         ...errors,
-        ...tt.error,
+        ...validateResult.errors,
       });
     } else {
-      Object.keys(a).forEach((c) => {
-        if (Object.keys(errors).findIndex((b) => b == c) > -1) {
-          const xx = { ...errors };
-          delete xx[c as keyof typeof xx];
-          setErrors(xx);
+      const newErrors = { ...errors };
+      Object.keys(productDataFieldChange).forEach((field) => {
+        if (Object.keys(errors).findIndex((fieldError) => fieldError == field) > -1) {
+          delete newErrors[field as keyof typeof newErrors];
         }
       });
+      setErrors(newErrors);
     }
   };
-  const handleChangeProduct = (a: IProductDetailDataField) => {
-    handleValidate(a, props.listFieldRequired);
+  const handleChangeProduct = (productDataFieldChange: IProductDetailDataField) => {
+    handleValidate(productDataFieldChange, props.listFieldRequired);
     setProductdetail({
       ...productdetail,
-      ...a,
+      ...productDataFieldChange,
     });
   };
   const handleSaveProduct = async () => {
-    const tt = validateProductDataField(productdetail, props.listFieldRequired);
-    if (tt.validate) {
+    const validateResult = validateProductDataField(productdetail, props.listFieldRequired);
+    if (validateResult.validate) {
       props.onSave(productdetail, [...listImgUpload]);
       setListImgUpload([]);
     } else {
-      setErrors(tt.error);
+      setErrors(validateResult.errors);
     }
   };
 
@@ -95,7 +95,7 @@ const ProductDetailForm = (props: Props) => {
   }, [props.product]);
 
   const handleChangeImagesUpload = (
-    a: {
+    newListImagesUpload: {
       image: string;
       file: {
         name: string;
@@ -104,30 +104,30 @@ const ProductDetailForm = (props: Props) => {
     }[],
   ) => {
     handleValidate(
-      { images: productdetail.images, imagesOrder: [...a.map((b): string => b.file.name)] },
+      { images: productdetail.images, imagesOrder: [...newListImagesUpload.map((image): string => image.file.name)] },
       props.listFieldRequired,
     );
-    setListImgUpload([...a]);
+    setListImgUpload([...newListImagesUpload]);
     setProductdetail({
       ...productdetail,
-      imagesOrder: [...a.map((b): string => b.file.name)],
+      imagesOrder: [...newListImagesUpload.map((image): string => image.file.name)],
     });
   };
   return (
     <div className="product-detail">
       <div className="product-basic-detail">
-        <VendorForm errorMessage={errors.vendor_id} value={productdetail.vendor_id} onChange={handleChangeProduct} />
-        <InputKey
+        <ProductVendor errorMessage={errors.vendor_id} value={productdetail.vendor_id} onChange={handleChangeProduct} />
+        <ProductInputRow
           errorMessage={errors.name}
           value={productdetail?.name}
           key_name="name"
           onChange={handleChangeProduct}
           text="Product Title"
         />
-        <BrandForm errorMessage={errors.brand_id} value={productdetail?.brand_id} onChange={handleChangeProduct} />
-        <ConditionForm value={productdetail?.inventory_tracking} onChange={handleChangeProduct} />
-        <InputKey text="SKU" value={productdetail?.sku} onChange={handleChangeProduct} key_name="sku" />
-        <ImagesProductForm
+        <ProductBrand errorMessage={errors.brand_id} value={productdetail?.brand_id} onChange={handleChangeProduct} />
+        <ProductCondition value={productdetail?.inventory_tracking} onChange={handleChangeProduct} />
+        <ProductInputRow text="SKU" value={productdetail?.sku} onChange={handleChangeProduct} key_name="sku" />
+        <ProductImages
           deleted_images={productdetail?.deleted_images !== undefined ? productdetail.deleted_images : []}
           onChange={handleChangeProduct}
           errorMessage={errors.images}
@@ -135,7 +135,7 @@ const ProductDetailForm = (props: Props) => {
           listImgUpload={listImgUpload}
           changeImagesUpload={handleChangeImagesUpload}
         />
-        <CategoryForm
+        <ProductCategory
           errorMessage={errors.categories}
           value={[
             ...(productdetail?.categories.map((a) => {
@@ -147,12 +147,12 @@ const ProductDetailForm = (props: Props) => {
           ]}
           onChange={handleChangeProduct}
         />
-        <DescriptionForm
+        <ProductDescription
           errorMessage={errors.description}
           onChange={handleChangeProduct}
           value={productdetail?.description}
         />
-        <InputSwitch
+        <ProductInputSwitch
           key_name="enabled"
           onChange={handleChangeProduct}
           text="Available for sale"
@@ -162,17 +162,17 @@ const ProductDetailForm = (props: Props) => {
       </div>
       <div className="product-price-inventory">
         <h2 className="section-title">Price and Inventory</h2>
-        <Memberships value={productdetail?.memberships} onChange={handleChangeProduct} />
-        <TaxClass onChange={handleChangeProduct} value={productdetail?.tax_exempt} />
-        <PriceForm
+        <ProductMemberships value={productdetail?.memberships} onChange={handleChangeProduct} />
+        <ProductTaxClass onChange={handleChangeProduct} value={productdetail?.tax_exempt} />
+        <ProductPrice
           errorMessage={errors.price}
           price={productdetail?.price}
           onChange={handleChangeProduct}
           sale_price={productdetail?.sale_price}
           sale_price_type={productdetail?.sale_price_type}
         />
-        <ArrivalDate value={formatTimeStampToDate(productdetail?.arrival_date)} onChange={handleChangeProduct} />
-        <InputKey
+        <ProductArrivalDate value={formatTimeStampToDate(productdetail?.arrival_date)} onChange={handleChangeProduct} />
+        <ProductInputRow
           key_name="quantity"
           text="Quantity in stock"
           errorMessage={errors.quantity}
@@ -182,7 +182,7 @@ const ProductDetailForm = (props: Props) => {
       </div>
       <div className="product-shipping">
         <h2 className="section-title">Shipping</h2>
-        <Continental
+        <ProductShipping
           errorMessage={errors.shipping}
           continentalList={
             productdetail?.shipping.length > 0
@@ -194,32 +194,36 @@ const ProductDetailForm = (props: Props) => {
       </div>
       <div className="product-maketing">
         <h2 className="section-title">Maketing</h2>
-        <MetaTag og_tags={productdetail.og_tags} value={productdetail?.og_tags_type} onChange={handleChangeProduct} />
-        <MetaDescType
+        <ProductMetaTag
+          og_tags={productdetail.og_tags}
+          value={productdetail?.og_tags_type}
+          onChange={handleChangeProduct}
+        />
+        <ProductMetaDescType
           meta_description={productdetail.meta_description}
           value={productdetail?.meta_desc_type}
           onChange={handleChangeProduct}
         />
-        <InputKey
+        <ProductInputRow
           key_name="meta_keywords"
           text="Meta keywords"
           value={productdetail?.meta_keywords}
           onChange={handleChangeProduct}
         />
-        <InputKey
+        <ProductInputRow
           key_name="product_page_title"
           text="Product page title  "
           value={productdetail?.product_page_title}
           onChange={handleChangeProduct}
         />
       </div>
-      <InputSwitch
+      <ProductInputSwitch
         key_name="facebook_marketing_enabled"
         onChange={handleChangeProduct}
         text="Add to Facebook product feed"
         value={productdetail?.facebook_marketing_enabled}
       />
-      <InputSwitch
+      <ProductInputSwitch
         key_name="google_feed_enabled"
         onChange={handleChangeProduct}
         text="Add to Google product feed"

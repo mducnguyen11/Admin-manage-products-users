@@ -1,4 +1,4 @@
-import './product-detail-page.scss';
+import './ProductDetailPage.scss';
 import axios from 'axios';
 import { API_PATHS } from 'configs/api';
 import { IProductDetailData } from 'models/admin/product';
@@ -10,12 +10,12 @@ import { ThunkDispatch } from 'redux-thunk';
 import { setLoading, stopLoading } from 'modules/admin/redux/loadingReducer';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import ProductDetailForm from '../../../components/ProductDetailForm/ProductDetailForm';
 import Tab from 'modules/admin/components/Tab/Tab';
 import { Alert, Snackbar } from '@mui/material';
 
 import { formatProductDataToPayload } from 'modules/admin/ultis';
 import { AxiosFormDataConfig } from 'modules/common/components/AxiosConfig/AxiosConfig';
+import ProductDetailForm from 'modules/admin/components/ProductDetailForm/ProductDetailForm';
 
 interface Props {}
 const ProductDetail = (props: Props) => {

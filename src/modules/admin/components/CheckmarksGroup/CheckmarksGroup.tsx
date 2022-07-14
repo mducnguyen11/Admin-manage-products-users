@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './check-marks-group.scss';
+import './CheckmarksGroup.scss';
 interface Props {
   value: string[];
   onChange: Function;
@@ -15,13 +15,13 @@ const CheckmarksGroup = (props: Props) => {
   useEffect(() => {
     let y = '';
     props.value.forEach((a, i) => {
-      props.options.forEach((b) => {
-        b.options.forEach((c) => {
-          if (c.id == a) {
+      props.options.forEach((optionGroup) => {
+        optionGroup.options.forEach((item) => {
+          if (item.id == a) {
             if (i == 0) {
-              y += c.name;
+              y += item.name;
             } else {
-              y += ', ' + c.name;
+              y += ', ' + item.name;
             }
           }
         });
@@ -50,35 +50,35 @@ const CheckmarksGroup = (props: Props) => {
           <>
             {' '}
             <div className="checkmarks-group-list-options">
-              {props.options.map((a, i) => {
+              {props.options.map((itemGroup, i) => {
                 return (
-                  <div key={a.name}>
-                    <div className="checkmarks-group-list-options-group-name">{a.name}</div>
-                    {a.options.map((x, i) => {
+                  <div key={itemGroup.name}>
+                    <div className="checkmarks-group-list-options-group-name">{itemGroup.name}</div>
+                    {itemGroup.options.map((option, i) => {
                       return (
                         <div
-                          key={x.id}
+                          key={option.id}
                           onClick={() => {
-                            console.log('id : ', x.id);
+                            console.log('id : ', option.id);
                             const obj: { [key: string]: any } = {};
-                            if (props.value.includes(x.id)) {
+                            if (props.value.includes(option.id)) {
                               console.log('include ');
-                              obj[props.key_name as keyof typeof obj] = [...props.value.filter((a) => a !== x.id)];
+                              obj[props.key_name as keyof typeof obj] = [...props.value.filter((a) => a !== option.id)];
                             } else {
                               console.log('nooo include ');
-                              obj[props.key_name as keyof typeof obj] = [...props.value, x.id];
+                              obj[props.key_name as keyof typeof obj] = [...props.value, option.id];
                             }
                             props.onChange(obj);
                           }}
                           className="checkmarks-group-option"
                         >
-                          {props.value.findIndex((v) => v == x.id) > -1 ? (
+                          {props.value.findIndex((v) => v == option.id) > -1 ? (
                             <i className="bx bxs-check-square"></i>
                           ) : (
                             <i className="bx bx-check-square"></i>
                           )}
 
-                          <p>{x.name}</p>
+                          <p>{option.name}</p>
                         </div>
                       );
                     })}

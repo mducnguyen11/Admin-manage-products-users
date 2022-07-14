@@ -23,9 +23,9 @@ const SelectAsyncDebounce = (props: Props) => {
               if (!open) {
                 setOpen(true);
               }
-              const ob: { [key: string]: any } = {};
-              ob[props.name] = e.target.value;
-              props.onChange(ob);
+              const objectValue: { [key: string]: any } = {};
+              objectValue[props.name] = e.target.value;
+              props.onChange(objectValue);
             }}
             value={valueName}
             className="select-form-input admin-input-form"
@@ -55,9 +55,9 @@ const SelectAsyncDebounce = (props: Props) => {
                           setOpen(false);
                           setValueName(a.name);
                           if (props.value !== a.id) {
-                            const ob: { [key: string]: any } = {};
-                            ob[props.name] = a.id;
-                            props.onChange(ob);
+                            const objectValue: { [key: string]: any } = {};
+                            objectValue[props.name] = a.id;
+                            props.onChange(objectValue);
                           }
                         }}
                         key={i}
