@@ -3,7 +3,7 @@ import './CheckmarksGroup.scss';
 interface Props {
   value: string[];
   onChange: Function;
-  options: { name: string; options: { id: string; name: string; [key: string]: any }[] }[];
+  options: { name: string; options: { value: string; name: string; [key: string]: any }[] }[];
   key_name: string;
   placeholder: string;
 }
@@ -17,7 +17,7 @@ const CheckmarksGroup = (props: Props) => {
     props.value.forEach((a, i) => {
       props.options.forEach((optionGroup) => {
         optionGroup.options.forEach((item) => {
-          if (item.id == a) {
+          if (item.value == a) {
             if (i == 0) {
               y += item.name;
             } else {
@@ -59,20 +59,19 @@ const CheckmarksGroup = (props: Props) => {
                         <div
                           key={option.id}
                           onClick={() => {
-                            console.log('id : ', option.id);
                             const obj: { [key: string]: any } = {};
-                            if (props.value.includes(option.id)) {
-                              console.log('include ');
-                              obj[props.key_name as keyof typeof obj] = [...props.value.filter((a) => a !== option.id)];
+                            if (props.value.includes(option.value)) {
+                              obj[props.key_name as keyof typeof obj] = [
+                                ...props.value.filter((a) => a !== option.value),
+                              ];
                             } else {
-                              console.log('nooo include ');
-                              obj[props.key_name as keyof typeof obj] = [...props.value, option.id];
+                              obj[props.key_name as keyof typeof obj] = [...props.value, option.value];
                             }
                             props.onChange(obj);
                           }}
                           className="checkmarks-group-option"
                         >
-                          {props.value.findIndex((v) => v == option.id) > -1 ? (
+                          {props.value.findIndex((v) => v == option.value) > -1 ? (
                             <i className="bx bxs-check-square"></i>
                           ) : (
                             <i className="bx bx-check-square"></i>

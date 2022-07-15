@@ -5,7 +5,7 @@ interface Props {
   changeData: Function;
   error?: string;
   options: {
-    id: string | number;
+    value: string | number;
     name: string;
     [key: string]: any;
   }[];
@@ -16,17 +16,17 @@ const SelectAutoSuggetForm = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [listValueSugget, setlistValueSugget] = useState<
     {
-      id: string | number;
+      value: string | number;
       [key: string]: any;
       name: string;
     }[]
   >([]);
   const [valueName, setValueName] = useState<string>('');
   const findNameByValue = useCallback(
-    (value: string, options: { id: string | number; name: string; [key: string]: any }[]): string => {
+    (value: string, options: { value: string | number; name: string; [key: string]: any }[]): string => {
       if (value !== '') {
         const i = options.findIndex((option) => {
-          if (option.id.toString() == value) {
+          if (option.value.toString() == value) {
             return option;
           }
         });
@@ -88,21 +88,21 @@ const SelectAutoSuggetForm = (props: Props) => {
                   <>
                     {listValueSugget.length > 0 ? (
                       <>
-                        {listValueSugget.map((a, i) => {
+                        {listValueSugget.map((option, i) => {
                           return (
                             <div
                               onClick={() => {
                                 setOpen(false);
-                                if (props.value !== a.id) {
+                                if (props.value !== option.value) {
                                   const ob: { [key: string]: any } = {};
-                                  ob[props.key_name] = a.id;
+                                  ob[props.key_name] = option.value;
                                   props.changeData(ob);
                                 }
                               }}
                               key={i}
                               className="select-form-option"
                             >
-                              <p className="select-form-option-value">{a.name}</p>
+                              <p className="select-form-option-value">{option.name}</p>
                             </div>
                           );
                         })}

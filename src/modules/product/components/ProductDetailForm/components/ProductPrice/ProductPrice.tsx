@@ -4,6 +4,7 @@ import InputWithUnit from '../InputWithUnit/InputWithUnit';
 import './ProductPrice.scss';
 import InputField from 'modules/common/components/InputField/InputField';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { PRODUCT_SALE_PRICE_TYPE_OPTIONS } from 'modules/product/constants';
 interface Props {
   price: string;
   sale_price: string;
@@ -58,16 +59,7 @@ const ProductPrice = (props: Props) => {
                       props.onChange(a);
                     }}
                     value={props.sale_price_type}
-                    options={[
-                      {
-                        id: '$',
-                        name: '$',
-                      },
-                      {
-                        id: '%',
-                        name: '%',
-                      },
-                    ]}
+                    options={PRODUCT_SALE_PRICE_TYPE_OPTIONS}
                   />
                 </div>
                 <div className="sale-input-value">

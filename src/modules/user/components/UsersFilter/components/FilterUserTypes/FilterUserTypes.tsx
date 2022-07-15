@@ -14,18 +14,24 @@ interface Props {
 
 const FilterUserTypes = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [usersType, setUserType] = useState<{ name: string; options: { id: string; name: string }[] }[]>([]);
+  const [usersType, setUserType] = useState<{ name: string; options: { value: string; name: string }[] }[]>([]);
   const getAllCommonRole = async () => {
     try {
       const res = await dispatch(fetchThunk(API_PATHS.getCommonRole));
       setUserType([
         {
           name: 'Memberships',
-          options: res.data.administrator,
+          options: res.data.administrator.map((c: { id: string; name: string; [key: string]: any }) => ({
+            value: c.id,
+            name: c.name,
+          })),
         },
         {
           name: 'Spending Membership',
-          options: res.data.customer,
+          options: res.data.customer.map((c: { id: string; name: string; [key: string]: any }) => ({
+            value: c.id,
+            name: c.name,
+          })),
         },
       ]);
     } catch (error) {

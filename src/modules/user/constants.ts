@@ -1,43 +1,43 @@
 export const USER_STATUS_OPTIONS = [
   {
     name: 'Any status',
-    id: 'All',
+    value: 'All',
   },
   {
     name: 'Enable',
-    id: 'E',
+    value: 'E',
   },
   {
     name: 'Disable',
-    id: 'D',
+    value: 'D',
   },
   {
     name: 'Unapproved vendor',
-    id: 'U',
+    value: 'U',
   },
 ];
 
 export const USER_TYPES = [
   {
-    id: 'individual',
-    name: 'Individual',
+    value: 'indivvalueual',
+    name: 'Indivvalueual',
   },
   {
-    id: 'business',
+    value: 'business',
     name: 'Business',
   },
 ];
 
 export const USER_ACCESS_LEVEL_OPTIONS = [
-  { id: '10', name: 'Vendor' },
+  { value: '10', name: 'Vendor' },
   {
-    id: '100',
+    value: '100',
     name: 'Administrator',
   },
 ];
 export const USER_MEMBERSHIPS_CREATE_OPTIONS = [
-  { id: '4', name: 'General' },
-  { id: '', name: 'Ignore Membersghip' },
+  { value: '4', name: 'General' },
+  { value: '', name: 'Ignore Membersghip' },
 ];
 
 export const USER_FILTER_MEMBERSHIPS_OPTIONS = [
@@ -45,7 +45,7 @@ export const USER_FILTER_MEMBERSHIPS_OPTIONS = [
     name: 'Memberships',
     options: [
       {
-        id: 'M_4',
+        value: 'M_4',
         name: 'General',
       },
     ],
@@ -54,7 +54,7 @@ export const USER_FILTER_MEMBERSHIPS_OPTIONS = [
     name: 'Spending Memberships',
     options: [
       {
-        id: 'P_4',
+        value: 'P_4',
         name: 'General',
       },
     ],
@@ -62,7 +62,7 @@ export const USER_FILTER_MEMBERSHIPS_OPTIONS = [
 ];
 
 export const USER_ACCOUNT_STATUS_OPTIONS = [
-  { id: 'E', name: 'Enabled' },
-  { id: 'D', name: 'Disabled' },
-  { id: 'U', name: 'Unappoveed Vendor' },
+  { value: 'E', name: 'Enabled' },
+  { value: 'D', name: 'Disabled' },
+  { value: 'U', name: 'Unappoveed Vendor' },
 ];

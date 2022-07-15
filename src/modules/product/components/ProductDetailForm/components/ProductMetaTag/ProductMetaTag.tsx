@@ -1,4 +1,5 @@
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { PRODUCT_METATAG_OPTIONS } from 'modules/product/constants';
 import React from 'react';
 import InputKey from '../ProductInputRow/ProductInputRow';
 
@@ -23,16 +24,7 @@ const MetaTag = (props: Props) => {
               props.onChange(a);
             }}
             key_name="og_tags_type"
-            options={[
-              {
-                id: '0',
-                name: 'Autogenerate',
-              },
-              {
-                id: '1',
-                name: 'Custom',
-              },
-            ]}
+            options={PRODUCT_METATAG_OPTIONS}
           />
         </div>
       </div>

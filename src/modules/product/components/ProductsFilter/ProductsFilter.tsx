@@ -69,10 +69,13 @@ const ProductFilter = (props: Props) => {
           <SelectForm
             options={[
               {
-                id: '0',
+                value: '0',
                 name: 'Any category',
               },
-              ...categories,
+              ...categories.map((a) => ({
+                value: a.id,
+                name: a.name,
+              })),
             ]}
             key_name="category"
             onChange={handleChangeFilter}

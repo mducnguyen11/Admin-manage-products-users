@@ -55,9 +55,9 @@ const ProductMemberships = (props: Props) => {
                 >
                   {props.value != undefined ? (
                     props.value.findIndex((a) => a.membership_id == '4') == -1 ? (
-                      <i className="select-form-item-check-icon bx bx-check-square"></i>
+                      <i className="select-form-option-check-icon bx bx-check-square"></i>
                     ) : (
-                      <i className="select-form-item-check-icon bx bxs-check-square"></i>
+                      <i className="select-form-option-check-icon bx bxs-check-square"></i>
                     )
                   ) : null}
                   <p className="select-form-option-value">General</p>

@@ -21,7 +21,14 @@ const ProductVendor = (props: Props) => {
         <div className="product-detail-row-input-container">
           <SearchSuggetForm
             key_name="vendor_id"
-            options={vendorList}
+            options={[
+              ...vendorList.map((a) => {
+                return {
+                  value: a.id,
+                  name: a.name,
+                };
+              }),
+            ]}
             error={props.errorMessage}
             value={props.value}
             changeData={props.onChange}

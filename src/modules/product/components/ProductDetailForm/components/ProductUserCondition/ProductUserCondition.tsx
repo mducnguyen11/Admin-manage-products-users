@@ -20,7 +20,7 @@ const ProductUserCondition = (props: Props) => {
           onChange={props.changeData}
           options={[
             {
-              id: ' ',
+              value: ' ',
               name: ' ',
             },
           ]}

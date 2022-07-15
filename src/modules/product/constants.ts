@@ -1,54 +1,66 @@
 export const PRODUCT_AVAILABILITY_STATUS = [
   {
-    id: 'all',
+    value: 'all',
     name: 'Any Availability',
   },
   {
-    id: '1',
+    value: '1',
     name: 'Only Enabled',
   },
   {
-    id: '0',
+    value: '0',
     name: 'Only disabled',
   },
 ];
 
 export const PRODUCT_STOCK_STATUS = [
   {
-    id: 'all',
+    value: 'all',
     name: 'Any stock status',
   },
   {
-    id: 'in',
+    value: 'in',
     name: 'In stock',
   },
   {
-    id: 'low',
+    value: 'low',
     name: 'Low stock',
   },
   {
-    id: 'out',
+    value: 'out',
     name: 'SOLD',
   },
 ];
 
-export const PRODUCT_MEMBERSHIPS_OPTIONS = [
+export const PRODUCT_METADESCTYPES_OPTIONS = [
   {
-    name: 'Memberships',
-    options: [
-      {
-        id: 'M_4',
-        name: 'General',
-      },
-    ],
+    value: 'A',
+    name: 'Autogenerate',
   },
   {
-    name: 'Spending Memberships',
-    options: [
-      {
-        id: 'P_4',
-        name: 'General',
-      },
-    ],
+    value: 'C',
+    name: 'Custom',
+  },
+];
+
+export const PRODUCT_METATAG_OPTIONS = [
+  {
+    value: '0',
+    name: 'Autogenerate',
+  },
+  {
+    value: '1',
+    name: 'Custom',
+  },
+];
+
+export const PRODUCT_SALE_PRICE_TYPE_OPTIONS = [
+  {
+    value: '$',
+    name: '$',
+  },
+  {
+    value: '%',
+    name: '%',
   },
 ];

@@ -40,7 +40,7 @@ const ProductCondition = (props: Props) => {
             onChange={handleChange}
             options={[
               {
-                id: '0',
+                value: '0',
                 name: 'Used',
               },
             ]}

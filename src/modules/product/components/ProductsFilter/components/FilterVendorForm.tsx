@@ -43,7 +43,12 @@ const FilterVendorForm = (props: Props) => {
     <>
       <SelectAsyncDebounce
         loading={loading}
-        options={list}
+        options={[
+          ...list.map((a) => ({
+            value: a.id,
+            name: a.name,
+          })),
+        ]}
         value={props.value}
         onChange={props.onChange}
         name="vendor"

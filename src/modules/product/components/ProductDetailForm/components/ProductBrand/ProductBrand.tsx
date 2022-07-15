@@ -18,13 +18,24 @@ const ProductBrand = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<''>>>();
   const [listBrands, setListBrand] = useState<
     {
-      id: string;
+      value: string;
       name: string;
     }[]
   >([]);
   const getBrandsList = useCallback(async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.getBrandsList, 'post'));
-    setListBrand(res.data);
+    try {
+      const res = await dispatch(fetchThunk(API_PATHS.getBrandsList, 'post'));
+      setListBrand(
+        res.data.map((a: { id: string; name: string; [key: string]: any }) => {
+          return {
+            value: a.id,
+            name: a.name,
+          };
+        }),
+      );
+    } catch (error) {
+      setListBrand([]);
+    }
   }, []);
 
   const handleChange = (a: { brand_id: string }) => {

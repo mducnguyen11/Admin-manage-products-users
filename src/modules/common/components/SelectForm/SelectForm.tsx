@@ -6,7 +6,7 @@ interface Props {
   onChange: Function;
   key_name?: string;
   className?: string;
-  options: { id: string; name: string; [key: string]: any }[];
+  options: { value: string; name: string; [key: string]: any }[];
   helperText?: string;
   error?: string;
 }
@@ -17,7 +17,7 @@ const SelectForm = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState('');
   useEffect(() => {
-    const i = props.options.findIndex((a) => a.id == props.value);
+    const i = props.options.findIndex((a) => a.value == props.value);
     if (i == -1) {
       setText('');
     } else {
@@ -44,26 +44,26 @@ const SelectForm = (props: Props) => {
       {open ? (
         <>
           <div className="select-form-list-options">
-            {props.options.map((a, i) => {
+            {props.options.map((option, i) => {
               return (
                 <div key={i} className="select-form-option">
                   <p
                     onClick={() => {
                       setOpen(!open);
-                      if (props.value !== a.id) {
+                      if (props.value !== option.value) {
                         if (props.key_name) {
                           const xx: obj = {};
-                          xx[props.key_name] = a.id;
+                          xx[props.key_name] = option.value;
                           props.onChange(xx);
                         } else {
-                          props.onChange(a.id);
+                          props.onChange(option.value);
                         }
                       }
                     }}
                     className="select-form-option-value"
                   >
                     {' '}
-                    {a.name}{' '}
+                    {option.name}{' '}
                   </p>
                 </div>
               );

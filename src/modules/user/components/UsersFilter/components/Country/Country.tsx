@@ -17,10 +17,10 @@ const Country = (props: Props) => {
       value={props.value}
       onChange={props.onChange}
       options={[
-        { id: '', name: 'Select Country' },
+        { value: '', name: 'Select Country' },
         ...listCountry.map((item) => {
           return {
-            id: item.code,
+            value: item.code,
             name: item.country,
           };
         }),

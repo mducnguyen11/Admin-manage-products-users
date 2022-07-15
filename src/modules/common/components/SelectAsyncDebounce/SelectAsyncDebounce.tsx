@@ -6,7 +6,7 @@ interface Props {
   onChange: Function;
   errorMessage?: string;
   name: string;
-  options: { id: string; name: string; [key: string]: any }[];
+  options: { value: string; name: string; [key: string]: any }[];
   loading?: boolean;
 }
 
@@ -48,22 +48,22 @@ const SelectAsyncDebounce = (props: Props) => {
             <>
               {open && props.options.length > 0 ? (
                 <>
-                  {props.options.map((a, i) => {
+                  {props.options.map((option, i) => {
                     return (
                       <div
                         onClick={() => {
                           setOpen(false);
-                          setValueName(a.name);
-                          if (props.value !== a.id) {
+                          setValueName(option.name);
+                          if (props.value !== option.value) {
                             const objectValue: { [key: string]: any } = {};
-                            objectValue[props.name] = a.id;
+                            objectValue[props.name] = option.value;
                             props.onChange(objectValue);
                           }
                         }}
                         key={i}
                         className="select-form-option"
                       >
-                        <p className="select-form-option-value">{a.name}</p>
+                        <p className="select-form-option-value">{option.name}</p>
                       </div>
                     );
                   })}

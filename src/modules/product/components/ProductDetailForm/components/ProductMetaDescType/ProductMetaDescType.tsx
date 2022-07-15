@@ -1,4 +1,5 @@
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { PRODUCT_METADESCTYPES_OPTIONS } from 'modules/product/constants';
 import React, { memo } from 'react';
 import InputKey from '../ProductInputRow/ProductInputRow';
 
@@ -23,16 +24,7 @@ const ProductMetaDescType = (props: Props) => {
               props.onChange(a);
             }}
             key_name="meta_desc_type"
-            options={[
-              {
-                id: 'A',
-                name: 'Autogenerate',
-              },
-              {
-                id: 'C',
-                name: 'Custom',
-              },
-            ]}
+            options={PRODUCT_METADESCTYPES_OPTIONS}
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 interface Props {
   fieldName: string;
   value: string | React.ReactNode;
-  options?: { id: string; name: string; [key: string]: any }[];
+  options?: { value: string; name: string; [key: string]: any }[];
 }
 
 const UserRowItem = (props: Props) => {

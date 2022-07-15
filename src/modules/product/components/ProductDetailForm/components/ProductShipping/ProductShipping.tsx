@@ -63,12 +63,12 @@ const ProductShipping = (props: Props) => {
       shipping: ll,
     });
   };
-  const filterCountry = (): { id: string; name: string }[] => {
-    const xx: { id: string; name: string }[] = [];
+  const filterCountry = (): { value: string; name: string }[] => {
+    const xx: { value: string; name: string }[] = [];
     listCountry.map((a) => {
       if (continentalList.findIndex((b) => b.id == a.id) == -1) {
         xx.push({
-          id: a.id,
+          value: a.id,
           name: a.country,
         });
       }
@@ -124,7 +124,7 @@ const ProductShipping = (props: Props) => {
               value={countrySelect}
               options={[
                 {
-                  id: '0',
+                  value: '0',
                   name: 'Select new country',
                 },
                 ...filterCountry(),
