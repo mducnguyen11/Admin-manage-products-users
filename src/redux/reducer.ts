@@ -5,10 +5,10 @@ import authReducer, { AuthState } from '../modules/auth/redux/authReducer';
 import intlReducer, { IntlState } from '../modules/intl/redux/intlReducer';
 import photoReducer, { PhotoState } from '../modules/photo/redux/photoReducer';
 import transactionsReducer, { TransactionsState } from 'modules/manageTransactions/redux/transactions';
-import loadingReducer, { AdminLoadingState } from '../modules/admin/redux/loadingReducer';
-import countryReducer, { CountryState } from 'modules/admin/redux/countryReducer';
-import categoriesReducer, { CategoriesState } from 'modules/admin/redux/categoriesReducer';
-import vendorsReducer, { VendorsState } from 'modules/admin/redux/vendorReducer';
+import loadingReducer, { AdminLoadingState } from 'modules/common/redux/loadingReducer';
+import countryReducer, { CountryState } from 'modules/common/redux/countryReducer';
+import categoriesReducer, { CategoriesState } from 'modules/common/redux/categoriesReducer';
+import vendorsReducer, { VendorsState } from 'modules/common/redux/vendorReducer';
 
 export interface AppState {
   router: RouterState;

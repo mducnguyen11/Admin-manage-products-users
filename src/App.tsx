@@ -10,9 +10,9 @@ import { Action } from 'redux';
 import { fetchThunk } from './modules/common/redux/thunk';
 import { API_PATHS } from './configs/api';
 import { setUserInfo } from './modules/auth/redux/authReducer';
-import { setCountry } from 'modules/admin/redux/countryReducer';
-import { setCategories } from 'modules/admin/redux/categoriesReducer';
-import { setVendors } from 'modules/admin/redux/vendorReducer';
+import { setCountry } from 'modules/common/redux/countryReducer';
+import { setCategories } from 'modules/common/redux/categoriesReducer';
+import { setVendors } from 'modules/common/redux/vendorReducer';
 
 function App() {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -41,9 +41,9 @@ function App() {
     }
   }, [dispatch]);
   const getVendorList = React.useCallback(async () => {
-    const xx = await dispatch(fetchThunk(API_PATHS.getVendorsList));
-    if (xx.data && xx.success) {
-      dispatch(setVendors(xx.data));
+    const res = await dispatch(fetchThunk(API_PATHS.getVendorsList));
+    if (res.data && res.success) {
+      dispatch(setVendors(res.data));
     }
   }, [dispatch]);
 
