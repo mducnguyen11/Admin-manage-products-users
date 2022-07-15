@@ -3,7 +3,7 @@ import Sidebar from 'modules/common/components/Sidebar/Sidebar';
 import Header from 'modules/common/components/Header/Header';
 import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
-import './admin-layout.scss';
+import './AdminLayout.scss';
 interface Props {
   children: React.ReactNode;
 }

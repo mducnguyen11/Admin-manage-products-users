@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
 import InputField from 'modules/common/components/InputField/InputField';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
-import { AVAILABILITY_STATUS, STOCK_STATUS } from 'utils/options';
+import { PRODUCT_AVAILABILITY_STATUS, PRODUCT_STOCK_STATUS } from 'modules/product/constants';
 import Button from 'modules/common/components/Button/Button';
 import FilterVendorForm from './components/FilterVendorForm';
 
@@ -81,7 +81,7 @@ const ProductFilter = (props: Props) => {
         </div>
         <div className="filter-main-field">
           <SelectForm
-            options={STOCK_STATUS}
+            options={PRODUCT_STOCK_STATUS}
             key_name="stock_status"
             onChange={handleChangeFilter}
             value={filter.stock_status}
@@ -150,7 +150,7 @@ const ProductFilter = (props: Props) => {
               <label>Availability</label>
               <div className="filter-field-input">
                 <SelectForm
-                  options={AVAILABILITY_STATUS}
+                  options={PRODUCT_AVAILABILITY_STATUS}
                   key_name="availability"
                   onChange={handleChangeFilter}
                   value={filter.availability}

@@ -1,7 +1,7 @@
 import { IUserDataField } from 'models/admin/user';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { USER_ACCOUNT_STATUS_OPTIONS } from 'modules/user/constants';
 import React from 'react';
-import { USER_ACCOUNT_STATUS_OPTIONS } from 'utils/options';
 
 interface Props {
   value: string;

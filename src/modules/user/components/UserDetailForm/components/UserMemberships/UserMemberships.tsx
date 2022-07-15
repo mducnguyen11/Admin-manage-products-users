@@ -1,8 +1,8 @@
 import { IUserDataField } from 'models/admin/user';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { USER_MEMBERSHIPS_CREATE_OPTIONS } from 'modules/user/constants';
 
 import React from 'react';
-import { USER_MEMBERSHIPS_OPTIONS } from 'utils/options';
 
 interface Props {
   value: string;
@@ -16,7 +16,7 @@ const UserMemberships = (props: Props) => {
       <div className="user-detail-row-value">
         <SelectForm
           value={props.value || ''}
-          options={USER_MEMBERSHIPS_OPTIONS}
+          options={USER_MEMBERSHIPS_CREATE_OPTIONS}
           onChange={props.onChange}
           key_name="membership_id"
         />

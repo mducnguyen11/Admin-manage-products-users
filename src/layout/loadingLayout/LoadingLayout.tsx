@@ -1,6 +1,5 @@
 import React from 'react';
-
-import './loading-layout.scss';
+import './LoadingLayout.scss';
 import Circular from './components/Circular';
 interface Props {
   children?: React.ReactNode;

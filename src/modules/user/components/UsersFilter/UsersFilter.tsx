@@ -6,10 +6,10 @@ import FilterUserTypes from './components/FilterUserTypes/FilterUserTypes';
 import FilterDateRange from './components/DateRange/DateRange';
 import InputField from 'modules/common/components/InputField/InputField';
 import CheckmarksGroup from 'modules/common/components/CheckmarksGroup/CheckmarksGroup';
-import { MEMBERSHIPS_OPTIONS, USER_STATUS_OPTIONS } from 'utils/options';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import Button from 'modules/common/components/Button/Button';
 import RadioInput from 'modules/common/components/RadioInput/RadioInput';
+import { USER_FILTER_MEMBERSHIPS_OPTIONS, USER_STATUS_OPTIONS } from 'modules/user/constants';
 
 interface Props {
   filter: IFilterUser;
@@ -49,7 +49,7 @@ const UserFilter = (props: Props) => {
           <CheckmarksGroup
             placeholder="All membership"
             key_name="memberships"
-            options={MEMBERSHIPS_OPTIONS}
+            options={USER_FILTER_MEMBERSHIPS_OPTIONS}
             value={filter.memberships}
             onChange={handleChangeFilter}
           />

@@ -1,5 +1,5 @@
+import { AuthToken, IUser } from 'models/user';
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
-import { AuthToken, IUser } from '../../../models/user';
 
 export interface AuthState {
   auth?: AuthToken;

@@ -12,7 +12,7 @@ import UserComment from './components/UserComment/UserComment';
 import UserMemberships from './components/UserMemberships/UserMemberships';
 import UserRequireChangePassword from './components/UserRequireChangePassword/UserRequireChangePassword';
 import { validateUserData } from 'modules/user/utils';
-import { ACCESS_LEVEL_OPTIONS } from 'utils/options';
+import { USER_ACCESS_LEVEL_OPTIONS } from 'modules/user/constants';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import Button from 'modules/common/components/Button/Button';
 import { formatTimeStampToDateString } from 'utils/formatTime';
@@ -140,7 +140,7 @@ const UserDetailForm = (props: Props) => {
           </div>
           <div className="user-detail-section">
             {user.joined ? (
-              <UserRowText fieldName="Access level" value={user.access_level} options={ACCESS_LEVEL_OPTIONS} />
+              <UserRowText fieldName="Access level" value={user.access_level} options={USER_ACCESS_LEVEL_OPTIONS} />
             ) : (
               <>
                 <div className="user-detail-row-item">
@@ -151,7 +151,7 @@ const UserDetailForm = (props: Props) => {
                         onChange={handleChangeUser}
                         key_name="access_level"
                         value={user.access_level}
-                        options={ACCESS_LEVEL_OPTIONS}
+                        options={USER_ACCESS_LEVEL_OPTIONS}
                       />
                     </>
                   </div>

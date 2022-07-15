@@ -1,7 +1,7 @@
 import { IUserDataField } from 'models/admin/user';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { USER_TYPES } from 'modules/user/constants';
 import React from 'react';
-import { USER_TYPES } from 'utils/options';
 
 interface Props {
   joined?: string;
