@@ -1,31 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { FormattedMessage } from 'react-intl';
 
 import './ImagesForm.scss';
 interface Props {
-  listImagesCurrent: {
-    id: string;
-    file: string;
-    thumbs: string[];
-  }[];
-  changeImagesUpload: Function;
-  listImgUpload: {
-    image: string;
-    file: any;
-  }[];
-  changeListImagesCurrent: Function;
-  deleted_images: number[];
+  listImages: string[];
+  handleRemoveImages: Function;
+  handleUploadImages: Function;
   error?: string;
+  handleDrag: Function;
 }
 const not_available_img_url = 'https://admin.gearfocus.div4.pgtest.co/assets/images/no-image-icon.png';
 
 const ImageForm = (props: Props) => {
-  const handleRemoveImgCurrent = (id: string) => {
-    props.changeListImagesCurrent({
-      images: props.listImagesCurrent.filter((a) => a.id !== id),
-      deleted_images: [...props.deleted_images, Number(id)],
-    });
-  };
   const handleUploadImage = async (e: any) => {
     const listImagesUploaded: any[] = [];
     try {
@@ -36,53 +23,77 @@ const ImageForm = (props: Props) => {
           file: files[i],
         });
       }
-      props.changeImagesUpload([...props.listImgUpload, ...listImagesUploaded]);
+      props.handleUploadImages([...listImagesUploaded]);
     } catch (error) {
       console.log('fail image');
     }
   };
-  const handleRemoveImgupload = (imageName: string) => {
-    props.changeImagesUpload(props.listImgUpload.filter((b) => b.image !== imageName));
-  };
+  console.log('redner L: ', props.listImages);
+  function handleOnDragEnd(result: any) {
+    console.log(result);
+    props.handleDrag(result);
+  }
   return (
     <div className="images-form">
-      <div className="images-form-list">
-        {props.listImagesCurrent.map((a, i) => {
+      <div style={{ width: '430px' }} className="images-form-list">
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="product_images" direction="horizontal">
+            {(provided) => (
+              <div
+                style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '20px' }}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {props.listImages.map((a: string, index) => {
+                  return (
+                    <Draggable key={a} draggableId={a} index={index}>
+                      {(provided) => (
+                        <div
+                          className="image-item"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <img src={a} onError={(e) => (e.currentTarget.src = not_available_img_url)} />
+                          <i
+                            onClick={() => {
+                              props.handleRemoveImages(a);
+                            }}
+                            className="image-item-remove-icon bx bx-x"
+                          ></i>
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+                <div className="image-item images-form-add">
+                  <i className="bx bxs-camera"></i>
+                  <input
+                    accept=".jpg,.jpeg,.gif,.png"
+                    onChange={handleUploadImage}
+                    className="images-form-add-input"
+                    type="file"
+                    multiple
+                  />
+                </div>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {/* {props.listImages.map((a, i) => {
           return (
             <div key={i} className="image-item">
-              <img src={a.file} onError={(e) => (e.currentTarget.src = not_available_img_url)} />
+              <img src={a} onError={(e) => (e.currentTarget.src = not_available_img_url)} />
               <i
                 onClick={() => {
-                  handleRemoveImgCurrent(a.id);
+                  props.handleRemoveImages(a);
                 }}
                 className="image-item-remove-icon bx bx-x"
               ></i>
             </div>
           );
-        })}
-        {props.listImgUpload.map((a: { image: string; file: any }, i) => {
-          return (
-            <div key={i} className="image-item">
-              <img src={a.image} onError={(e) => (e.currentTarget.src = not_available_img_url)} />
-              <i
-                onClick={() => {
-                  handleRemoveImgupload(a.image);
-                }}
-                className="image-item-remove-icon bx bx-x"
-              ></i>
-            </div>
-          );
-        })}
-        <div className="image-item images-form-add">
-          <i className="bx bxs-camera"></i>
-          <input
-            accept=".jpg,.jpeg,.gif,.png"
-            onChange={handleUploadImage}
-            className="images-form-add-input"
-            type="file"
-            multiple
-          />
-        </div>
+        })} */}
       </div>
       {props.error ? (
         <div className="images-form-error-message">

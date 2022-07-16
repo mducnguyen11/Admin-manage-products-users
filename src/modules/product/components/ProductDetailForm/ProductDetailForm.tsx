@@ -45,20 +45,22 @@ interface ErrorData {
   shipping?: string;
 }
 const ProductDetailForm = (props: Props) => {
-  const [productdetail, setProductdetail] = useState<IProductDetailData>(props.product);
-  const [listImgUpload, setListImgUpload] = useState<
-    {
-      image: string;
-      file: any;
-    }[]
-  >([]);
+  const [productdetail, setProductdetail] = useState<IProductDetailData>({
+    ...props.product,
+    imagesOrder: props.product.images.map((a) => ({ image: a.file })),
+  });
+  useEffect(() => {
+    setProductdetail({
+      ...props.product,
+      imagesOrder: props.product.images.map((a) => ({ image: a.file })),
+    });
+  }, [props.product]);
   const [errors, setErrors] = useState<ErrorData>({});
   const handleValidate = (productDataFieldChange: IProductDetailDataField, listFieldRequired: string[]) => {
     const validateResult: { validate: boolean; errors: { [key: string]: string } } = validateProductDataField(
       productDataFieldChange,
       listFieldRequired,
     );
-
     if (!validateResult.validate) {
       setErrors({
         ...errors,
@@ -75,6 +77,7 @@ const ProductDetailForm = (props: Props) => {
     }
   };
   const handleChangeProduct = (productDataFieldChange: IProductDetailDataField) => {
+    console.log('change :', productDataFieldChange);
     handleValidate(productDataFieldChange, props.listFieldRequired);
     setProductdetail({
       ...productdetail,
@@ -84,36 +87,22 @@ const ProductDetailForm = (props: Props) => {
   const handleSaveProduct = async () => {
     const validateResult = validateProductDataField(productdetail, props.listFieldRequired);
     if (validateResult.validate) {
-      props.onSave(productdetail, [...listImgUpload]);
-      setListImgUpload([]);
+      const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
+        const v: { image: string; file: any }[] = [];
+        array.forEach((c) => {
+          if (c.file !== undefined) {
+            const x: { image: string; file: any } = { ...c, file: c.file };
+            v.push(x);
+          }
+        });
+        return v;
+      };
+      props.onSave(productdetail, getListFiles(productdetail.imagesOrder || []));
     } else {
       setErrors(validateResult.errors);
     }
   };
 
-  useEffect(() => {
-    setProductdetail(props.product);
-  }, [props.product]);
-
-  const handleChangeImagesUpload = (
-    newListImagesUpload: {
-      image: string;
-      file: {
-        name: string;
-        [key: string]: any;
-      };
-    }[],
-  ) => {
-    handleValidate(
-      { images: productdetail.images, imagesOrder: [...newListImagesUpload.map((image): string => image.file.name)] },
-      props.listFieldRequired,
-    );
-    setListImgUpload([...newListImagesUpload]);
-    setProductdetail({
-      ...productdetail,
-      imagesOrder: [...newListImagesUpload.map((image): string => image.file.name)],
-    });
-  };
   return (
     <div className="product-detail">
       <div className="product-basic-detail">
@@ -129,12 +118,11 @@ const ProductDetailForm = (props: Props) => {
         <ProductCondition value={productdetail?.inventory_tracking} onChange={handleChangeProduct} />
         <ProductInputRow text="SKU" value={productdetail?.sku} onChange={handleChangeProduct} key_name="sku" />
         <ProductImages
+          listImagesOrder={[...(productdetail.imagesOrder || [])]}
           deleted_images={productdetail?.deleted_images !== undefined ? productdetail.deleted_images : []}
           onChange={handleChangeProduct}
           errorMessage={errors.images}
           listImagesCurrent={productdetail?.images || []}
-          listImgUpload={listImgUpload}
-          changeImagesUpload={handleChangeImagesUpload}
         />
         <ProductCategory
           errorMessage={errors.categories}

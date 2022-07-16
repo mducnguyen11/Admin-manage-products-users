@@ -35,7 +35,14 @@ export const formatProductDataToPayload = (a: IProductDetailData): IProductDataP
   xx.product_page_title = a.product_page_title;
   xx.facebook_marketing_enabled = Number(a.facebook_marketing_enabled);
   xx.google_feed_enabled = Number(a.google_feed_enabled);
-  xx.imagesOrder = a.imagesOrder || [];
+  xx.imagesOrder =
+    a.imagesOrder?.map((a) => {
+      if (a.file) {
+        return a.file.name;
+      } else {
+        return a.image;
+      }
+    }) || [];
   xx.id = a.id;
   xx.deleted_images = a.deleted_images || [];
   return xx;
@@ -66,6 +73,7 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
       }
     }
     if (key == 'images') {
+      console.log(a.imagesOrder);
       if (a.images && a.images.length == 0) {
         if (a.imagesOrder && a.imagesOrder.length > 0) {
           delete error.images;

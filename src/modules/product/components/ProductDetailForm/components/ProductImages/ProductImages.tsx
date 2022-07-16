@@ -7,36 +7,76 @@ interface Props {
     file: string;
     thumbs: string[];
   }[];
-  listImgUpload: {
-    image: string;
-    file: any;
-  }[];
-  changeImagesUpload: Function;
   errorMessage?: string;
   onChange: Function;
   deleted_images: number[];
+  listImagesOrder: { image: string; file?: any }[];
 }
 
 const ProductImages = (props: Props) => {
-  const handleChangeListImagesCurrent = (a: {
-    images: {
-      id: string;
-      file: string;
-      thumbs: string[];
-    }[];
-    deleted_images: number[];
-  }) => {
-    props.onChange(a);
+  const handleRemoveImage = (fileName: string) => {
+    const i = props.listImagesCurrent.findIndex((b) => b.file == fileName);
+    if (i > -1) {
+      props.onChange({
+        images: props.listImagesCurrent.filter((a) => a.file !== props.listImagesCurrent[i].file),
+        deleted_images: [...props.deleted_images, Number(props.listImagesCurrent[i].id)],
+        imagesOrder: props.listImagesOrder.filter((a) => a.image !== fileName),
+      });
+    } else {
+      props.onChange({
+        imagesOrder: props.listImagesOrder.filter((a) => a.image !== fileName),
+      });
+    }
   };
-  const handleChangeListImagesUpload = (
-    a: {
-      image: string;
-      file: any;
-    }[],
-  ) => {
-    props.changeImagesUpload(a);
+  const handleUploadImages = (array: { image: string; file: any }[]) => {
+    props.onChange({
+      images: props.listImagesCurrent,
+      imagesOrder: [...props.listImagesOrder, ...array],
+    });
   };
+  const getlistImagesToShow = () => {
+    console.log('images order :', props.listImagesOrder);
+    return [...props.listImagesOrder.map((a) => a.image)];
+  };
+  const handleArrangeImages = (result: any) => {
+    if (result.destination) {
+      const imgae = result.draggableId;
+      const sourceIndex = result.source.index;
+      const newIndex = result.destination.index;
+      const tt: { image: string; file?: any }[] = [];
+      const ar = [...props.listImagesOrder];
 
+      if (sourceIndex > newIndex) {
+        for (let i = 0; i < newIndex; i++) {
+          tt[i] = ar[i];
+        }
+        console.log('vc , ', tt);
+        tt[newIndex] = ar[sourceIndex];
+        for (let i = newIndex + 1; i <= sourceIndex; i++) {
+          tt[i] = ar[i - 1];
+        }
+        for (let i = sourceIndex + 1; i < ar.length; i++) {
+          tt[i] = ar[i];
+        }
+      } else {
+        for (let i = 0; i < sourceIndex; i++) {
+          tt[i] = ar[i];
+        }
+        for (let i = sourceIndex; i < newIndex; i++) {
+          tt[i] = ar[i + 1];
+        }
+        tt[newIndex] = ar[sourceIndex];
+        for (let i = newIndex + 1; i < props.listImagesOrder.length; i++) {
+          tt[i] = ar[i];
+        }
+      }
+      console.log('Tt :', tt);
+      props.onChange({
+        images: props.listImagesCurrent,
+        imagesOrder: [...tt],
+      });
+    }
+  };
   return (
     <div className=" product-detail-row product-detail-images">
       <div className="product-detail-row-name">
@@ -44,12 +84,11 @@ const ProductImages = (props: Props) => {
       </div>
       <div className=" product-detail-row-input product-detail-vendor-input">
         <ImageForm
+          handleDrag={handleArrangeImages}
           error={props.errorMessage}
-          deleted_images={props.deleted_images}
-          changeListImagesCurrent={handleChangeListImagesCurrent}
-          listImgUpload={props.listImgUpload}
-          changeImagesUpload={handleChangeListImagesUpload}
-          listImagesCurrent={props.listImagesCurrent}
+          listImages={getlistImagesToShow()}
+          handleRemoveImages={handleRemoveImage}
+          handleUploadImages={handleUploadImages}
         />
       </div>
     </div>

@@ -6,6 +6,7 @@ import FallbackLoading from 'modules/common/components/FallbackLoading/FallbackL
 import ProtectedRoute from 'modules/common/components/ProtectedRoute';
 import LoadingLayout from 'layout/loadingLayout/LoadingLayout';
 import AdminLayout from 'layout/adminLayout/AdminLayout';
+import Test from './Test';
 
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage/LoginPage'));
 
@@ -23,9 +24,11 @@ export const Routes = (props: Props) => {
     <Suspense fallback={<FallbackLoading />}>
       <Switch location={location}>
         <CheckUserRoute path={ROUTES.login} component={LoginPage} />
+
         <LoadingLayout>
           <AdminLayout>
             <Suspense fallback={<></>}>
+              <ProtectedRoute exact path="/testvl" component={Test} />
               <ProtectedRoute exact path="/pages/products/product-detail/:id" component={ProductDetail} />
               <ProtectedRoute exact path="/pages/products/new-product" component={NewProductPage} />
               <ProtectedRoute exact path="/pages/products/manage-product" component={ManageProducts} />

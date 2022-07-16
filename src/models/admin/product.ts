@@ -87,7 +87,7 @@ export interface IProductDetailData {
   vendor_id: string;
   weight: string;
   deleted_images?: number[];
-  imagesOrder?: string[];
+  imagesOrder?: { image: string; file?: any }[];
   [key: string]: any;
 }
 
@@ -125,7 +125,7 @@ export interface IProductDetailDataField {
   vendor_id?: string;
   weight?: string;
   deleted_images?: number[];
-  imagesOrder?: string[];
+  imagesOrder?: { image: string; file?: any }[];
 }
 
 export interface IProductDataPayload {
