@@ -35,47 +35,39 @@ const ProductImages = (props: Props) => {
     });
   };
   const getlistImagesToShow = () => {
-    console.log('images order :', props.listImagesOrder);
     return [...props.listImagesOrder.map((a) => a.image)];
   };
-  const handleArrangeImages = (result: any) => {
-    if (result.destination) {
-      const imgae = result.draggableId;
-      const sourceIndex = result.source.index;
-      const newIndex = result.destination.index;
-      const tt: { image: string; file?: any }[] = [];
-      const ar = [...props.listImagesOrder];
-
-      if (sourceIndex > newIndex) {
-        for (let i = 0; i < newIndex; i++) {
-          tt[i] = ar[i];
-        }
-        console.log('vc , ', tt);
-        tt[newIndex] = ar[sourceIndex];
-        for (let i = newIndex + 1; i <= sourceIndex; i++) {
-          tt[i] = ar[i - 1];
-        }
-        for (let i = sourceIndex + 1; i < ar.length; i++) {
-          tt[i] = ar[i];
-        }
-      } else {
-        for (let i = 0; i < sourceIndex; i++) {
-          tt[i] = ar[i];
-        }
-        for (let i = sourceIndex; i < newIndex; i++) {
-          tt[i] = ar[i + 1];
-        }
-        tt[newIndex] = ar[sourceIndex];
-        for (let i = newIndex + 1; i < props.listImagesOrder.length; i++) {
-          tt[i] = ar[i];
-        }
+  const handleArrangeImages = (sourceIndex: number, newIndex: number) => {
+    const tt: { image: string; file?: any }[] = [];
+    console.log('sourece :', sourceIndex, newIndex);
+    const ar = [...props.listImagesOrder];
+    if (sourceIndex > newIndex) {
+      for (let i = 0; i < newIndex; i++) {
+        tt[i] = ar[i];
       }
-      console.log('Tt :', tt);
-      props.onChange({
-        images: props.listImagesCurrent,
-        imagesOrder: [...tt],
-      });
+      tt[newIndex] = ar[sourceIndex];
+      for (let i = newIndex + 1; i <= sourceIndex; i++) {
+        tt[i] = ar[i - 1];
+      }
+      for (let i = sourceIndex + 1; i < ar.length; i++) {
+        tt[i] = ar[i];
+      }
+    } else {
+      for (let i = 0; i < sourceIndex; i++) {
+        tt[i] = ar[i];
+      }
+      for (let i = sourceIndex; i < newIndex; i++) {
+        tt[i] = ar[i + 1];
+      }
+      tt[newIndex] = ar[sourceIndex];
+      for (let i = newIndex + 1; i < props.listImagesOrder.length; i++) {
+        tt[i] = ar[i];
+      }
     }
+    props.onChange({
+      images: props.listImagesCurrent,
+      imagesOrder: [...tt],
+    });
   };
   return (
     <div className=" product-detail-row product-detail-images">

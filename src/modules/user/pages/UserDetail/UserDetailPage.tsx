@@ -99,11 +99,7 @@ const UserDetailPage = (props: Props) => {
         {user ? (
           <div className="user-detail-page-tabs-content">
             <Tab value={0} index={tab}>
-              <UserDetailForm
-                listFieldRequired={['firstName', 'lastName', 'email', 'status']}
-                onSave={hanlleUpdateUser}
-                user={user}
-              />
+              <UserDetailForm listFieldRequired={['email', 'status']} onSave={hanlleUpdateUser} user={user} />
             </Tab>
             <Tab value={1} index={tab}>
               hihih
