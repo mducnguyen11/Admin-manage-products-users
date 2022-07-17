@@ -15,7 +15,7 @@ const InputTableRow = (props: Props) => {
     <div className={'input-table-row ' + props.className || ''}>
       {props.unit ? <p>{props.unit}</p> : null}
       <input
-        type="text"
+        type="number"
         onChange={(e) => {
           const a: {
             [key: string]: string;

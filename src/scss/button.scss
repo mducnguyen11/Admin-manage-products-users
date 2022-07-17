@@ -2,9 +2,9 @@
   border: none;
   border-radius: 4px;
   padding: 0 20px;
-  color: white;
   min-height: 40px;
   cursor: pointer;
+  background-color: aqua;
   position: relative;
   height: 40px;
   &:hover {
@@ -31,4 +31,7 @@
 }
 .btn-yellow {
   background-color: rgb(240, 173, 78);
+}
+.btn-purple {
+  background-color: rgb(117, 138, 255);
 }

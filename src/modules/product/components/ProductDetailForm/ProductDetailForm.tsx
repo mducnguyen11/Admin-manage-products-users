@@ -165,6 +165,7 @@ const ProductDetailForm = (props: Props) => {
           onChange={handleChangeProduct}
         />
         <ProductInputRow
+          onlyNumber={true}
           key_name="quantity"
           text="Quantity in stock"
           errorMessage={errors.quantity}

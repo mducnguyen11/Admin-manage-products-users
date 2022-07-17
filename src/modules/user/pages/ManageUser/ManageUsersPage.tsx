@@ -2,7 +2,7 @@ import './ManageUsersPage.scss';
 import { API_PATHS } from 'configs/api';
 import { defaultFilterUserValue, IFilterUser, IUserDataTableItem } from 'models/user';
 import { fetchThunk } from 'modules/common/redux/thunk';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
@@ -15,6 +15,7 @@ import Button from 'modules/common/components/Button/Button';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import UsersFilter from 'modules/user/components/UsersFilter/UsersFilter';
 import UsersTable from 'modules/user/components/UsersTable/UsersTable';
+import ModalButton from 'modules/common/components/ModalButton/ModalButton';
 
 const ManageUsers = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -23,7 +24,6 @@ const ManageUsers = () => {
   const [alertSuccess, setAlertSuccess] = React.useState('');
   const [alertError, setAlertError] = React.useState<string>('');
   const [totalItem, setTotalItem] = useState(0);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -86,7 +86,6 @@ const ManageUsers = () => {
   );
 
   const handleRemoveSelected = async () => {
-    setOpenDeleteModal(false);
     dispatch(setLoading());
     const selectedList = listUsers.filter((a) => a.select_checked == true);
     const params = [
@@ -127,6 +126,12 @@ const ManageUsers = () => {
     },
     [filter],
   );
+  const disabledBtn = useMemo(() => {
+    if (listUsers.findIndex((a) => a.select_checked) > -1) {
+      return false;
+    }
+    return true;
+  }, [listUsers]);
   return (
     <div className="manage-users">
       <h2 className="title">Search for User</h2>
@@ -155,38 +160,14 @@ const ManageUsers = () => {
         />
       </div>
       <div className="bottom-btns">
-        <Button
-          onClick={() => {
-            setOpenDeleteModal(true);
-          }}
+        <ModalButton
+          disabled={disabledBtn}
           color="yellow"
-          className="btn-export"
-        >
-          Remove Selected
-        </Button>
-        <Dialog
-          open={openDeleteModal}
-          onClose={() => {
-            setOpenDeleteModal(false);
-          }}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Confirm Update?'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">Do you want to remove these users ?</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => {
-                setOpenDeleteModal(false);
-              }}
-            >
-              No
-            </Button>
-            <Button onClick={handleRemoveSelected}>Yes</Button>
-          </DialogActions>
-        </Dialog>
+          onClick={handleRemoveSelected}
+          name="Remove selected"
+          modalTitle="Warning"
+          modalContent="Make sure u want to  delete these users"
+        />
       </div>
       <Snackbar open={alertSuccess !== ''} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
         <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>

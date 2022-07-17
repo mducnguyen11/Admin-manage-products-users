@@ -39,10 +39,10 @@ const InputField = (props: Props) => {
         }}
         onKeyPress={(e) => {
           if (props.onlyNumber) {
-            if (!e.code.includes('Digit')) {
-              e.preventDefault();
-            } else {
+            if (Number(e.key) || Number(e.key) == 0) {
               return e;
+            } else {
+              e.preventDefault();
             }
           }
         }}

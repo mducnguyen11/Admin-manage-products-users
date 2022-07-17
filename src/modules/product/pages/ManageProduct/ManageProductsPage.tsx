@@ -19,6 +19,7 @@ import { Alert, Snackbar } from '@mui/material';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import Button from 'modules/common/components/Button/Button';
 import ProductsTable from 'modules/product/components/ProductsTable/ProductsTable';
+import ModalButton from 'modules/common/components/ModalButton/ModalButton';
 interface Props {}
 
 const ManageProducts = (props: Props) => {
@@ -37,8 +38,6 @@ const ManageProducts = (props: Props) => {
       initialValue: IProductTableItem;
     }[]
   >([]);
-  const [openSaveModal, setOpenSaveModal] = React.useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const [alertSuccess, setAlertSuccess] = React.useState(false);
   const [alertError, setAlertError] = React.useState<string>('');
   const [totalItem, setTotalItem] = useState(0);
@@ -135,7 +134,6 @@ const ManageProducts = (props: Props) => {
   );
   const handleDeleteUser = async () => {
     const paramsPayload: { id: string; delete: number }[] = [];
-    setOpenDeleteModal(false);
     listProducts.forEach((item) => {
       if (item.delete_checked) {
         paramsPayload.push({
@@ -155,7 +153,6 @@ const ManageProducts = (props: Props) => {
     dispatch(stopLoading());
   };
   const handleSaveProductsChange = async () => {
-    setOpenSaveModal(false);
     const payload: { params: { id: string; price: string; stock: string }[] } = { params: [] };
     listProductsChange.forEach((a) => {
       payload.params.push({
@@ -251,81 +248,24 @@ const ManageProducts = (props: Props) => {
         <div className="bottom-btns">
           {listProducts.some((a) => a.delete_checked == true) ? (
             <>
-              <Button
-                onClick={() => {
-                  setOpenDeleteModal(true);
-                }}
-                disabled={false}
-                color="yellow"
-                className="btn-save-change"
-              >
-                Remove selected
-              </Button>
-              <Dialog
-                open={openDeleteModal}
-                onClose={() => {
-                  setOpenDeleteModal(false);
-                }}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">{'Confirm Update?'}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Do you want to remove these products ?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={() => {
-                      setOpenDeleteModal(false);
-                    }}
-                  >
-                    No
-                  </Button>
-                  <Button onClick={handleDeleteUser}>Yes</Button>
-                </DialogActions>
-              </Dialog>
+              <ModalButton
+                onClick={handleDeleteUser}
+                name="Delete selected"
+                modalTitle="Warning"
+                modalContent="Make sure u want to deleted these products"
+              />
             </>
           ) : (
             <>
               {listProductsChange.length > 0 ? (
                 <>
-                  <Button
-                    onClick={() => {
-                      setOpenSaveModal(true);
-                    }}
-                    disabled={false}
+                  <ModalButton
+                    modalTitle="Warning"
+                    name="Save changes"
+                    modalContent="Confirm your update"
+                    onClick={handleSaveProductsChange}
                     color="yellow"
-                    className="btn-save-change"
-                  >
-                    Save changes
-                  </Button>
-                  <Dialog
-                    open={openSaveModal}
-                    onClose={() => {
-                      setOpenSaveModal(false);
-                    }}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                  >
-                    <DialogTitle id="alert-dialog-title">{'Confirm Update?'}</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        Do you want to update this product?
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        onClick={() => {
-                          setOpenSaveModal(false);
-                        }}
-                      >
-                        No
-                      </Button>
-                      <Button onClick={handleSaveProductsChange}>Yes</Button>
-                    </DialogActions>
-                  </Dialog>
+                  />
                 </>
               ) : (
                 <Button disabled={true} color="yellow" className="btn-save-change">
