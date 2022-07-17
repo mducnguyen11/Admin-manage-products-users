@@ -1,4 +1,4 @@
-import { IUserDataField } from 'models/admin/user';
+import { IUserDataField } from 'models/user';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import { USER_MEMBERSHIPS_CREATE_OPTIONS } from 'modules/user/constants';
 

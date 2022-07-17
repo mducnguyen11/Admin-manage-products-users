@@ -1,7 +1,7 @@
 import './TableRow.scss';
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { IUserDataTableItem } from 'models/admin/user';
+import { IUserDataTableItem } from 'models/user';
 import { formatTimeStampToDateString } from 'utils/formatTime';
 
 interface Props {

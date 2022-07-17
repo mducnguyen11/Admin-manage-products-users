@@ -1,4 +1,4 @@
-import { IUserDataField, IUserDataPayload, IUserDetailData } from 'models/admin/user';
+import { IUserDataField, IUserDataPayload, IUserDetailData } from 'models/user';
 
 export const formatToUserPayloadCreate = (a: IUserDetailData): IUserDataPayload => {
   const xx = {

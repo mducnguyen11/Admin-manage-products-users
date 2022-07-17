@@ -1,7 +1,7 @@
 import './ProductsTableRow.scss';
 import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IProductTableItem } from 'models/admin/product';
+import { IProductTableItem } from 'models/product';
 import InputTableRow from '../InputTableRow/InputTableRow';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';

@@ -1,6 +1,6 @@
 import './ManageUsersPage.scss';
 import { API_PATHS } from 'configs/api';
-import { defaultFilterUserValue, IFilterUser, IUserDataTableItem } from 'models/admin/user';
+import { defaultFilterUserValue, IFilterUser, IUserDataTableItem } from 'models/user';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -16,9 +16,7 @@ import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import UsersFilter from 'modules/user/components/UsersFilter/UsersFilter';
 import UsersTable from 'modules/user/components/UsersTable/UsersTable';
 
-interface Props {}
-
-const ManageUsers = (props: Props) => {
+const ManageUsers = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [listUsers, setListUsers] = useState<{ select_checked: boolean; user: IUserDataTableItem }[]>([]);
   const [filter, setFilter] = useState<IFilterUser>(defaultFilterUserValue);
@@ -38,12 +36,15 @@ const ManageUsers = (props: Props) => {
     }
     setAlertError('');
   };
-  const handleChangePage = useCallback((event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setFilter({
-      ...filter,
-      page: newPage + 1,
-    });
-  }, []);
+  const handleChangePage = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+      setFilter({
+        ...filter,
+        page: newPage + 1,
+      });
+    },
+    [filter, setFilter],
+  );
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFilter({
       ...filter,
@@ -54,7 +55,7 @@ const ManageUsers = (props: Props) => {
     dispatch(setLoading());
     const res = await dispatch(fetchThunk(API_PATHS.getUserList, 'post', { ...filter }));
     if (res.data.length > 0 && res.success) {
-      const listUsers = res.data.map((item: IUserDataTableItem, i: number) => {
+      const listUsers = res.data.map((item: IUserDataTableItem) => {
         return {
           select_checked: false,
           user: { ...item },
@@ -68,18 +69,22 @@ const ManageUsers = (props: Props) => {
       setTotalItem(0);
     }
     dispatch(stopLoading());
-  }, [setListUsers, filter]);
+  }, [filter]);
   useEffect(() => {
     getUsers();
   }, [filter]);
-  const handleChangeUserDataRow = (newUser: { select_checked: boolean; user: IUserDataTableItem }) => {
-    const index = listUsers.findIndex((item) => item.user.profile_id == newUser.user.profile_id);
-    const newListUser = [...listUsers];
-    newListUser[index] = {
-      ...newUser,
-    };
-    setListUsers(newListUser);
-  };
+  const handleChangeUserDataRow = useCallback(
+    (newUser: { select_checked: boolean; user: IUserDataTableItem }) => {
+      const index = listUsers.findIndex((item) => item.user.profile_id == newUser.user.profile_id);
+      const newListUser = [...listUsers];
+      newListUser[index] = {
+        ...newUser,
+      };
+      setListUsers(newListUser);
+    },
+    [listUsers],
+  );
+
   const handleRemoveSelected = async () => {
     setOpenDeleteModal(false);
     dispatch(setLoading());
@@ -92,7 +97,6 @@ const ManageUsers = (props: Props) => {
         };
       }),
     ];
-
     const res = await dispatch(fetchThunk(API_PATHS.deleteUserByIDArray, 'post', { params: params }));
     if (res.success) {
       getUsers();
@@ -102,15 +106,18 @@ const ManageUsers = (props: Props) => {
     }
     dispatch(stopLoading());
   };
-  const handleSelectAll = (value: boolean) => {
-    const newListUsers = listUsers.map((a) => {
-      return {
-        ...a,
-        select_checked: value,
-      };
-    });
-    setListUsers([...newListUsers]);
-  };
+  const handleSelectAll = useCallback(
+    (value: boolean) => {
+      const newListUsers = listUsers.map((a) => {
+        return {
+          ...a,
+          select_checked: value,
+        };
+      });
+      setListUsers([...newListUsers]);
+    },
+    [listUsers],
+  );
   const handleChangeFilter = useCallback(
     (filterField: { [key: string]: any }) => {
       setFilter({
@@ -118,7 +125,7 @@ const ManageUsers = (props: Props) => {
         ...filterField,
       });
     },
-    [setFilter],
+    [filter],
   );
   return (
     <div className="manage-users">

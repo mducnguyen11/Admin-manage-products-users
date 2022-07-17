@@ -1,7 +1,6 @@
 export const ROUTES = {
-  home: '/home',
   contact: '/contact',
   login: '/login',
-  admin: '/pages/',
+  home: '/pages/',
   error: '/404/',
 };

@@ -1,7 +1,7 @@
 import './ProductDetailPage.scss';
 import axios from 'axios';
 import { API_PATHS } from 'configs/api';
-import { IProductDetailData } from 'models/admin/product';
+import { IProductDetailData } from 'models/product';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -121,7 +121,7 @@ const ProductDetail = (props: Props) => {
                 onSave={handleSaveProduct}
                 actionName="Save product"
                 product={product}
-                listFieldRequired={['name', 'images', 'quantity', 'brand', 'categories', 'description', 'price']}
+                listFieldRequired={['name', 'images', 'quantity', 'brand', 'categories', 'price']}
               />
             ) : null}
           </Tab>

@@ -1,4 +1,4 @@
-import { IUserDataField } from 'models/admin/user';
+import { IUserDataField } from 'models/user';
 import Checkbox from 'modules/common/components/Checkbox/Checkbox';
 import React from 'react';
 

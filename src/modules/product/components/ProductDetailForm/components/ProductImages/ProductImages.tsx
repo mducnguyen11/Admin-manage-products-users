@@ -74,7 +74,7 @@ const ProductImages = (props: Props) => {
       <div className="product-detail-row-name">
         <p className="product-detail-row-name-p">Images</p>
       </div>
-      <div className=" product-detail-row-input product-detail-vendor-input">
+      <div className=" product-detail-row-input product-detail-images-input">
         <ImageForm
           handleDrag={handleArrangeImages}
           error={props.errorMessage}

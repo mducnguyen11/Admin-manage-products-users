@@ -1,7 +1,7 @@
 import './NewUser.scss';
 import { Alert, Snackbar } from '@mui/material';
 import { API_PATHS } from 'configs/api';
-import { DefaultNewUserValue, IUserDetailData } from 'models/admin/user';
+import { DefaultNewUserValue, IUserDetailData } from 'models/user';
 import UserDetailForm from 'modules/user/components/UserDetailForm/UserDetailForm';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React from 'react';
@@ -13,9 +13,7 @@ import { Action } from 'typesafe-actions';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import { formatToUserPayloadCreate } from 'modules/user/utils';
 
-interface Props {}
-
-const NewUser = (props: Props) => {
+const NewUser = () => {
   const history = useHistory();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [alertSuccess, setAlertSuccess] = React.useState('');

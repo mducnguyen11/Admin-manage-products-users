@@ -32,7 +32,7 @@ const LoginPage = (props: Props) => {
         if (res?.success) {
           dispatch(setUserInfo(res.user));
           Cookies.set(ACCESS_TOKEN_KEY, res.user_cookie);
-          dispatch(replace(ROUTES.admin));
+          dispatch(replace(ROUTES.home));
           return;
         } else {
           setErrorMessage(getErrorMessageResponse(res));

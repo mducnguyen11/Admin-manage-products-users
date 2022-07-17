@@ -1,4 +1,4 @@
-import { IUserDataField } from 'models/admin/user';
+import { IUserDataField } from 'models/user';
 import InputField from 'modules/common/components/InputField/InputField';
 
 import React from 'react';

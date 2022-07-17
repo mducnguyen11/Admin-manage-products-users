@@ -1,11 +1,6 @@
 import './ManageProductsPage.scss';
 import { API_PATHS } from 'configs/api';
-import {
-  defaultFilterProductValue,
-  IFilterProduct,
-  IFilterProductField,
-  IProductTableItem,
-} from 'models/admin/product';
+import { defaultFilterProductValue, IFilterProduct, IFilterProductField, IProductTableItem } from 'models/product';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -53,22 +48,19 @@ const ManageProducts = (props: Props) => {
   const handleShowAlertError = (a: string) => {
     setAlertError(a);
   };
-
   const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setAlertSuccess(false);
   };
   const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setAlertError('');
   };
-  console.log('??');
+
   // func get data
   const getProducts = React.useCallback(async () => {
     dispatch(setLoading());
@@ -89,56 +81,58 @@ const ManageProducts = (props: Props) => {
       setTotalItem(0);
     }
     dispatch(stopLoading());
-  }, [setListProducts, filter]);
+  }, [filter, dispatch]);
 
-  //useEfffect get data
   useEffect(() => {
     getProducts();
   }, []);
-  const handleChangeProduct = (newProduct: {
-    select_checked: boolean;
-    product: IProductTableItem;
-    delete_checked: boolean;
-  }) => {
-    const iz = listProducts.findIndex((a) => a.product.id == newProduct.product.id);
-    const newListProduct = [...listProducts];
-    let newListProductChange = [...listProductsChange];
-    if (
-      (iz >= 0 && newProduct.product.price !== newListProduct[iz].product.price) ||
-      newProduct.product.amount !== newListProduct[iz].product.amount
-    ) {
-      const i = listProductsChange.findIndex((a) => a.initialValue.id == newProduct.product.id);
-      if (i !== -1) {
-        if (
-          listProductsChange[i].initialValue.price == newProduct.product.price &&
-          listProductsChange[i].initialValue.amount == newProduct.product.amount
-        ) {
-          newListProductChange = newListProductChange.filter((a) => a.initialValue.id !== newProduct.product.id);
+  const handleChangeProduct = useCallback(
+    (newProduct: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
+      const iz = listProducts.findIndex((a) => a.product.id == newProduct.product.id);
+      const newListProduct = [...listProducts];
+      let newListProductChange = [...listProductsChange];
+      if (
+        (iz >= 0 && newProduct.product.price !== newListProduct[iz].product.price) ||
+        newProduct.product.amount !== newListProduct[iz].product.amount
+      ) {
+        const i = listProductsChange.findIndex((a) => a.initialValue.id == newProduct.product.id);
+        if (i !== -1) {
+          if (
+            listProductsChange[i].initialValue.price == newProduct.product.price &&
+            listProductsChange[i].initialValue.amount == newProduct.product.amount
+          ) {
+            newListProductChange = newListProductChange.filter((a) => a.initialValue.id !== newProduct.product.id);
+          } else {
+            newListProductChange[i].currentValue = { ...newProduct.product };
+          }
         } else {
-          newListProductChange[i].currentValue = { ...newProduct.product };
+          newListProductChange.push({
+            initialValue: { ...newListProduct[iz].product },
+            currentValue: { ...newProduct.product },
+          });
         }
-      } else {
-        newListProductChange.push({
-          initialValue: { ...newListProduct[iz].product },
-          currentValue: { ...newProduct.product },
-        });
       }
-    }
-    newListProduct[iz] = {
-      ...newProduct,
-    };
-    setListProducts(newListProduct);
-    setListProductsChange(newListProductChange);
-  };
-  const handleSelectAll = (value: boolean) => {
-    const newProductList = listProducts.map((item) => {
-      return {
-        ...item,
-        select_checked: value,
+      newListProduct[iz] = {
+        ...newProduct,
       };
-    });
-    setListProducts([...newProductList]);
-  };
+      setListProducts(newListProduct);
+      setListProductsChange(newListProductChange);
+    },
+    [dispatch, listProducts, listProductsChange],
+  );
+
+  const handleSelectAll = useCallback(
+    (value: boolean) => {
+      const newProductList = listProducts.map((item) => {
+        return {
+          ...item,
+          select_checked: value,
+        };
+      });
+      setListProducts([...newProductList]);
+    },
+    [listProducts],
+  );
   const handleDeleteUser = async () => {
     const paramsPayload: { id: string; delete: number }[] = [];
     setOpenDeleteModal(false);
@@ -160,7 +154,7 @@ const ManageProducts = (props: Props) => {
     }
     dispatch(stopLoading());
   };
-  const handleSaveChange = async () => {
+  const handleSaveProductsChange = async () => {
     setOpenSaveModal(false);
     const payload: { params: { id: string; price: string; stock: string }[] } = { params: [] };
     listProductsChange.forEach((a) => {
@@ -182,25 +176,24 @@ const ManageProducts = (props: Props) => {
 
     dispatch(stopLoading());
   };
-  const handleUpdateEnable = async (productData: {
-    select_checked: boolean;
-    product: IProductTableItem;
-    delete_checked: boolean;
-  }) => {
-    const xx: { id: string; enable: number } = {
-      id: productData.product.id,
-      enable: Number(productData.product.enabled),
-    };
-    dispatch(setLoading());
-    const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [xx] }));
-    dispatch(stopLoading());
-    getProducts();
-    if (res.data) {
-      handleShowAlertSuccess();
-    } else {
-      handleShowAlertError('Up date fail');
-    }
-  };
+  const handleUpdateEnable = useCallback(
+    async (productData: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
+      const xx: { id: string; enable: number } = {
+        id: productData.product.id,
+        enable: Number(productData.product.enabled),
+      };
+      dispatch(setLoading());
+      const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [xx] }));
+      dispatch(stopLoading());
+      getProducts();
+      if (res.data) {
+        handleShowAlertSuccess();
+      } else {
+        handleShowAlertError('Up date fail');
+      }
+    },
+    [dispatch, getProducts],
+  );
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setFilter({
@@ -208,12 +201,15 @@ const ManageProducts = (props: Props) => {
       page: newPage + 1,
     });
   };
-  const handleChangeFilter = (a: IFilterProductField) => {
-    setFilter({
-      ...filter,
-      ...a,
-    });
-  };
+  const handleChangeFilter = useCallback(
+    (a: IFilterProductField) => {
+      setFilter({
+        ...filter,
+        ...a,
+      });
+    },
+    [filter],
+  );
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFilter({
       ...filter,
@@ -227,7 +223,7 @@ const ManageProducts = (props: Props) => {
     <div className="manage-products">
       <h2 className="title">Products</h2>
       <div className="manage-product-filter">
-        <ProductFilter onChange={handleChangeFilter} filter={filter} />
+        <ProductFilter filter={filter} onChange={handleChangeFilter} />
       </div>
       <Link to="/pages/products/new-product">
         <Button className="btn-add-product">Add Product</Button>
@@ -327,7 +323,7 @@ const ManageProducts = (props: Props) => {
                       >
                         No
                       </Button>
-                      <Button onClick={handleSaveChange}>Yes</Button>
+                      <Button onClick={handleSaveProductsChange}>Yes</Button>
                     </DialogActions>
                   </Dialog>
                 </>

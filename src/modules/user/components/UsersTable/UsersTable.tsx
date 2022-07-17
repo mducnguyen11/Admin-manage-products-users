@@ -1,5 +1,5 @@
 import './UsersTable.scss';
-import { IUserDataTableItem } from 'models/admin/user';
+import { IUserDataTableItem } from 'models/user';
 import React, { memo } from 'react';
 import TableRow from '../UserTableRow/TableRow';
 interface Props {

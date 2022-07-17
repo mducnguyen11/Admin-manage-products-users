@@ -1,5 +1,5 @@
 import './ProductsTable.scss';
-import { IProductTableItem } from 'models/admin/product';
+import { IProductTableItem } from 'models/product';
 import React, { memo } from 'react';
 import TableRow from '../ProductsTableRow/ProductsTableRow';
 

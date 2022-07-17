@@ -1,6 +1,6 @@
-import { IUserDataField } from 'models/admin/user';
+import { IUserDataField } from 'models/user';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
-import { USER_TYPES } from 'modules/user/constants';
+import { USER_TYPES_OPTIONS } from 'modules/user/constants';
 import React from 'react';
 
 interface Props {
@@ -17,7 +17,12 @@ const UserType = (props: Props) => {
         <p className="user-detail-row-value">{props.value}</p>
       ) : (
         <div className="user-detail-row-value">
-          <SelectForm value={props.value} key_name="paymentRailsType" options={USER_TYPES} onChange={props.onChange} />
+          <SelectForm
+            value={props.value}
+            key_name="paymentRailsType"
+            options={USER_TYPES_OPTIONS}
+            onChange={props.onChange}
+          />
         </div>
       )}
     </div>

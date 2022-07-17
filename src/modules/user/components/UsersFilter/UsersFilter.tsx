@@ -1,5 +1,5 @@
 import './UserFilter.scss';
-import { IFilterUser } from 'models/admin/user';
+import { IFilterUser } from 'models/user';
 import React, { memo, useEffect, useState } from 'react';
 import Country from './components/Country/Country';
 import FilterUserTypes from './components/FilterUserTypes/FilterUserTypes';
@@ -19,12 +19,6 @@ interface Props {
 const UserFilter = (props: Props) => {
   const [filter, setFilter] = useState<IFilterUser>(props.filter);
   const [expanded, setExpanded] = useState(true);
-  useEffect(() => {
-    if (JSON.stringify(props.filter) !== JSON.stringify(filter)) {
-      setFilter(props.filter);
-    }
-  }, [props.filter]);
-
   const handleChangeFilter = (filterField: Object) => {
     setFilter({
       ...filter,

@@ -1,6 +1,6 @@
 import './UserDetailPage.scss';
 import { API_PATHS } from 'configs/api';
-import { IUserDetailData } from 'models/admin/user';
+import { IUserDetailData } from 'models/user';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -14,9 +14,7 @@ import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import { formartUserToPayload } from 'modules/user/utils';
 import Tab from 'modules/common/components/Tab/Tab';
 
-interface Props {}
-
-const UserDetailPage = (props: Props) => {
+const UserDetailPage = () => {
   const params: { id: string } = useParams();
   const history = useHistory();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -57,10 +55,10 @@ const UserDetailPage = (props: Props) => {
     } catch (error) {
       history.push('/error');
     }
-  }, [params.id]);
+  }, [params.id, history, dispatch]);
   useEffect(() => {
     getUserData();
-  }, [params.id]);
+  }, [params.id, getUserData]);
   const hanlleUpdateUser = async (user: IUserDetailData) => {
     dispatch(setLoading());
     const res = await dispatch(fetchThunk(API_PATHS.userEdit, 'post', { params: [formartUserToPayload(user)] }));

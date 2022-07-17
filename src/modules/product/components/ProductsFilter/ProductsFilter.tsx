@@ -1,11 +1,11 @@
 import './ProductsFilter.scss';
-import { IFilterProduct } from 'models/admin/product';
+import { defaultFilterProductValue, IFilterProduct } from 'models/product';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
 import InputField from 'modules/common/components/InputField/InputField';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
-import { PRODUCT_AVAILABILITY_STATUS, PRODUCT_STOCK_STATUS } from 'modules/product/constants';
+import { PRODUCT_AVAILABILITY_STATUS_OPTIONS, PRODUCT_STOCK_STATUS_OPTIONS } from 'modules/product/constants';
 import Button from 'modules/common/components/Button/Button';
 import FilterVendorForm from './components/FilterVendorForm';
 
@@ -84,7 +84,7 @@ const ProductFilter = (props: Props) => {
         </div>
         <div className="filter-main-field">
           <SelectForm
-            options={PRODUCT_STOCK_STATUS}
+            options={PRODUCT_STOCK_STATUS_OPTIONS}
             key_name="stock_status"
             onChange={handleChangeFilter}
             value={filter.stock_status}
@@ -153,7 +153,7 @@ const ProductFilter = (props: Props) => {
               <label>Availability</label>
               <div className="filter-field-input">
                 <SelectForm
-                  options={PRODUCT_AVAILABILITY_STATUS}
+                  options={PRODUCT_AVAILABILITY_STATUS_OPTIONS}
                   key_name="availability"
                   onChange={handleChangeFilter}
                   value={filter.availability}

@@ -34,16 +34,22 @@
     }
   }
   &-category-input {
-    width: 660px;
+    width: 600px;
   }
   &-description-input {
-    width: 660px;
+    width: 600px;
     color: black;
+    .jodit-react-container {
+      width: 100%;
+    }
   }
   &-row-switch-input {
     display: flex;
     align-items: center;
     gap: 20px;
+  }
+  &-images-input {
+    width: 500px;
   }
   &-vendor-input {
     width: 430px;

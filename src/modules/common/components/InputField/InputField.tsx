@@ -14,7 +14,7 @@ interface Props {
 const InputField = (props: Props) => {
   const [textValue, setTextValue] = useState('');
   useEffect(() => {
-    if (props.value !== textValue) {
+    if (props.value && props.value !== textValue) {
       setTextValue(props.value);
     }
   }, [props.value]);

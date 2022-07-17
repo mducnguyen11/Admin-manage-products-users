@@ -1,4 +1,4 @@
-import { IUserDataField } from 'models/admin/user';
+import { IUserDataField } from 'models/user';
 import CheckmarksGroup from 'modules/common/components/CheckmarksGroup/CheckmarksGroup';
 import { USER_ACCOUNT_STATUS_OPTIONS } from 'modules/user/constants';
 

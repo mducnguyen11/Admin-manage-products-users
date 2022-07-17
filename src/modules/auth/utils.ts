@@ -46,7 +46,6 @@ export const yupValidateRegister = Yup.object({
   name: Yup.string().required('fullNameRequire'),
   repeatPassword: Yup.string()
     .required('confirmPasswordRequire')
-    .min(4, 'minConfirmPasswordInvalid')
     .when('password', (password, field) =>
       password
         ? field.required('confirmPasswordRequire').oneOf([Yup.ref('password'), null], 'confirmPasswordInvalid')
@@ -54,8 +53,5 @@ export const yupValidateRegister = Yup.object({
     ),
   gender: Yup.string().required('genderRequire'),
   region: Yup.number().min(1, 'locationCountryRequire'),
-  // locationCity: Yup.string().when('locationCountry', (locationCountry, field) =>
-  //   locationCountry ? field.required('locationCityRequire') : field.required('setLocationCountryFirst'),
-  // ),
   state: Yup.number().min(1, 'locationCityRequire'),
 });

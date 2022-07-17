@@ -1,4 +1,4 @@
-export const PRODUCT_AVAILABILITY_STATUS = [
+export const PRODUCT_AVAILABILITY_STATUS_OPTIONS = [
   {
     value: 'all',
     name: 'Any Availability',
@@ -13,7 +13,7 @@ export const PRODUCT_AVAILABILITY_STATUS = [
   },
 ];
 
-export const PRODUCT_STOCK_STATUS = [
+export const PRODUCT_STOCK_STATUS_OPTIONS = [
   {
     value: 'all',
     name: 'Any stock status',

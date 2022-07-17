@@ -1,5 +1,5 @@
 import './UserDetailForm.scss';
-import { IUserDetailData, IUserDataField } from 'models/admin/user';
+import { IUserDetailData, IUserDataField } from 'models/user';
 import React, { useCallback, useEffect, useState } from 'react';
 import UserTaxInfo from './components/UserTaxInfo/UserTaxInfo';
 import UserRowInput from './components/UserRowInput/UserRowInput';

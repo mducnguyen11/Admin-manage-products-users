@@ -1,4 +1,4 @@
-import { IProductDataPayload, IProductDetailData, IProductDetailDataField } from 'models/admin/product';
+import { IProductDataPayload, IProductDetailData, IProductDetailDataField } from 'models/product';
 import { formatTimeStampToISOSString } from 'utils/formatTime';
 
 export const formatProductDataToPayload = (a: IProductDetailData): IProductDataPayload => {
@@ -73,7 +73,6 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
       }
     }
     if (key == 'images') {
-      console.log(a.imagesOrder);
       if (a.images && a.images.length == 0) {
         if (a.imagesOrder && a.imagesOrder.length > 0) {
           delete error.images;

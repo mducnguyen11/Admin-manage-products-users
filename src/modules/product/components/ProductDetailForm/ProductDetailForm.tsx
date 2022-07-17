@@ -1,5 +1,5 @@
 import './ProductDetailForm.scss';
-import { IProductDetailData, IProductDetailDataField } from 'models/admin/product';
+import { IProductDetailData, IProductDetailDataField } from 'models/product';
 import React, { useEffect, useState } from 'react';
 import ProductBrand from './components/ProductBrand/ProductBrand';
 import ProductCondition from './components/ProductCondition/ProductCondition';

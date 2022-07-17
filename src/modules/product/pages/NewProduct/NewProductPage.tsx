@@ -12,7 +12,7 @@ import { Alert, Snackbar } from '@mui/material';
 
 import ProductDetailForm from 'modules/product/components/ProductDetailForm/ProductDetailForm';
 import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
-import { defaultProductValue, IProductDetailData } from 'models/admin/product';
+import { defaultProductValue, IProductDetailData } from 'models/product';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import { formatProductDataToPayload } from 'modules/product/utils';
 
@@ -95,7 +95,6 @@ const NewProductPage = (props: Props) => {
             'brand_id',
             'condition',
             'categories',
-            'description',
             'price',
             'quantity',
             'images',
