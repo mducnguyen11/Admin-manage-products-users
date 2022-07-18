@@ -21,20 +21,11 @@ interface Props {}
 const NewProductPage = (props: Props) => {
   const history = useHistory();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [alertSuccess, setAlertSuccess] = React.useState(false);
   const [alertError, setAlertError] = React.useState<string>('');
-  const handleShowAlertSuccess = () => {
-    setAlertSuccess(true);
+  const handleShowAlertError = (text: string) => {
+    setAlertError(text);
   };
-  const handleShowAlertError = (a: string) => {
-    setAlertError(a);
-  };
-  const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertSuccess(false);
-  };
+
   const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -42,20 +33,23 @@ const NewProductPage = (props: Props) => {
     setAlertError('');
   };
 
-  const handleSaveProduct = async (
-    a: IProductDetailData,
-    listImgUpload: {
-      image: string;
-      file: any;
-    }[],
-  ) => {
+  const handleSaveProduct = async (product: IProductDetailData) => {
     dispatch(setLoading());
+    const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
+      const v: { image: string; file: any }[] = [];
+      array.forEach((c) => {
+        if (c.file !== undefined) {
+          const x: { image: string; file: any } = { ...c, file: c.file };
+          v.push(x);
+        }
+      });
+      return v;
+    };
+    const listImgUpload = getListFiles(product.imagesOrder || []);
     const formData = new FormData();
-    formData.append('productDetail', JSON.stringify(formatProductDataToPayload(a)));
+    formData.append('productDetail', JSON.stringify(formatProductDataToPayload(product)));
     const ress = await AxiosFormDataConfig.post(API_PATHS.createNewProduct, formData);
-
     if (ress.data.success) {
-      handleShowAlertSuccess();
       const ll = listImgUpload.map(async (a, i) => {
         const formData = new FormData();
         formData.append('images[]', a.file);
@@ -104,11 +98,6 @@ const NewProductPage = (props: Props) => {
           product={{ ...defaultProductValue }}
         />
       </div>
-      <Snackbar open={alertSuccess} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
-        <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>
-          Update successfully
-        </Alert>
-      </Snackbar>
       <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
         <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
           {alertError}

@@ -1,16 +1,16 @@
 import './ProductsTable.scss';
-import { IProductTableItem } from 'models/product';
+import { IFilterProductField, IProductTableItem } from 'models/product';
 import React, { memo } from 'react';
 import TableRow from '../ProductsTableRow/ProductsTableRow';
 
 interface Props {
   data: { select_checked: boolean; delete_checked: boolean; product: IProductTableItem }[];
-  handleUpdateEnable: Function;
-  handleChangeData: Function;
-  handleChangeSort: Function;
+  handleUpdateEnable: (id: string, enable: number) => void;
+  handleChangeData: (product: { select_checked: boolean; delete_checked: boolean; product: IProductTableItem }) => void;
+  handleChangeSort: (value: IFilterProductField) => void;
   sort: string;
   order_by: string;
-  handleSelectAll: Function;
+  handleSelectAll: (value: boolean) => void;
 }
 const listField: {
   sort: boolean;

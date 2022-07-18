@@ -66,3 +66,11 @@ export const USER_ACCOUNT_STATUS_OPTIONS = [
   { value: 'D', name: 'Disabled' },
   { value: 'U', name: 'Unappoveed Vendor' },
 ];
+
+export const USER_FILTER_DATE_TYPES_OPTIONS = [
+  { value: 'R', name: 'Register' },
+  {
+    value: 'L',
+    name: 'Last logged in',
+  },
+];

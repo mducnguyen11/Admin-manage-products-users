@@ -1,4 +1,5 @@
 import { API_PATHS } from 'configs/api';
+import { IFilterProductField } from 'models/product';
 import SelectAsyncDebounce from 'modules/common/components/SelectAsyncDebounce/SelectAsyncDebounce';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +10,7 @@ import { Action } from 'typesafe-actions';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IFilterProductField) => void;
 }
 
 const FilterVendorForm = (props: Props) => {

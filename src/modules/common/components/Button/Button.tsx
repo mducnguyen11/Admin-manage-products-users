@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {
   children: React.ReactNode;
   className?: string;
-  onClick?: Function;
+  onClick?: () => void;
   color?: 'purple' | 'yellow';
   disabled?: boolean;
 }

@@ -16,7 +16,13 @@ const UserInputRowItem = (props: Props) => {
     <div className="user-detail-row-item">
       <p className="user-detail-row-name">{props.fieldName}</p>
       <div className="user-detail-row-value">
-        <InputField key_name={props.key_name} value={props.value} onChange={props.onChange} error={props.error} />
+        <InputField
+          value={props.value}
+          onChange={(value: string) => {
+            props.onChange({ [props.key_name]: value });
+          }}
+          error={props.error}
+        />
       </div>
     </div>
   );

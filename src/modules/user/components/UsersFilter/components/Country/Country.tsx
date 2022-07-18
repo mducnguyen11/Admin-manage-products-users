@@ -13,9 +13,12 @@ const Country = (props: Props) => {
   const listCountry = useSelector((state: AppState) => state.country.country);
   return (
     <SelectForm
-      key_name="country"
       value={props.value}
-      onChange={props.onChange}
+      onChange={(value: string) => {
+        props.onChange({
+          country: value,
+        });
+      }}
       options={[
         { value: '', name: 'Select Country' },
         ...listCountry.map((item) => {

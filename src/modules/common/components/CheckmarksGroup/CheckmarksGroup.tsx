@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './CheckmarksGroup.scss';
 interface Props {
   value: string[];
-  onChange: Function;
+  onChange: (value: { [key: string]: string[] }) => void;
   options: { name: string; options: { value: string; name: string; [key: string]: any }[] }[];
   key_name: string;
   placeholder: string;

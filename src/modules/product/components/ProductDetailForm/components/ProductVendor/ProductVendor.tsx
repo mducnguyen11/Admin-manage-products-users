@@ -1,4 +1,5 @@
 import { API_PATHS } from 'configs/api';
+import { IProductDetailDataField } from 'models/product';
 import SearchSuggetForm from 'modules/common/components/SelectAutoDebounce/SelectAutoDebounce';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
@@ -6,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 

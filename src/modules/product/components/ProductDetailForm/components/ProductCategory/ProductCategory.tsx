@@ -7,6 +7,7 @@ import { Action } from 'typesafe-actions';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import { API_PATHS } from 'configs/api';
 import Checkmarks from 'modules/common/components/Checkmarks/Checkmarks';
+import { IProductDetailDataField } from 'models/product';
 
 interface Props {
   value: {
@@ -14,7 +15,7 @@ interface Props {
     name: string;
     [key: string]: any;
   }[];
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 

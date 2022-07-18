@@ -1,5 +1,5 @@
 import './NewUser.scss';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 import { API_PATHS } from 'configs/api';
 import { DefaultNewUserValue, IUserDetailData } from 'models/user';
 import UserDetailForm from 'modules/user/components/UserDetailForm/UserDetailForm';
@@ -16,25 +16,38 @@ import { formatToUserPayloadCreate } from 'modules/user/utils';
 const NewUser = () => {
   const history = useHistory();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [alertSuccess, setAlertSuccess] = React.useState('');
-  const [alertError, setAlertError] = React.useState<string>('');
+  const [alert, setAlert] = React.useState<{
+    open: boolean;
+    type: AlertColor;
+    text: string;
+  }>({
+    open: false,
+    type: 'success',
+    text: '',
+  });
   const handleShowAlertSuccess = (text: string) => {
-    setAlertSuccess(text);
+    setAlert({
+      open: true,
+      type: 'success',
+      text: text,
+    });
   };
   const handleShowAlertError = (text: string) => {
-    setAlertError(text);
+    setAlert({
+      open: true,
+      type: 'error',
+      text: text,
+    });
   };
-  const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertSuccess('');
-  };
-  const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertError('');
+    setAlert({
+      open: false,
+      type: 'error',
+      text: '',
+    });
   };
 
   const handleCreateUser = async (newUser: IUserDetailData) => {
@@ -85,16 +98,13 @@ const NewUser = () => {
           />
         </div>
       </div>
-      <Snackbar open={alertSuccess !== ''} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
-        <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>
-          {alertSuccess}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
-        <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
-          {alertError}
-        </Alert>
-      </Snackbar>
+      {alert.open ? (
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </div>
   );
 };

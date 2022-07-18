@@ -7,11 +7,12 @@
   background-color: aqua;
   position: relative;
   height: 40px;
-  &:hover {
-    color: black;
-  }
+
   &.btn-default {
     background-color: rgb(117, 138, 255);
+    &:hover {
+      color: rgb(195, 230, 2);
+    }
   }
   &.disabled-btn {
     &:hover {
@@ -31,7 +32,13 @@
 }
 .btn-yellow {
   background-color: rgb(240, 173, 78);
+  &:hover {
+    color: black;
+  }
 }
 .btn-purple {
   background-color: rgb(117, 138, 255);
+  &:hover {
+    color: rgb(168, 203, 147);
+  }
 }

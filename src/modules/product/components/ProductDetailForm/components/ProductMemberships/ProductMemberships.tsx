@@ -1,8 +1,9 @@
+import { IProductDetailDataField } from 'models/product';
 import React, { memo, useState } from 'react';
 
 interface Props {
   value: { membership_id: string }[];
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
 }
 
 const ProductMemberships = (props: Props) => {

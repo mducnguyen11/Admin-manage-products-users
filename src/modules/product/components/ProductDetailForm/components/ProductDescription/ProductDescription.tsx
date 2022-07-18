@@ -1,10 +1,11 @@
 import JoditEditor from 'jodit-react';
+import { IProductDetailDataField } from 'models/product';
 import React, { memo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 

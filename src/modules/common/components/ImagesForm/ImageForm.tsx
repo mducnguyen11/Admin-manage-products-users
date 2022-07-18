@@ -6,10 +6,10 @@ import { ListManager } from 'react-beautiful-dnd-grid';
 import './ImagesForm.scss';
 interface Props {
   listImages: string[];
-  handleRemoveImages: Function;
-  handleUploadImages: Function;
+  handleRemoveImages: (image: string) => void;
+  handleUploadImages: (listImagesUpload: { image: string; file: any }[]) => void;
   error?: string;
-  handleDrag: Function;
+  handleDrag: (sourceIndex: number, newIndex: number) => void;
 }
 const not_available_img_url = 'https://admin.gearfocus.div4.pgtest.co/assets/images/no-image-icon.png';
 

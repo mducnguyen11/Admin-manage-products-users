@@ -9,7 +9,16 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from '@mui/material';
+import {
+  Alert,
+  AlertColor,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
+} from '@mui/material';
 
 import Button from 'modules/common/components/Button/Button';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
@@ -21,20 +30,40 @@ const ManageUsers = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [listUsers, setListUsers] = useState<{ select_checked: boolean; user: IUserDataTableItem }[]>([]);
   const [filter, setFilter] = useState<IFilterUser>(defaultFilterUserValue);
-  const [alertSuccess, setAlertSuccess] = React.useState('');
-  const [alertError, setAlertError] = React.useState<string>('');
+
   const [totalItem, setTotalItem] = useState(0);
-  const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertSuccess('');
+  const [alert, setAlert] = React.useState<{
+    open: boolean;
+    type: AlertColor;
+    text: string;
+  }>({
+    open: false,
+    type: 'success',
+    text: '',
+  });
+  const handleShowAlertSuccess = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'success',
+      text: text,
+    });
   };
-  const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleShowAlertError = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'error',
+      text: text,
+    });
+  };
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertError('');
+    setAlert({
+      open: false,
+      type: 'error',
+      text: '',
+    });
   };
   const handleChangePage = useCallback(
     (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -64,7 +93,7 @@ const ManageUsers = () => {
       setListUsers(listUsers);
       setTotalItem(Number(res.recordsFiltered));
     } else {
-      setAlertError('Have no product');
+      handleShowAlertError('Have no product');
       setListUsers([]);
       setTotalItem(0);
     }
@@ -99,9 +128,9 @@ const ManageUsers = () => {
     const res = await dispatch(fetchThunk(API_PATHS.deleteUserByIDArray, 'post', { params: params }));
     if (res.success) {
       getUsers();
-      setAlertSuccess('Removre successully');
+      handleShowAlertSuccess('Removre successully');
     } else {
-      setAlertError('Remove fail');
+      handleShowAlertError('Remove fail');
     }
     dispatch(stopLoading());
   };
@@ -169,16 +198,13 @@ const ManageUsers = () => {
           modalContent="Make sure u want to  delete these users"
         />
       </div>
-      <Snackbar open={alertSuccess !== ''} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
-        <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>
-          {alertSuccess}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
-        <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
-          {alertError}
-        </Alert>
-      </Snackbar>
+      {alert.open ? (
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </div>
   );
 };

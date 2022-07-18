@@ -1,4 +1,5 @@
 import { API_PATHS } from 'configs/api';
+import { IProductDetailDataField } from 'models/product';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 
 import { fetchThunk } from 'modules/common/redux/thunk';
@@ -11,7 +12,7 @@ import { Action } from 'typesafe-actions';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 const ProductBrand = (props: Props) => {
@@ -52,9 +53,12 @@ const ProductBrand = (props: Props) => {
       <div className="product-detail-row-input product-detail-brand-input">
         <SelectForm
           className="select-form product-detail-row-input-input-form"
-          key_name="brand_id"
           value={props.value}
-          onChange={handleChange}
+          onChange={(value: string) => {
+            handleChange({
+              brand_id: value,
+            });
+          }}
           options={listBrands}
           error={props.errorMessage}
         />

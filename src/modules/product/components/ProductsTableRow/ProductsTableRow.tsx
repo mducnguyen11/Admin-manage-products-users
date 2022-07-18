@@ -17,8 +17,12 @@ interface Props {
     product: IProductTableItem;
     delete_checked: boolean;
   };
-  handleChangeProduct: Function;
-  handleUpdateEnable: Function;
+  handleUpdateEnable: (id: string, enable: number) => void;
+  handleChangeProduct: (product: {
+    select_checked: boolean;
+    delete_checked: boolean;
+    product: IProductTableItem;
+  }) => void;
 }
 
 const ProductsTableRow = (props: Props) => {
@@ -36,21 +40,9 @@ const ProductsTableRow = (props: Props) => {
   const item = props.item;
   const handlePowerAction = () => {
     if (item.product.enabled == '1') {
-      props.handleUpdateEnable({
-        ...item,
-        product: {
-          ...item.product,
-          enabled: 0,
-        },
-      });
+      props.handleUpdateEnable(item.product.id, 0);
     } else {
-      props.handleUpdateEnable({
-        ...item,
-        product: {
-          ...item.product,
-          enabled: 1,
-        },
-      });
+      props.handleUpdateEnable(item.product.id, 1);
     }
     setOpen(false);
   };

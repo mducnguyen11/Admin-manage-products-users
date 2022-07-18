@@ -17,8 +17,11 @@ const UserMemberships = (props: Props) => {
         <SelectForm
           value={props.value || ''}
           options={USER_MEMBERSHIPS_CREATE_OPTIONS}
-          onChange={props.onChange}
-          key_name="membership_id"
+          onChange={(value: string) => {
+            props.onChange({
+              membership_id: value,
+            });
+          }}
         />
       </div>
     </div>

@@ -1,10 +1,11 @@
+import { IProductDetailDataField } from 'models/product';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import React, { memo, useEffect, useState } from 'react';
 import UserCondition from '../ProductUserCondition/ProductUserCondition';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
 }
 
 const ProductCondition = (props: Props) => {
@@ -34,10 +35,13 @@ const ProductCondition = (props: Props) => {
         <div className="product-detail-row-input product-detail-condition-input">
           <SelectForm
             className="product-detail-condition-input-value select-form"
-            key_name="inventory_tracking"
             value={value}
             helperText="Select Used Condition"
-            onChange={handleChange}
+            onChange={(value: string) => {
+              handleChange({
+                inventory_tracking: value,
+              });
+            }}
             options={[
               {
                 value: '0',
@@ -47,7 +51,7 @@ const ProductCondition = (props: Props) => {
           />
         </div>
       </div>
-      {value !== '1' ? <UserCondition value="" changeData={() => {}} /> : null}
+      {value !== '1' ? <UserCondition value="" onChange={() => {}} /> : null}
     </>
   );
 };

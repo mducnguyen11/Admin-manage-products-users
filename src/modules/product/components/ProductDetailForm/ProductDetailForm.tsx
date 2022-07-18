@@ -23,13 +23,7 @@ import Button from 'modules/common/components/Button/Button';
 interface Props {
   product: IProductDetailData;
   actionName: string;
-  onSave: (
-    a: IProductDetailData,
-    b: {
-      image: string;
-      file: any;
-    }[],
-  ) => void;
+  onSave: (a: IProductDetailData) => void;
   listFieldRequired: string[];
 }
 interface ErrorData {
@@ -87,17 +81,7 @@ const ProductDetailForm = (props: Props) => {
   const handleSaveProduct = async () => {
     const validateResult = validateProductDataField(productdetail, props.listFieldRequired);
     if (validateResult.validate) {
-      const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
-        const v: { image: string; file: any }[] = [];
-        array.forEach((c) => {
-          if (c.file !== undefined) {
-            const x: { image: string; file: any } = { ...c, file: c.file };
-            v.push(x);
-          }
-        });
-        return v;
-      };
-      props.onSave(productdetail, getListFiles(productdetail.imagesOrder || []));
+      props.onSave(productdetail);
     } else {
       setErrors(validateResult.errors);
     }

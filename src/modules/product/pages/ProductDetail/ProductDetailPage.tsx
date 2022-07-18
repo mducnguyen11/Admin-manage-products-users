@@ -10,7 +10,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 
 import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
 import ProductDetailForm from 'modules/product/components/ProductDetailForm/ProductDetailForm';
@@ -24,25 +24,38 @@ const ProductDetail = (props: Props) => {
   const params = useParams<{ id: string }>();
   const [tab, setTab] = React.useState(0);
   const history = useHistory();
-  const [alertSuccess, setAlertSuccess] = React.useState(false);
-  const [alertError, setAlertError] = React.useState<string>('');
-  const handleShowAlertSuccess = () => {
-    setAlertSuccess(true);
+  const [alert, setAlert] = React.useState<{
+    open: boolean;
+    type: AlertColor;
+    text: string;
+  }>({
+    open: false,
+    type: 'success',
+    text: '',
+  });
+  const handleShowAlertSuccess = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'success',
+      text: text,
+    });
   };
-  const handleShowAlertError = (a: string) => {
-    setAlertError(a);
+  const handleShowAlertError = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'error',
+      text: text,
+    });
   };
-  const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertSuccess(false);
-  };
-  const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertError('');
+    setAlert({
+      open: false,
+      type: 'error',
+      text: '',
+    });
   };
   const [product, setProduct] = useState<IProductDetailData>();
   const getProductDetail = useCallback(async () => {
@@ -59,18 +72,23 @@ const ProductDetail = (props: Props) => {
     getProductDetail();
   }, [params.id]);
 
-  const handleSaveProduct = async (
-    productData: IProductDetailData,
-    listImgUpload: {
-      image: string;
-      file: any;
-    }[],
-  ) => {
+  const handleSaveProduct = async (product: IProductDetailData) => {
     dispatch(setLoading());
+    const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
+      const v: { image: string; file: any }[] = [];
+      array.forEach((c) => {
+        if (c.file !== undefined) {
+          const x: { image: string; file: any } = { ...c, file: c.file };
+          v.push(x);
+        }
+      });
+      return v;
+    };
+    const listImgUpload = getListFiles(product.imagesOrder || []);
     const listPromiseImgUpload = listImgUpload.map(async (image, i) => {
       const formData = new FormData();
       formData.append('images[]', image.file);
-      formData.append('productId', productData.id || '');
+      formData.append('productId', product.id || '');
       formData.append('order', '0');
       return AxiosFormDataConfig.post(API_PATHS.uploadProductImage, formData);
     });
@@ -80,12 +98,12 @@ const ProductDetail = (props: Props) => {
       handleShowAlertError('Up load image fail');
     }
     const formData = new FormData();
-    formData.append('productDetail', JSON.stringify(formatProductDataToPayload(productData)));
+    formData.append('productDetail', JSON.stringify(formatProductDataToPayload(product)));
     const ress = await AxiosFormDataConfig.post(API_PATHS.saveProduct, formData);
 
     if (ress.data.success) {
       getProductDetail();
-      handleShowAlertSuccess();
+      handleShowAlertSuccess('Update successfully');
     } else {
       handleShowAlertError('Update product fail');
     }
@@ -130,16 +148,13 @@ const ProductDetail = (props: Props) => {
           </Tab>
         </div>
       </div>
-      <Snackbar open={alertSuccess} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
-        <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>
-          Update successfully
-        </Alert>
-      </Snackbar>
-      <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
-        <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
-          {alertError}
-        </Alert>
-      </Snackbar>
+      {alert.open ? (
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </div>
   );
 };

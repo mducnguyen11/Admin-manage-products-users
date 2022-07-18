@@ -16,8 +16,11 @@ const UserStatus = (props: Props) => {
         <SelectForm
           value={props.value}
           options={USER_ACCOUNT_STATUS_OPTIONS}
-          onChange={props.onChange}
-          key_name="status"
+          onChange={(value: string) => {
+            props.onChange({
+              status: value,
+            });
+          }}
         />
       </div>
     </div>

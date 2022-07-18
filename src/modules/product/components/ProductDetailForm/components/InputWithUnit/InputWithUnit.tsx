@@ -5,8 +5,8 @@ interface Props {
   unit?: { value: string }[];
   currentUnit: string;
   value: string;
-  onChange: Function;
-  name: string;
+  onChange: (value: string) => void;
+  key_name: string;
   error?: string;
 }
 
@@ -18,7 +18,6 @@ const InputWithUnit = (props: Props) => {
         onlyNumber
         value={Number(props.value).toFixed(2)}
         onChange={props.onChange}
-        key_name={props.name}
         className="input"
         type="text"
         error={props.error}

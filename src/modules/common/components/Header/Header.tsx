@@ -4,7 +4,7 @@ import HeaderUser from './components/HeaderUser/HeaderUser';
 import './Header.scss';
 
 interface Props {
-  expandSidebar: Function;
+  expandSidebar: () => void;
 }
 
 const Header = (props: Props) => {

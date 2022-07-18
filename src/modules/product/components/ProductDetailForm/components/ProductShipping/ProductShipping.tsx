@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
 import { FormattedMessage } from 'react-intl';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
+import { IProductDetailDataField } from 'models/product';
 
 interface Props {
   continentalList: { id: string; zone_name: string; price: string }[];
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 
@@ -46,7 +47,6 @@ const ProductShipping = (props: Props) => {
   };
 
   const handleChangePrice = (a: { [key: string]: string }) => {
-    console.log(a);
     const xx = Object.keys(a)[0];
     const ll = continentalList.map((b) => {
       if (xx == b.id) {
@@ -75,9 +75,9 @@ const ProductShipping = (props: Props) => {
     });
     return xx;
   };
-  const handleRemoveCountry = (a: string) => {
+  const handleRemoveCountry = (value: string) => {
     props.onChange({
-      shipping: continentalList.filter((b) => b.id !== a),
+      shipping: continentalList.filter((b) => b.id !== value),
     });
   };
   return (
@@ -90,7 +90,14 @@ const ProductShipping = (props: Props) => {
                 <p className="product-detail-row-name-value"> {a.zone_name} </p>
               </div>
               <div className="product-detail-row-input product-detail-continental-input">
-                <InputWithUnit currentUnit="$" value={a.price} name={a.id} onChange={handleChangePrice} />
+                <InputWithUnit
+                  currentUnit="$"
+                  value={a.price}
+                  key_name={a.id}
+                  onChange={(value: string) => {
+                    handleChangePrice({ [a.id]: value });
+                  }}
+                />
                 {a.id !== '1' ? (
                   <div className="product-detail-row-action">
                     <p
@@ -116,10 +123,8 @@ const ProductShipping = (props: Props) => {
         <div className="product-detail-row-input product-detail-continental-input">
           <div className="product-detail-row-input-container">
             <SelectForm
-              key_name="country_id"
-              onChange={(a: { country_id: string }) => {
-                console.log('change xxx : ', a);
-                setCountrySelect(a.country_id);
+              onChange={(a: string) => {
+                setCountrySelect(a);
               }}
               value={countrySelect}
               options={[

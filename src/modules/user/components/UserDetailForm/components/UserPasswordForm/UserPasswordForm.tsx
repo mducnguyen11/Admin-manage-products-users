@@ -1,9 +1,13 @@
+import { IUserDataField } from 'models/user';
 import React, { memo, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
-  onChange: Function;
-  value: { password: string; confirm_password: string };
+  value: {
+    password: string;
+    confirm_password: string;
+  };
+  onChange: (value: IUserDataField) => void;
   errors: {
     password?: string;
     confirm_password?: string;
@@ -45,6 +49,12 @@ const UserPasswordForm = (props: Props) => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
+                if (props.errors.password) {
+                  console.log('?? why');
+                  props.onChange({
+                    password: e.target.value,
+                  });
+                }
               }}
               onBlur={handleBlur}
             />
@@ -66,6 +76,11 @@ const UserPasswordForm = (props: Props) => {
               value={confirm_password}
               onChange={(e) => {
                 setConfirm_password(e.target.value);
+                if (props.errors.confirm_password) {
+                  props.onChange({
+                    confirm_password: e.target.value,
+                  });
+                }
               }}
               onBlur={() => {
                 if (password !== '') {

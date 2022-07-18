@@ -113,6 +113,7 @@ export interface IUserDataField {
   statusComment?: string;
   taxExempt?: string;
   vendor_id?: string;
+  password?: string;
   confirm_password?: string;
 }
 

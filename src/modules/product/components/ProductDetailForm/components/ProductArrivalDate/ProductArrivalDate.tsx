@@ -1,3 +1,4 @@
+import { IProductDetailDataField } from 'models/product';
 import React, { memo, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -5,7 +6,7 @@ import { formateDateToTimeStamp, formatTimeStampToDateString } from 'utils/forma
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
 }
 
 const ProductArrivalDate = (props: Props) => {

@@ -1,9 +1,10 @@
+import { IProductDetailDataField } from 'models/product';
 import InputField from 'modules/common/components/InputField/InputField';
 import React, { memo } from 'react';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   key_name: string;
   text: string;
   errorMessage?: string;
@@ -21,10 +22,9 @@ const ProductInputRow = (props: Props) => {
           onlyNumber={props.onlyNumber || false}
           className="product-detail-row-input-value"
           value={props.value}
-          onChange={(a: object) => {
-            props.onChange(a);
+          onChange={(value: string) => {
+            props.onChange({ [props.key_name]: value });
           }}
-          key_name={props.key_name}
           error={props.errorMessage}
         />
       </div>

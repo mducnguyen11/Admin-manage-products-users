@@ -1,6 +1,6 @@
 import './UserFilter.scss';
 import { IFilterUser } from 'models/user';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useState } from 'react';
 import Country from './components/Country/Country';
 import FilterUserTypes from './components/FilterUserTypes/FilterUserTypes';
 import FilterDateRange from './components/DateRange/DateRange';
@@ -9,7 +9,11 @@ import CheckmarksGroup from 'modules/common/components/CheckmarksGroup/Checkmark
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import Button from 'modules/common/components/Button/Button';
 import RadioInput from 'modules/common/components/RadioInput/RadioInput';
-import { USER_FILTER_MEMBERSHIPS_OPTIONS, USER_STATUS_OPTIONS } from 'modules/user/constants';
+import {
+  USER_FILTER_DATE_TYPES_OPTIONS,
+  USER_FILTER_MEMBERSHIPS_OPTIONS,
+  USER_STATUS_OPTIONS,
+} from 'modules/user/constants';
 
 interface Props {
   filter: IFilterUser;
@@ -31,11 +35,14 @@ const UserFilter = (props: Props) => {
       <div className="filter-main">
         <div className="filter-main-field">
           <InputField
-            key_name="search"
             placeholder="Search Keyword"
             className="flex-1"
             type="text"
-            onChange={handleChangeFilter}
+            onChange={(value: string) => {
+              handleChangeFilter({
+                search: value,
+              });
+            }}
             value={filter.search}
           />
         </div>
@@ -53,11 +60,10 @@ const UserFilter = (props: Props) => {
         </div>
         <div className="filter-main-field">
           <SelectForm
-            key_name="status"
             value={filter.status[0] || 'All'}
-            onChange={(a: { status: string }) => {
+            onChange={(value: string) => {
               handleChangeFilter({
-                status: a.status == 'All' ? [] : [a.status],
+                status: value == 'All' ? [] : [value],
               });
             }}
             options={USER_STATUS_OPTIONS}
@@ -91,19 +97,40 @@ const UserFilter = (props: Props) => {
             <div className="filter-additional-field">
               <label htmlFor="">State</label>
               <div className="filter-field-input">
-                <InputField key_name="state" onChange={handleChangeFilter} value={filter.state} />
+                <InputField
+                  onChange={(value: string) => {
+                    handleChangeFilter({
+                      state: value,
+                    });
+                  }}
+                  value={filter.state}
+                />
               </div>
             </div>
             <div className="filter-additional-field">
               <label htmlFor="">Address</label>
               <div className="filter-field-input">
-                <InputField key_name="address" onChange={handleChangeFilter} value={filter.address} />
+                <InputField
+                  onChange={(value: string) => {
+                    handleChangeFilter({
+                      address: value,
+                    });
+                  }}
+                  value={filter.address}
+                />
               </div>
             </div>
             <div className="filter-additional-field">
               <label htmlFor="">Phone</label>
               <div className="filter-field-input">
-                <InputField key_name="phone" onChange={handleChangeFilter} value={filter.phone} />
+                <InputField
+                  onChange={(value: string) => {
+                    handleChangeFilter({
+                      phone: value,
+                    });
+                  }}
+                  value={filter.phone}
+                />
               </div>
             </div>
           </div>
@@ -113,15 +140,12 @@ const UserFilter = (props: Props) => {
               <div className="filter-additional-field-radio-item">
                 <RadioInput
                   value={filter.date_type}
-                  onChange={handleChangeFilter}
-                  options={[
-                    { id: 'R', name: 'Register' },
-                    {
-                      id: 'L',
-                      name: 'Last logged in',
-                    },
-                  ]}
-                  key_name="date_type"
+                  onChange={(value: string) => {
+                    handleChangeFilter({
+                      date_type: value,
+                    });
+                  }}
+                  options={USER_FILTER_DATE_TYPES_OPTIONS}
                 />
               </div>
             </div>

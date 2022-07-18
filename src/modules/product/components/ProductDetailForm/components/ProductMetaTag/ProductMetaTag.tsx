@@ -1,3 +1,4 @@
+import { IProductDetailDataField } from 'models/product';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import { PRODUCT_METATAG_OPTIONS } from 'modules/product/constants';
 import React from 'react';
@@ -5,7 +6,7 @@ import InputKey from '../ProductInputRow/ProductInputRow';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   og_tags: string;
 }
 
@@ -20,10 +21,11 @@ const MetaTag = (props: Props) => {
           <SelectForm
             className="product-detail-row-input-value"
             value={props.value}
-            onChange={(a: { og_tags_type: string }) => {
-              props.onChange(a);
+            onChange={(value: string) => {
+              props.onChange({
+                og_tags_type: value,
+              });
             }}
-            key_name="og_tags_type"
             options={PRODUCT_METATAG_OPTIONS}
           />
         </div>

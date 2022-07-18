@@ -12,7 +12,14 @@ const UserComment = (props: Props) => {
     <div className="user-detail-row-item">
       <p className="user-detail-row-name">Status comment (reason)</p>
       <div className="user-detail-row-value">
-        <InputField value={props.value} onChange={props.onChange} key_name="statusComment" />
+        <InputField
+          value={props.value}
+          onChange={(value: string) => {
+            props.onChange({
+              statusComment: value,
+            });
+          }}
+        />
       </div>
     </div>
   );

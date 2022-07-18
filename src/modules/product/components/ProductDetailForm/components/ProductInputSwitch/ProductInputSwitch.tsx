@@ -1,10 +1,11 @@
+import { IProductDetailDataField } from 'models/product';
 import Switch from 'modules/common/components/Switch/Switch';
 import React, { memo } from 'react';
 import './ProductInputSwitch.scss';
 
 interface Props {
   key_name: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   value: string;
   text: string;
   helperIcon?: boolean;

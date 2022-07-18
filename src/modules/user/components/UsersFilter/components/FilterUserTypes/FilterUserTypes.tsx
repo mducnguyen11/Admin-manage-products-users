@@ -9,7 +9,7 @@ import { Action } from 'typesafe-actions';
 
 interface Props {
   value: string[];
-  onChange: Function;
+  onChange: (value: { [key: string]: any }) => void;
 }
 
 const FilterUserTypes = (props: Props) => {

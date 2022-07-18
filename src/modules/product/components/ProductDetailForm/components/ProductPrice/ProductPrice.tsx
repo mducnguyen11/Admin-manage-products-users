@@ -5,11 +5,12 @@ import './ProductPrice.scss';
 import InputField from 'modules/common/components/InputField/InputField';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import { PRODUCT_SALE_PRICE_TYPE_OPTIONS } from 'modules/product/constants';
+import { IProductDetailDataField } from 'models/product';
 interface Props {
   price: string;
   sale_price: string;
   sale_price_type: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 
@@ -27,8 +28,10 @@ const ProductPrice = (props: Props) => {
               error={props.errorMessage}
               currentUnit="$"
               value={props.price}
-              name="price"
-              onChange={props.onChange}
+              key_name="price"
+              onChange={(value: string) => {
+                props.onChange({ price: value });
+              }}
             />
           </div>
           <div className="sale">
@@ -54,9 +57,10 @@ const ProductPrice = (props: Props) => {
               <>
                 <div className="select-unit">
                   <SelectForm
-                    key_name="sale_price_type"
-                    onChange={(a: { sale_price_type: string }) => {
-                      props.onChange(a);
+                    onChange={(value: string) => {
+                      props.onChange({
+                        sale_price_type: value,
+                      });
                     }}
                     value={props.sale_price_type}
                     options={PRODUCT_SALE_PRICE_TYPE_OPTIONS}
@@ -66,12 +70,12 @@ const ProductPrice = (props: Props) => {
                   <InputField
                     onlyNumber
                     value={props.sale_price}
-                    onChange={(a: { sale_price: string }) => {
+                    onChange={(value: string) => {
                       setStartSale(true);
-                      console.log(a);
-                      props.onChange(a);
+                      props.onChange({
+                        sale_price: value,
+                      });
                     }}
-                    key_name="sale_price"
                   />
                 </div>
               </>

@@ -8,7 +8,7 @@ import { useHistory, useParams } from 'react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 import UserDetailForm from 'modules/user/components/UserDetailForm/UserDetailForm';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import { formartUserToPayload } from 'modules/user/utils';
@@ -20,25 +20,38 @@ const UserDetailPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [tab, setTab] = React.useState(0);
   const [user, setUser] = useState<IUserDetailData>();
-  const [alertSuccess, setAlertSuccess] = React.useState<string>('');
-  const [alertError, setAlertError] = React.useState<string>('');
-  const handleShowAlertSuccess = (a: string) => {
-    setAlertSuccess(a);
+  const [alert, setAlert] = React.useState<{
+    open: boolean;
+    type: AlertColor;
+    text: string;
+  }>({
+    open: false,
+    type: 'success',
+    text: '',
+  });
+  const handleShowAlertSuccess = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'success',
+      text: text,
+    });
   };
-  const handleShowAlertError = (a: string) => {
-    setAlertError(a);
+  const handleShowAlertError = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'error',
+      text: text,
+    });
   };
-  const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertSuccess('');
-  };
-  const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertError('');
+    setAlert({
+      open: false,
+      type: 'error',
+      text: '',
+    });
   };
   const getUserData = useCallback(async () => {
     try {
@@ -66,7 +79,7 @@ const UserDetailPage = () => {
       setUser(res.data.info);
       handleShowAlertSuccess('Update successfully');
     } else {
-      handleShowAlertError('Update successfully');
+      handleShowAlertError('Update fail');
     }
     dispatch(stopLoading());
   };
@@ -105,16 +118,13 @@ const UserDetailPage = () => {
           </div>
         ) : null}
       </div>
-      <Snackbar open={alertSuccess !== ''} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
-        <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>
-          {alertSuccess}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
-        <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
-          {alertError}
-        </Alert>
-      </Snackbar>
+      {alert.open ? (
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </div>
   );
 };

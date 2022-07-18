@@ -4,15 +4,12 @@ import { FormattedMessage } from 'react-intl';
 interface Props {
   value: string;
   onChange: Function;
-  key_name?: string;
   className?: string;
   options: { value: string; name: string; [key: string]: any }[];
   helperText?: string;
   error?: string;
 }
-interface obj {
-  [key: string]: string;
-}
+
 const SelectForm = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState('');
@@ -51,13 +48,7 @@ const SelectForm = (props: Props) => {
                     onClick={() => {
                       setOpen(!open);
                       if (props.value !== option.value) {
-                        if (props.key_name) {
-                          const xx: obj = {};
-                          xx[props.key_name] = option.value;
-                          props.onChange(xx);
-                        } else {
-                          props.onChange(option.value);
-                        }
+                        props.onChange(option.value);
                       }
                     }}
                     className="select-form-option-value"

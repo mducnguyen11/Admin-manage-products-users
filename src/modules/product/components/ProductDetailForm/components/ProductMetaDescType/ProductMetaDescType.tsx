@@ -1,15 +1,19 @@
+import { IProductDetailDataField } from 'models/product';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import { PRODUCT_METADESCTYPES_OPTIONS } from 'modules/product/constants';
 import React, { memo } from 'react';
-import InputKey from '../ProductInputRow/ProductInputRow';
+import ProductInputRow from '../ProductInputRow/ProductInputRow';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   meta_description: string;
 }
 
 const ProductMetaDescType = (props: Props) => {
+  const handleChange = (value: string) => {
+    props.onChange({ meta_description: value });
+  };
   return (
     <>
       <div className=" product-detail-row product-detail-metatag">
@@ -20,16 +24,22 @@ const ProductMetaDescType = (props: Props) => {
           <SelectForm
             className="product-detail-row-input-value"
             value={props.value}
-            onChange={(a: { meta_desc_type: string }) => {
-              props.onChange(a);
+            onChange={(value: string) => {
+              props.onChange({
+                meta_desc_type: value,
+              });
             }}
-            key_name="meta_desc_type"
             options={PRODUCT_METADESCTYPES_OPTIONS}
           />
         </div>
       </div>
       {props.value == 'C' ? (
-        <InputKey key_name="meta_description" text="" value={props?.meta_description} onChange={props.onChange} />
+        <ProductInputRow
+          key_name="meta_description"
+          text=""
+          value={props?.meta_description}
+          onChange={props.onChange}
+        />
       ) : null}
     </>
   );

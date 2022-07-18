@@ -66,6 +66,7 @@ const UserDetailForm = (props: Props) => {
     [setErrors, props.listFieldRequired, errors],
   );
   const handleChangeUser = (userDataFieldChange: IUserDataField) => {
+    console.log('change user :', userDataFieldChange);
     handleValidate(
       {
         ...user,
@@ -148,8 +149,11 @@ const UserDetailForm = (props: Props) => {
                   <div className="user-detail-row-value">
                     <>
                       <SelectForm
-                        onChange={handleChangeUser}
-                        key_name="access_level"
+                        onChange={(value: string) => {
+                          handleChangeUser({
+                            access_level: value,
+                          });
+                        }}
                         value={user.access_level}
                         options={USER_ACCESS_LEVEL_OPTIONS}
                       />

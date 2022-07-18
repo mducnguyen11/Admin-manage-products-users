@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface Props {
   value: boolean;
-  onChange: Function;
+  onChange: (value: boolean) => void;
 }
 
 const Checkbox = (props: Props) => {

@@ -4,10 +4,9 @@ interface Props {
   type?: string;
   placeholder?: string;
   value: string;
-  onChange: Function;
-  key_name?: string;
+  onChange: (value: string) => void;
   className?: string;
-  onClick?: Function;
+  onClick?: () => void;
   error?: string;
   onlyNumber?: boolean;
 }
@@ -26,15 +25,12 @@ const InputField = (props: Props) => {
         }}
         className={`admin-input-form ${props.className ? props.className : ''}`}
         type={props.type || 'text'}
-        name={props.key_name}
         placeholder={props.placeholder ? props.placeholder : ''}
         value={textValue}
         onChange={(e) => {
           setTextValue(e.target.value);
           if (props.error) {
-            const objz: { [key: string]: any } = {};
-            objz[props.key_name as keyof typeof objz] = e.target.value;
-            props.onChange(objz);
+            props.onChange(e.target.value);
           }
         }}
         onKeyPress={(e) => {
@@ -48,24 +44,12 @@ const InputField = (props: Props) => {
         }}
         onBlur={() => {
           if (props.value !== textValue) {
-            if (props.key_name) {
-              const objz: { [key: string]: any } = {};
-              objz[props.key_name as keyof typeof objz] = textValue;
-              props.onChange(objz);
-            } else {
-              if (props.value !== textValue) {
-                props.onChange(textValue);
-              }
+            if (props.value !== textValue) {
+              props.onChange(textValue);
             }
           } else {
             if (props.value == textValue && textValue == '') {
-              if (props.key_name) {
-                const objz: { [key: string]: any } = {};
-                objz[props.key_name as keyof typeof objz] = '';
-                props.onChange(objz);
-              } else {
-                props.onChange('');
-              }
+              props.onChange('');
             }
           }
         }}

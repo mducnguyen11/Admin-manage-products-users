@@ -1,9 +1,10 @@
+import { IProductDetailDataField } from 'models/product';
 import React, { memo, useEffect, useState } from 'react';
 import './ProductTaxClass.scss';
 
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
 }
 
 const ProductTaxClass = (props: Props) => {

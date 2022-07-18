@@ -52,16 +52,20 @@ const ProductFilter = (props: Props) => {
       ...filterField,
     });
   };
+
   return (
     <div className="filter">
       <div className="filter-main">
         <div className="filter-main-field">
           <InputField
-            key_name="search"
             placeholder="Search Keyword"
             className="flex-1"
             type="text"
-            onChange={handleChangeFilter}
+            onChange={(value: string) => {
+              handleChangeFilter({
+                search: value,
+              });
+            }}
             value={filter.search}
           />
         </div>
@@ -77,16 +81,22 @@ const ProductFilter = (props: Props) => {
                 name: a.name,
               })),
             ]}
-            key_name="category"
-            onChange={handleChangeFilter}
+            onChange={(value: string) => {
+              handleChangeFilter({
+                category: value,
+              });
+            }}
             value={filter.category}
           />
         </div>
         <div className="filter-main-field">
           <SelectForm
             options={PRODUCT_STOCK_STATUS_OPTIONS}
-            key_name="stock_status"
-            onChange={handleChangeFilter}
+            onChange={(value: string) => {
+              handleChangeFilter({
+                stock_status: value,
+              });
+            }}
             value={filter.stock_status}
           />
         </div>
@@ -154,8 +164,11 @@ const ProductFilter = (props: Props) => {
               <div className="filter-field-input">
                 <SelectForm
                   options={PRODUCT_AVAILABILITY_STATUS_OPTIONS}
-                  key_name="availability"
-                  onChange={handleChangeFilter}
+                  onChange={(value: string) => {
+                    handleChangeFilter({
+                      availability: value,
+                    });
+                  }}
                   value={filter.availability}
                 />
               </div>

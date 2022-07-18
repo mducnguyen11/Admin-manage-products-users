@@ -1,3 +1,4 @@
+import { IProductDetailDataField } from 'models/product';
 import ImageForm from 'modules/common/components/ImagesForm/ImageForm';
 import React, { memo } from 'react';
 
@@ -8,7 +9,7 @@ interface Props {
     thumbs: string[];
   }[];
   errorMessage?: string;
-  onChange: Function;
+  onChange: (value: IProductDetailDataField) => void;
   deleted_images: number[];
   listImagesOrder: { image: string; file?: any }[];
 }

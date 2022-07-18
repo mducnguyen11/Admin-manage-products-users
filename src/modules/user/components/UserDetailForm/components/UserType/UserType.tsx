@@ -19,9 +19,12 @@ const UserType = (props: Props) => {
         <div className="user-detail-row-value">
           <SelectForm
             value={props.value}
-            key_name="paymentRailsType"
             options={USER_TYPES_OPTIONS}
-            onChange={props.onChange}
+            onChange={(value: string) => {
+              props.onChange({
+                paymentRailsType: value,
+              });
+            }}
           />
         </div>
       )}

@@ -9,20 +9,14 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import ProductFilter from '../../components/ProductsFilter/ProductsFilter';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import Button from 'modules/common/components/Button/Button';
 import ProductsTable from 'modules/product/components/ProductsTable/ProductsTable';
 import ModalButton from 'modules/common/components/ModalButton/ModalButton';
-interface Props {}
 
-const ManageProducts = (props: Props) => {
+const ManageProducts = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [listProducts, setListProducts] = useState<
     {
@@ -38,26 +32,39 @@ const ManageProducts = (props: Props) => {
       initialValue: IProductTableItem;
     }[]
   >([]);
-  const [alertSuccess, setAlertSuccess] = React.useState(false);
-  const [alertError, setAlertError] = React.useState<string>('');
   const [totalItem, setTotalItem] = useState(0);
-  const handleShowAlertSuccess = () => {
-    setAlertSuccess(true);
+  const [alert, setAlert] = React.useState<{
+    open: boolean;
+    type: AlertColor;
+    text: string;
+  }>({
+    open: false,
+    type: 'success',
+    text: '',
+  });
+  const handleShowAlertSuccess = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'success',
+      text: text,
+    });
   };
-  const handleShowAlertError = (a: string) => {
-    setAlertError(a);
+  const handleShowAlertError = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'error',
+      text: text,
+    });
   };
-  const handleCloseAlertSuccess = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertSuccess(false);
-  };
-  const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlertError('');
+    setAlert({
+      open: false,
+      type: 'error',
+      text: '',
+    });
   };
 
   // func get data
@@ -146,8 +153,9 @@ const ManageProducts = (props: Props) => {
     const res = await dispatch(fetchThunk(API_PATHS.deleteProductsbyIDArray, 'post', { params: paramsPayload }));
     await getProducts();
     if (res.data) {
-      handleShowAlertSuccess();
+      handleShowAlertSuccess('Delete successfully');
     } else {
+      console.log('??????????????????');
       handleShowAlertError('Update fail');
     }
     dispatch(stopLoading());
@@ -166,25 +174,24 @@ const ManageProducts = (props: Props) => {
     if (res.data && res.success) {
       setListProductsChange([]);
       getProducts();
-      handleShowAlertSuccess();
+      handleShowAlertSuccess('Update successfully');
     } else {
       handleShowAlertError('Update fail');
     }
-
     dispatch(stopLoading());
   };
   const handleUpdateEnable = useCallback(
-    async (productData: { select_checked: boolean; product: IProductTableItem; delete_checked: boolean }) => {
+    async (id: string, enable: number) => {
       const xx: { id: string; enable: number } = {
-        id: productData.product.id,
-        enable: Number(productData.product.enabled),
+        id: id,
+        enable: enable,
       };
       dispatch(setLoading());
       const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [xx] }));
       dispatch(stopLoading());
       getProducts();
       if (res.data) {
-        handleShowAlertSuccess();
+        handleShowAlertSuccess('Update successfully');
       } else {
         handleShowAlertError('Up date fail');
       }
@@ -289,16 +296,13 @@ const ManageProducts = (props: Props) => {
           )}
         </div>
       </div>
-      <Snackbar open={alertSuccess} autoHideDuration={3000} onClose={handleCloseAlertSuccess}>
-        <Alert onClose={handleCloseAlertSuccess} severity="success" sx={{ width: '100%' }}>
-          Update successfully
-        </Alert>
-      </Snackbar>
-      <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
-        <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
-          {alertError}
-        </Alert>
-      </Snackbar>
+      {alert.open ? (
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </div>
   );
 };
