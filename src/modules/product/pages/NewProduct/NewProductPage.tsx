@@ -14,7 +14,7 @@ import ProductDetailForm from 'modules/product/components/ProductDetailForm/Prod
 import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
 import { defaultProductValue, IProductDetailData } from 'models/product';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
-import { formatProductDataToPayload } from 'modules/product/utils';
+import { formatProductDataToPayload, validateProductDataToCreate } from 'modules/product/utils';
 
 interface Props {}
 
@@ -83,16 +83,7 @@ const NewProductPage = (props: Props) => {
       <h2 className="title">Add product</h2>
       <div className="new-product-page-tabs-content">
         <ProductDetailForm
-          listFieldRequired={[
-            'vendor_id',
-            'name',
-            'brand_id',
-            'condition',
-            'categories',
-            'price',
-            'quantity',
-            'images',
-          ]}
+          onValidate={validateProductDataToCreate}
           actionName="Add product"
           onSave={handleSaveProduct}
           product={{ ...defaultProductValue }}

@@ -16,7 +16,6 @@ import ProductMetaDescType from './components/ProductMetaDescType/ProductMetaDes
 import ProductInputSwitch from './components/ProductInputSwitch/ProductInputSwitch';
 import ProductInputRow from './components/ProductInputRow/ProductInputRow';
 import ProductVendor from './components/ProductVendor/ProductVendor';
-import { validateProductDataField } from 'modules/product/utils';
 import { formatTimeStampToDateString } from 'utils/formatTime';
 import Button from 'modules/common/components/Button/Button';
 
@@ -24,7 +23,10 @@ interface Props {
   product: IProductDetailData;
   actionName: string;
   onSave: (a: IProductDetailData) => void;
-  listFieldRequired: string[];
+  onValidate: (a: IProductDetailDataField) => {
+    validate: boolean;
+    errors: ErrorData;
+  };
 }
 interface ErrorData {
   vendor_id?: string;
@@ -49,12 +51,10 @@ const ProductDetailForm = (props: Props) => {
       imagesOrder: props.product.images.map((a) => ({ image: a.file })),
     });
   }, [props.product]);
+
   const [errors, setErrors] = useState<ErrorData>({});
-  const handleValidate = (productDataFieldChange: IProductDetailDataField, listFieldRequired: string[]) => {
-    const validateResult: { validate: boolean; errors: { [key: string]: string } } = validateProductDataField(
-      productDataFieldChange,
-      listFieldRequired,
-    );
+  const handleValidate = (productDataFieldChange: IProductDetailDataField) => {
+    const validateResult: { validate: boolean; errors: ErrorData } = props.onValidate(productDataFieldChange);
     if (!validateResult.validate) {
       setErrors({
         ...errors,
@@ -71,15 +71,14 @@ const ProductDetailForm = (props: Props) => {
     }
   };
   const handleChangeProduct = (productDataFieldChange: IProductDetailDataField) => {
-    console.log('change :', productDataFieldChange);
-    handleValidate(productDataFieldChange, props.listFieldRequired);
+    handleValidate(productDataFieldChange);
     setProductdetail({
       ...productdetail,
       ...productDataFieldChange,
     });
   };
   const handleSaveProduct = async () => {
-    const validateResult = validateProductDataField(productdetail, props.listFieldRequired);
+    const validateResult = props.onValidate(productdetail);
     if (validateResult.validate) {
       props.onSave(productdetail);
     } else {
@@ -138,6 +137,7 @@ const ProductDetailForm = (props: Props) => {
         <ProductMemberships value={productdetail?.memberships} onChange={handleChangeProduct} />
         <ProductTaxClass onChange={handleChangeProduct} value={productdetail?.tax_exempt} />
         <ProductPrice
+          participate_sale={productdetail.participate_sale}
           errorMessage={errors.price}
           price={productdetail?.price}
           onChange={handleChangeProduct}
@@ -161,7 +161,7 @@ const ProductDetailForm = (props: Props) => {
         <h2 className="section-title">Shipping</h2>
         <ProductShipping
           errorMessage={errors.shipping}
-          continentalList={
+          shippings={
             productdetail?.shipping.length > 0
               ? productdetail?.shipping
               : [{ id: '1', zone_name: 'Continental U.S.', price: '0.0000' }] || []

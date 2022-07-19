@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import InputWithUnit from '../InputWithUnit/InputWithUnit';
 import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
@@ -7,82 +7,75 @@ import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import { IProductDetailDataField } from 'models/product';
 
 interface Props {
-  continentalList: { id: string; zone_name: string; price: string }[];
+  shippings: { id: string; zone_name: string; price: string }[];
   onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 
 const ProductShipping = (props: Props) => {
-  const [continentalList, setContinentalList] = useState<{ id: string; zone_name: string; price: string }[]>(
-    props.continentalList,
-  );
-
-  const listCountry = useSelector((state: AppState) => state.country.country);
-  const [countrySelect, setCountrySelect] = useState<string>('0');
-
-  useEffect(() => {
-    setContinentalList(props.continentalList);
-  }, [props.continentalList]);
-  const handleAddCountry = () => {
-    if (countrySelect !== '0') {
-      const ax: { id: string; zone_name: string; price: string }[] = [];
-      listCountry.forEach((a) => {
-        if (a.id == countrySelect) {
-          ax.push({
+  const allshippingsList = useSelector((state: AppState) => state.shippings.shippings);
+  const [shippingZoneSelected, setShippingZoneSelected] = useState<string>('');
+  const handleAddShipping = () => {
+    if (shippingZoneSelected) {
+      const newShippingZone: { id: string; zone_name: string; price: string }[] = [];
+      allshippingsList.forEach((a) => {
+        if (a.id == shippingZoneSelected) {
+          return newShippingZone.push({
             id: a.id,
-            zone_name: a.country,
-            price: '0.0000',
+            zone_name: a.name,
+            price: '0.00',
           });
         }
       });
-
-      if (ax.length > 0) {
-        setContinentalList([...continentalList, ax[0]]);
+      if (newShippingZone.length > 0) {
         props.onChange({
-          shipping: [...continentalList, ax[0]],
+          shipping: [...props.shippings, newShippingZone[0]],
         });
-        setCountrySelect('0');
+        setShippingZoneSelected('');
       }
     }
   };
-
-  const handleChangePrice = (a: { [key: string]: string }) => {
-    const xx = Object.keys(a)[0];
-    const ll = continentalList.map((b) => {
-      if (xx == b.id) {
+  const handleChangePrice = (shipping: { [key: string]: string }) => {
+    const id = Object.keys(shipping)[0];
+    const newContinentalList = props.shippings.map((b) => {
+      if (id == b.id) {
         return {
           ...b,
-          price: a[xx],
+          price: shipping[id],
         };
       } else {
         return b;
       }
     });
-    setContinentalList(ll);
     props.onChange({
-      shipping: ll,
+      shipping: newContinentalList,
     });
   };
-  const filterCountry = (): { value: string; name: string }[] => {
-    const xx: { value: string; name: string }[] = [];
-    listCountry.map((a) => {
-      if (continentalList.findIndex((b) => b.id == a.id) == -1) {
-        xx.push({
-          value: a.id,
-          name: a.country,
+  const getshippingsList = useCallback((): { value: string; name: string }[] => {
+    const listShippingsToSelect: { value: string; name: string }[] = [];
+    allshippingsList.map((a) => {
+      if (props.shippings.findIndex((b) => b.id == a.id) == -1) {
+        listShippingsToSelect.push({
+          value: a.id || '',
+          name: a.name,
         });
       }
     });
-    return xx;
-  };
+    return listShippingsToSelect;
+  }, [props.shippings, allshippingsList]);
+
+  const getshippingsListOtions = useMemo(() => {
+    return getshippingsList();
+  }, [getshippingsList]);
   const handleRemoveCountry = (value: string) => {
     props.onChange({
-      shipping: continentalList.filter((b) => b.id !== value),
+      shipping: props.shippings.filter((b) => b.id !== value),
     });
   };
+
   return (
     <>
-      {continentalList.map((a, i) => {
+      {props.shippings.map((a, i) => {
         return (
           <React.Fragment key={i}>
             <div className="product-detail-row product-detail-continental">
@@ -124,20 +117,14 @@ const ProductShipping = (props: Props) => {
           <div className="product-detail-row-input-container">
             <SelectForm
               onChange={(a: string) => {
-                setCountrySelect(a);
+                setShippingZoneSelected(a);
               }}
-              value={countrySelect}
-              options={[
-                {
-                  value: '0',
-                  name: 'Select new country',
-                },
-                ...filterCountry(),
-              ]}
+              value={shippingZoneSelected}
+              options={getshippingsListOtions}
             />
           </div>
           <div className="product-detail-row-action">
-            <p onClick={handleAddCountry} className="action">
+            <p onClick={handleAddShipping} className="action">
               Add new{' '}
             </p>
           </div>

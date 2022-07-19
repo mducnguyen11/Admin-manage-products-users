@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ListManager } from 'react-beautiful-dnd-grid';
 
@@ -26,7 +25,7 @@ const ImageForm = (props: Props) => {
       }
       props.handleUploadImages([...listImagesUploaded]);
     } catch (error) {
-      console.log('fail image');
+      console.log('erorr');
     }
   };
   function handleOnDragEnd(sourceIndex: number, newIndex: number) {
@@ -35,7 +34,7 @@ const ImageForm = (props: Props) => {
 
   return (
     <div className="images-form">
-      <div style={{ width: '430px', display: 'flex' }} className="images-form-list">
+      <div className="images-form-list">
         <ListManager
           items={props.listImages}
           direction="horizontal"

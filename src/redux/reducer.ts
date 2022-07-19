@@ -9,6 +9,7 @@ import loadingReducer, { AdminLoadingState } from 'modules/common/redux/loadingR
 import countryReducer, { CountryState } from 'modules/common/redux/countryReducer';
 import categoriesReducer, { CategoriesState } from 'modules/common/redux/categoriesReducer';
 import vendorsReducer, { VendorsState } from 'modules/common/redux/vendorReducer';
+import shippingsReducer, { ShippingsState } from 'modules/common/redux/shippingReducer';
 
 export interface AppState {
   router: RouterState;
@@ -20,6 +21,7 @@ export interface AppState {
   country: CountryState;
   categories: CategoriesState;
   vendors: VendorsState;
+  shippings: ShippingsState;
 }
 
 export default function createRootReducer(history: History) {
@@ -33,5 +35,6 @@ export default function createRootReducer(history: History) {
     country: countryReducer,
     categories: categoriesReducer,
     vendors: vendorsReducer,
+    shippings: shippingsReducer,
   });
 }

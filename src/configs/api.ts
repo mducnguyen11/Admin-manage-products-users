@@ -45,6 +45,7 @@ export const API_PATHS = {
   uploadProductImage: `${getBaseUrl(APIService.public)}/products/upload-image`,
 
   getVendorsList: `${getBaseUrl(APIService.admin)}/vendors/list`,
+  getShippingList: `${getBaseUrl(APIService.admin)}/shipping/list`,
   getBrandsList: `${getBaseUrl(APIService.admin)}/brands/list`,
   getCommonRole: `${getBaseUrl(APIService.admin)}/commons/role`,
   getCommonCountry: `${getBaseUrl(APIService.admin)}/commons/country`,

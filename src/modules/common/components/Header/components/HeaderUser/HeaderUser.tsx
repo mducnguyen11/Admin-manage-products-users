@@ -6,7 +6,7 @@ import { ACCESS_TOKEN_KEY } from 'utils/constants';
 import './header-user.scss';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'typesafe-actions';
-import { logout, removeUserInfo, setUserInfo } from 'modules/auth/redux/authReducer';
+import { logout } from 'modules/auth/redux/authReducer';
 interface Props {}
 
 const HeaderUser = (props: Props) => {

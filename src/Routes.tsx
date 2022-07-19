@@ -7,9 +7,7 @@ import ProtectedRoute from 'modules/common/components/ProtectedRoute';
 import LoadingLayout from 'layout/loadingLayout/LoadingLayout';
 import AdminLayout from 'layout/adminLayout/AdminLayout';
 import Test from './Test';
-
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage/LoginPage'));
-
 const ManageProducts = lazy(() => import('modules/product/pages/ManageProduct/ManageProductsPage'));
 const ProductDetail = lazy(() => import('modules/product/pages/ProductDetail/ProductDetailPage'));
 const NewProductPage = lazy(() => import('modules/product/pages/NewProduct/NewProductPage'));
@@ -20,15 +18,15 @@ interface Props {}
 
 export const Routes = (props: Props) => {
   const location = useLocation();
+
   return (
     <Suspense fallback={<FallbackLoading />}>
       <Switch location={location}>
         <CheckUserRoute path={ROUTES.login} component={LoginPage} />
-
         <LoadingLayout>
           <AdminLayout>
             <Suspense fallback={<></>}>
-              <ProtectedRoute exact path="/testvl" component={Test} />
+              <ProtectedRoute exact path="/test" component={Test} />
               <ProtectedRoute exact path="/pages/products/product-detail/:id" component={ProductDetail} />
               <ProtectedRoute exact path="/pages/products/new-product" component={NewProductPage} />
               <ProtectedRoute exact path="/pages/products/manage-product" component={ManageProducts} />

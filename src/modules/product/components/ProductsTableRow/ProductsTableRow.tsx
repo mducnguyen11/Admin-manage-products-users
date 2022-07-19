@@ -146,7 +146,7 @@ const ProductsTableRow = (props: Props) => {
                   });
                 }}
                 className="table-row-price-edit"
-                value={item.product.price}
+                value={Number(item.product.price).toFixed(2)}
               />
             </div>
           </td>

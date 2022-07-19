@@ -15,7 +15,7 @@ import { Alert, AlertColor, Snackbar } from '@mui/material';
 import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
 import ProductDetailForm from 'modules/product/components/ProductDetailForm/ProductDetailForm';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
-import { formatProductDataToPayload } from 'modules/product/utils';
+import { formatProductDataToPayload, validateProductDataToUpdate } from 'modules/product/utils';
 import Tab from 'modules/common/components/Tab/Tab';
 
 interface Props {}
@@ -63,6 +63,7 @@ const ProductDetail = (props: Props) => {
     const res = await dispatch(fetchThunk(API_PATHS.getProductDetail, 'post', { id: params.id }));
     if (res.data && res.success) {
       setProduct(res.data);
+      console.log('product : ', res.data);
     } else {
       history.replace('/error');
     }
@@ -100,7 +101,7 @@ const ProductDetail = (props: Props) => {
     const formData = new FormData();
     formData.append('productDetail', JSON.stringify(formatProductDataToPayload(product)));
     const ress = await AxiosFormDataConfig.post(API_PATHS.saveProduct, formData);
-
+    console.log(ress);
     if (ress.data.success) {
       getProductDetail();
       handleShowAlertSuccess('Update successfully');
@@ -139,7 +140,7 @@ const ProductDetail = (props: Props) => {
                 onSave={handleSaveProduct}
                 actionName="Save product"
                 product={product}
-                listFieldRequired={['name', 'images', 'quantity', 'brand', 'categories', 'price']}
+                onValidate={validateProductDataToUpdate}
               />
             ) : null}
           </Tab>

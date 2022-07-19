@@ -11,7 +11,7 @@ import { Action } from 'typesafe-actions';
 import { Alert, AlertColor, Snackbar } from '@mui/material';
 import UserDetailForm from 'modules/user/components/UserDetailForm/UserDetailForm';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
-import { formartUserToPayload } from 'modules/user/utils';
+import { formartUserToPayload, validateUserDataToUpdate } from 'modules/user/utils';
 import Tab from 'modules/common/components/Tab/Tab';
 
 const UserDetailPage = () => {
@@ -110,7 +110,7 @@ const UserDetailPage = () => {
         {user ? (
           <div className="user-detail-page-tabs-content">
             <Tab value={0} index={tab}>
-              <UserDetailForm listFieldRequired={['email', 'status']} onSave={hanlleUpdateUser} user={user} />
+              <UserDetailForm onValidateUser={validateUserDataToUpdate} onSave={hanlleUpdateUser} user={user} />
             </Tab>
             <Tab value={1} index={tab}>
               hihih

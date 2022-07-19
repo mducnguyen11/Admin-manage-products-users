@@ -3,6 +3,7 @@
   height: 40px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
   .unit {
     height: 100%;
     padding: 0 15px;
@@ -27,5 +28,8 @@
   }
   .select-unit {
     height: 38px;
+  }
+  .input-error-message {
+    position: unset;
   }
 }

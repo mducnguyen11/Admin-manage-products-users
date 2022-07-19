@@ -15,13 +15,15 @@ const InputWithUnit = (props: Props) => {
     <div className="input-with-unit">
       <p className="unit">{props.currentUnit}</p>
       <InputField
+        fixNumber={2}
         onlyNumber
-        value={Number(props.value).toFixed(2)}
+        value={props.value}
         onChange={props.onChange}
         className="input"
         type="text"
         error={props.error}
       />
+      <div className="input-error-message"></div>
     </div>
   );
 };

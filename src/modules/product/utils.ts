@@ -48,7 +48,7 @@ export const formatProductDataToPayload = (a: IProductDetailData): IProductDataP
   return xx;
 };
 
-export const validateProductDataField = (a: IProductDetailDataField, listFieldRequired: string[]) => {
+export const validateProductData = (a: IProductDetailDataField, listFieldRequired: string[]) => {
   const error: { [key: string]: string } = {};
   const ll: any[] = [];
   [...Object.keys(a)].forEach((b) => {
@@ -84,9 +84,18 @@ export const validateProductDataField = (a: IProductDetailDataField, listFieldRe
       }
     }
   });
-
   return {
     validate: Object.keys(error).length == 0,
     errors: error,
   };
+};
+
+export const validateProductDataToUpdate = (a: IProductDetailDataField) => {
+  const listFieldRequired = ['name', 'images', 'quantity', 'brand', 'categories', 'price'];
+  return validateProductData(a, listFieldRequired);
+};
+
+export const validateProductDataToCreate = (a: IProductDetailDataField) => {
+  const listFieldRequired = ['vendor_id', 'name', 'brand_id', 'condition', 'categories', 'price', 'quantity', 'images'];
+  return validateProductData(a, listFieldRequired);
 };

@@ -38,7 +38,7 @@ const LoginPage = (props: Props) => {
           setErrorMessage(getErrorMessageResponse(res));
         }
       } catch (error) {
-        console.log('');
+        setErrorMessage('Error');
       }
       setLoading(false);
     },

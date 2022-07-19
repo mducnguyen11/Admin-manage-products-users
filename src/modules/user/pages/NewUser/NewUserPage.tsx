@@ -4,14 +4,14 @@ import { API_PATHS } from 'configs/api';
 import { DefaultNewUserValue, IUserDetailData } from 'models/user';
 import UserDetailForm from 'modules/user/components/UserDetailForm/UserDetailForm';
 import { fetchThunk } from 'modules/common/redux/thunk';
-import React from 'react';
+import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
-import { formatToUserPayloadCreate } from 'modules/user/utils';
+import { formatToUserPayloadCreate, validateUserDataToCreate } from 'modules/user/utils';
 
 const NewUser = () => {
   const history = useHistory();
@@ -49,7 +49,7 @@ const NewUser = () => {
       text: '',
     });
   };
-
+  console.log('page redner');
   const handleCreateUser = async (newUser: IUserDetailData) => {
     try {
       dispatch(setLoading());
@@ -83,15 +83,7 @@ const NewUser = () => {
       <div className="user-detail-content">
         <div className="user-detail">
           <UserDetailForm
-            listFieldRequired={[
-              'firstName',
-              'lastName',
-              'paymentRailsType',
-              'email',
-              'access_level',
-              'password',
-              'confirm_password',
-            ]}
+            onValidateUser={validateUserDataToCreate}
             actionName="Create user"
             user={{ ...DefaultNewUserValue }}
             onSave={handleCreateUser}
@@ -109,4 +101,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default memo(NewUser);

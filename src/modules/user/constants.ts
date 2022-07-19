@@ -19,8 +19,8 @@ export const USER_STATUS_OPTIONS = [
 
 export const USER_TYPES_OPTIONS = [
   {
-    value: 'indivvalueual',
-    name: 'Indivvalueual',
+    value: 'individual',
+    name: 'Indivalueual',
   },
   {
     value: 'business',

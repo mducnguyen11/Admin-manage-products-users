@@ -85,6 +85,14 @@ const SelectAsyncDebounce = (props: Props) => {
           </span>
         </div>
       ) : null}
+      {open ? (
+        <div
+          onClick={() => {
+            setOpen(false);
+          }}
+          className="select-form-options-background"
+        ></div>
+      ) : null}
     </>
   );
 };

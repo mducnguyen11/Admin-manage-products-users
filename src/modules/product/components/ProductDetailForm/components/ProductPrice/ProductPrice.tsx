@@ -12,10 +12,10 @@ interface Props {
   sale_price_type: string;
   onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
+  participate_sale: string;
 }
 
 const ProductPrice = (props: Props) => {
-  const [startSale, setStartSale] = useState(false);
   return (
     <>
       <div className="product-detail-row product-detail-price-form ">
@@ -37,23 +37,21 @@ const ProductPrice = (props: Props) => {
           <div className="sale">
             <input
               onChange={() => {
-                if (Number(props.sale_price) > 0) {
+                if (props.participate_sale == '1') {
                   props.onChange({
-                    sale_price: '0.0000',
+                    participate_sale: '0',
                   });
                 } else {
-                  if (startSale) {
-                    setStartSale(false);
-                  } else {
-                    setStartSale(true);
-                  }
+                  props.onChange({
+                    participate_sale: '1',
+                  });
                 }
               }}
-              checked={Number(props.sale_price) > 0 || startSale}
+              checked={props.participate_sale == '1'}
               type="checkbox"
             />
             <p>Sale</p>
-            {Number(props.sale_price) > 0 || startSale ? (
+            {props.participate_sale == '1' ? (
               <>
                 <div className="select-unit">
                   <SelectForm
@@ -71,7 +69,6 @@ const ProductPrice = (props: Props) => {
                     onlyNumber
                     value={props.sale_price}
                     onChange={(value: string) => {
-                      setStartSale(true);
                       props.onChange({
                         sale_price: value,
                       });

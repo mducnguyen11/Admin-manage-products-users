@@ -40,10 +40,11 @@ const Test = () => {
     items.splice(result.destination.index, 0, reorderedItem);
     updateCharacters(items);
   }
-
+  console.log('testredner');
   return (
     <div className="App">
-      <header className="App-header">
+      <h2>TEsst </h2>
+      {/* <header className="App-header">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
             {(provided) => (
@@ -62,7 +63,7 @@ const Test = () => {
             )}
           </Droppable>
         </DragDropContext>
-      </header>
+      </header> */}
       <p>
         Images from <a href="https://final-space.fandom.com/wiki/Final_Space_Wiki">Final Space Wiki</a>
       </p>

@@ -11,7 +11,6 @@ import UserStatus from './components/UserStatus/UserStatus';
 import UserComment from './components/UserComment/UserComment';
 import UserMemberships from './components/UserMemberships/UserMemberships';
 import UserRequireChangePassword from './components/UserRequireChangePassword/UserRequireChangePassword';
-import { validateUserData } from 'modules/user/utils';
 import { USER_ACCESS_LEVEL_OPTIONS } from 'modules/user/constants';
 import SelectForm from 'modules/common/components/SelectForm/SelectForm';
 import Button from 'modules/common/components/Button/Button';
@@ -20,32 +19,30 @@ import { formatTimeStampToDateString } from 'utils/formatTime';
 interface Props {
   user: IUserDetailData;
   onSave: (a: IUserDetailData) => void;
-  listFieldRequired: string[];
   actionName?: string;
+  onValidateUser: (value: IUserDataField) => {
+    validate: boolean;
+    errors: ErrorField;
+  };
+}
+interface ErrorField {
+  password?: string;
+  confirm_password?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  status?: string;
 }
 
 const UserDetailForm = (props: Props) => {
   const [user, setUser] = useState<IUserDetailData>(props.user);
-  const [errors, setErrors] = useState<{
-    password?: string;
-    confirm_password?: string;
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    status?: string;
-  }>({});
-  useEffect(() => {
-    if (JSON.stringify(props.user) !== JSON.stringify(user)) {
-      setUser(props.user);
-    }
-  }, [props.user]);
+  const [errors, setErrors] = useState<ErrorField>({});
   const handleValidate = useCallback(
-    (userData: IUserDetailData, fieldChange: IUserDataField): boolean => {
+    (fieldChange: IUserDataField): boolean => {
       const validateResult: {
         validate: boolean;
-        errors: { [key: string]: string };
-      } = validateUserData(userData, fieldChange, props.listFieldRequired);
-
+        errors: ErrorField;
+      } = props.onValidateUser(fieldChange);
       if (!validateResult.validate) {
         setErrors({
           ...errors,
@@ -63,17 +60,11 @@ const UserDetailForm = (props: Props) => {
         return true;
       }
     },
-    [setErrors, props.listFieldRequired, errors],
+    [setErrors, errors],
   );
   const handleChangeUser = (userDataFieldChange: IUserDataField) => {
     console.log('change user :', userDataFieldChange);
-    handleValidate(
-      {
-        ...user,
-        ...userDataFieldChange,
-      },
-      userDataFieldChange,
-    );
+    handleValidate(userDataFieldChange);
     setUser({
       ...user,
       ...userDataFieldChange,
@@ -178,7 +169,7 @@ const UserDetailForm = (props: Props) => {
           <div className="user-detail-btns">
             <Button
               onClick={() => {
-                const xx = handleValidate(user, user);
+                const xx = handleValidate(user);
                 if (xx) {
                   props.onSave(user);
                 }

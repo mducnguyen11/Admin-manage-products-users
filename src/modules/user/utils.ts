@@ -1,4 +1,5 @@
 import { IUserDataField, IUserDataPayload, IUserDetailData } from 'models/user';
+import { validEmailRegex } from 'utils';
 
 export const formatToUserPayloadCreate = (a: IUserDetailData): IUserDataPayload => {
   const xx = {
@@ -41,12 +42,12 @@ export const formartUserToPayload = (a: IUserDetailData): IUserDataPayload => {
   return xx;
 };
 
-export const validateUserData = (x: IUserDetailData, a: IUserDataField, listFieldRequired: string[]) => {
+export const validateUserData = (a: IUserDataField, listFieldRequired: string[]) => {
   const tt: { [key: string]: string } = {};
   [...Object.keys(a)].forEach((b) => {
     if (listFieldRequired.findIndex((t) => t == b) >= 0) {
       if (b == 'confirm_password') {
-        if (a[b as keyof typeof a] !== x.password) {
+        if (a[b as keyof typeof a] !== a.password) {
           tt[b] = 'confirmPasswordNotMatch';
         }
       }
@@ -55,8 +56,32 @@ export const validateUserData = (x: IUserDetailData, a: IUserDataField, listFiel
       }
     }
   });
+  if (a.email) {
+    console.log('email :', a.email);
+    if (!validEmailRegex.test(a.email)) {
+      tt.email = 'emailInvalid';
+    }
+  }
   return {
     validate: Object.keys(tt).length == 0,
     errors: tt,
   };
+};
+
+export const validateUserDataToUpdate = (a: IUserDataField) => {
+  const listFieldRequired = ['email', 'status'];
+  return validateUserData(a, listFieldRequired);
+};
+
+export const validateUserDataToCreate = (a: IUserDataField) => {
+  const listFieldRequired = [
+    'firstName',
+    'lastName',
+    'paymentRailsType',
+    'email',
+    'access_level',
+    'password',
+    'confirm_password',
+  ];
+  return validateUserData(a, listFieldRequired);
 };
