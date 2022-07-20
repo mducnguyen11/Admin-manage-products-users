@@ -2,7 +2,7 @@ import { ActionType, createCustomAction, getType } from 'typesafe-actions';
 
 export interface VendorsState {
   vendors: {
-    id: string;
+    id: string | number;
     name: string;
     [key: string]: any;
   }[];

@@ -84,7 +84,7 @@ export interface IProductDetailData {
   sku: string;
   sort_description: string;
   tax_exempt: string;
-  vendor_id: string;
+  vendor_id: string | number;
   weight: string;
   deleted_images?: number[];
   imagesOrder?: { image: string; file?: any }[];
@@ -122,7 +122,7 @@ export interface IProductDetailDataField {
   sku?: string;
   sort_description?: string;
   tax_exempt?: string;
-  vendor_id?: string;
+  vendor_id?: string | number;
   weight?: string;
   deleted_images?: number[];
   imagesOrder?: { image: string; file?: any }[];

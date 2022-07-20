@@ -51,7 +51,6 @@ const ProductDetailForm = (props: Props) => {
       imagesOrder: props.product.images.map((a) => ({ image: a.file })),
     });
   }, [props.product]);
-
   const [errors, setErrors] = useState<ErrorData>({});
   const handleValidate = (productDataFieldChange: IProductDetailDataField) => {
     const validateResult: { validate: boolean; errors: ErrorData } = props.onValidate(productDataFieldChange);

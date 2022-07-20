@@ -86,7 +86,7 @@ const ProductDetail = (props: Props) => {
       return v;
     };
     const listImgUpload = getListFiles(product.imagesOrder || []);
-    const listPromiseImgUpload = listImgUpload.map(async (image, i) => {
+    const listPromiseImgUpload = listImgUpload.map((image) => {
       const formData = new FormData();
       formData.append('images[]', image.file);
       formData.append('productId', product.id || '');
@@ -119,7 +119,6 @@ const ProductDetail = (props: Props) => {
             history.goBack();
           }}
         >
-          {' '}
           <i className="bx bx-arrow-back"></i>{' '}
         </button>
       </div>

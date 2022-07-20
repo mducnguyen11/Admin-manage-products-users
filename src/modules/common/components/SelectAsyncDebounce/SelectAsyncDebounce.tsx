@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 interface Props {
   value: string;
-  onChange: Function;
+  onChange: (value: string) => void;
   errorMessage?: string;
-  name: string;
   options: { value: string; name: string; [key: string]: any }[];
   loading?: boolean;
 }
@@ -23,9 +22,12 @@ const SelectAsyncDebounce = (props: Props) => {
               if (!open) {
                 setOpen(true);
               }
-              const objectValue: { [key: string]: any } = {};
-              objectValue[props.name] = e.target.value;
-              props.onChange(objectValue);
+              props.onChange(e.target.value);
+            }}
+            onFocus={() => {
+              if (!open) {
+                setOpen(true);
+              }
             }}
             value={valueName}
             className="select-form-input admin-input-form"
@@ -55,9 +57,7 @@ const SelectAsyncDebounce = (props: Props) => {
                           setOpen(false);
                           setValueName(option.name);
                           if (props.value !== option.value) {
-                            const objectValue: { [key: string]: any } = {};
-                            objectValue[props.name] = option.value;
-                            props.onChange(objectValue);
+                            props.onChange(option.value);
                           }
                         }}
                         key={i}
@@ -80,7 +80,6 @@ const SelectAsyncDebounce = (props: Props) => {
       {props.errorMessage && valueName == '' ? (
         <div className="select-form-error-message">
           <span className="error-message">
-            {' '}
             <FormattedMessage id={props.errorMessage} />{' '}
           </span>
         </div>

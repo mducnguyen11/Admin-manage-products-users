@@ -51,8 +51,11 @@ const FilterVendorForm = (props: Props) => {
           })),
         ]}
         value={props.value}
-        onChange={props.onChange}
-        name="vendor"
+        onChange={(value: string) => {
+          props.onChange({
+            vendor: value,
+          });
+        }}
       />
     </>
   );

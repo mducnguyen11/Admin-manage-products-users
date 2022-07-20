@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 interface Props {
-  value: string;
-  changeData: Function;
+  value: string | number;
+  changeData: (value: string | number) => void;
   error?: string;
   options: {
     value: string | number;
     name: string;
     [key: string]: any;
   }[];
-  key_name: string;
 }
 
 const SelectAutoSuggetForm = (props: Props) => {
@@ -23,10 +22,10 @@ const SelectAutoSuggetForm = (props: Props) => {
   >([]);
   const [valueName, setValueName] = useState<string>('');
   const findNameByValue = useCallback(
-    (value: string, options: { value: string | number; name: string; [key: string]: any }[]): string => {
+    (value: string | number, options: { value: string | number; name: string; [key: string]: any }[]): string => {
       if (value !== '') {
         const i = options.findIndex((option) => {
-          if (option.value.toString() == value) {
+          if (option.value.toString() == value.toString()) {
             return option;
           }
         });
@@ -94,9 +93,7 @@ const SelectAutoSuggetForm = (props: Props) => {
                               onClick={() => {
                                 setOpen(false);
                                 if (props.value !== option.value) {
-                                  const ob: { [key: string]: any } = {};
-                                  ob[props.key_name] = option.value;
-                                  props.changeData(ob);
+                                  props.changeData(option.value);
                                 }
                               }}
                               key={i}

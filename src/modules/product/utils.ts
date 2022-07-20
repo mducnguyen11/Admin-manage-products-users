@@ -58,7 +58,7 @@ export const validateProductData = (a: IProductDetailDataField, listFieldRequire
   });
 
   ll.forEach((key) => {
-    if (!a[key as keyof typeof a] || a[key as keyof typeof a]?.length == 0) {
+    if (!a[key as keyof typeof a] || a[key as keyof typeof a] == '') {
       error[key as keyof typeof error] = 'requiredField';
     }
     if (key == 'shipping' && a.shipping) {

@@ -1,17 +1,18 @@
 import { IProductDetailDataField } from 'models/product';
-import SearchSuggetForm from 'modules/common/components/SelectAutoDebounce/SelectAutoDebounce';
+import SelectAutoSuggetForm from 'modules/common/components/SelectAutoDebounce/SelectAutoDebounce';
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
 
 interface Props {
-  value: string;
+  value: string | number;
   onChange: (value: IProductDetailDataField) => void;
   errorMessage?: string;
 }
 
 const ProductVendor = (props: Props) => {
   const vendorList = useSelector((state: AppState) => state.vendors.vendors);
+  console.log(vendorList);
   return (
     <div className="product-detail-row">
       <div className="product-detail-row-name">
@@ -19,8 +20,7 @@ const ProductVendor = (props: Props) => {
       </div>
       <div className="product-detail-row-input product-detail-vendor-input">
         <div className="product-detail-row-input-container">
-          <SearchSuggetForm
-            key_name="vendor_id"
+          <SelectAutoSuggetForm
             options={[
               ...vendorList.map((a) => {
                 return {
@@ -31,7 +31,11 @@ const ProductVendor = (props: Props) => {
             ]}
             error={props.errorMessage}
             value={props.value}
-            changeData={props.onChange}
+            changeData={(value: string | number) => {
+              props.onChange({
+                vendor_id: value,
+              });
+            }}
           />
         </div>
       </div>
