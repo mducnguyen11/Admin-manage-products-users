@@ -1,11 +1,9 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo } from 'react';
 
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { useSelector } from 'react-redux';
+
 import { AppState } from 'redux/reducer';
-import { Action } from 'typesafe-actions';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import { API_PATHS } from 'configs/api';
+
 import Checkmarks from 'modules/common/components/Checkmarks/Checkmarks';
 import { IProductDetailDataField } from 'models/product';
 
@@ -20,23 +18,7 @@ interface Props {
 }
 
 const CategoryForm = (props: Props) => {
-  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<''>>>();
-  const [listCategory, setlistCategory] = useState<
-    {
-      id: string;
-      name: string;
-      parentId: string;
-      path: string;
-      pos: string;
-    }[]
-  >([]);
-  const getCategoryList = useCallback(async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.getCategoriesList, 'post'));
-    setlistCategory(res.data);
-  }, []);
-  useEffect(() => {
-    getCategoryList();
-  }, []);
+  const listCategory = useSelector((state: AppState) => state.categories.categories);
   const handleChange = (a: {
     [key: string]: {
       id: string;

@@ -20,12 +20,14 @@
     right: 0;
     bottom: 0;
     display: flex;
+
     & i {
       position: relative;
       top: 15px;
       color: rgb(24, 158, 138);
       font-size: 22px;
       margin: auto;
+      z-index: 8;
       cursor: pointer;
     }
   }

@@ -14,15 +14,7 @@ const InputWithUnit = (props: Props) => {
   return (
     <div className="input-with-unit">
       <p className="unit">{props.currentUnit}</p>
-      <InputField
-        fixNumber={2}
-        onlyNumber
-        value={props.value}
-        onChange={props.onChange}
-        className="input"
-        type="text"
-        error={props.error}
-      />
+      <InputField type="number" value={props.value} onChange={props.onChange} className="input" error={props.error} />
       <div className="input-error-message"></div>
     </div>
   );

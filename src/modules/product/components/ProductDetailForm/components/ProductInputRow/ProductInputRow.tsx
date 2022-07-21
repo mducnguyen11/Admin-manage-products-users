@@ -19,7 +19,6 @@ const ProductInputRow = (props: Props) => {
       </div>
       <div className={'product-detail-row-input' + ' product-detail-' + props.key_name.replace('_', '-') + '-input'}>
         <InputField
-          onlyNumber={props.onlyNumber || false}
           className="product-detail-row-input-value"
           value={props.value}
           onChange={(value: string) => {

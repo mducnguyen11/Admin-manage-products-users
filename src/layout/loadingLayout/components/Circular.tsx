@@ -7,7 +7,6 @@ interface Props {}
 
 const LoadingLayoutCircular = () => {
   const isloading = useSelector((state: AppState) => state.loading.isLoading);
-
   return (
     <>
       {isloading ? (

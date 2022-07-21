@@ -17,6 +17,7 @@ interface Props {
 const UserPasswordForm = (props: Props) => {
   const [password, setPassword] = useState<string>('');
   const [confirm_password, setConfirm_password] = useState<string>('');
+  const [typing, setTyping] = useState<boolean>(false);
   const handleBlur = () => {
     if (confirm_password !== '') {
       props.onChange({
@@ -50,7 +51,6 @@ const UserPasswordForm = (props: Props) => {
               onChange={(e) => {
                 setPassword(e.target.value);
                 if (props.errors.password) {
-                  console.log('?? why');
                   props.onChange({
                     password: e.target.value,
                   });
@@ -76,13 +76,23 @@ const UserPasswordForm = (props: Props) => {
               value={confirm_password}
               onChange={(e) => {
                 setConfirm_password(e.target.value);
-                if (props.errors.confirm_password) {
+                if (props.errors.confirm_password == 'requiredField') {
+                  if (!typing) {
+                    setTyping(true);
+                  }
                   props.onChange({
                     confirm_password: e.target.value,
                   });
+                } else {
+                  if (!typing) {
+                    setTyping(true);
+                  }
                 }
               }}
               onBlur={() => {
+                if (typing) {
+                  setTyping(false);
+                }
                 if (password !== '') {
                   props.onChange({
                     password: password,
@@ -95,7 +105,7 @@ const UserPasswordForm = (props: Props) => {
                 }
               }}
             />
-            {props.errors.confirm_password ? (
+            {props.errors.confirm_password && !typing ? (
               <div className="input-error-message">
                 <span className="error-message"> {<FormattedMessage id={props.errors.confirm_password} />}</span>
               </div>

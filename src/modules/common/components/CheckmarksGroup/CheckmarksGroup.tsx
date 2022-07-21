@@ -11,26 +11,25 @@ interface Props {
 const CheckmarksGroup = (props: Props) => {
   const [textValue, setTextValue] = useState('');
   const [open, setOpen] = useState(false);
-
   useEffect(() => {
-    let y = '';
+    let textValue = '';
     props.value.forEach((a, i) => {
       props.options.forEach((optionGroup) => {
         optionGroup.options.forEach((item) => {
           if (item.value == a) {
             if (i == 0) {
-              y += item.name;
+              textValue += item.name;
             } else {
-              y += ', ' + item.name;
+              textValue += ', ' + item.name;
             }
           }
         });
       });
     });
-    if (y == '') {
+    if (textValue == '') {
       setTextValue(props.placeholder);
     } else {
-      setTextValue(y);
+      setTextValue(textValue);
     }
   }, [props.value]);
 
@@ -52,12 +51,12 @@ const CheckmarksGroup = (props: Props) => {
             <div className="checkmarks-group-list-options">
               {props.options.map((itemGroup, i) => {
                 return (
-                  <div key={itemGroup.name}>
+                  <div key={i}>
                     <div className="checkmarks-group-list-options-group-name">{itemGroup.name}</div>
                     {itemGroup.options.map((option, i) => {
                       return (
                         <div
-                          key={option.id}
+                          key={i}
                           onClick={() => {
                             const obj: { [key: string]: any } = {};
                             if (props.value.includes(option.value)) {

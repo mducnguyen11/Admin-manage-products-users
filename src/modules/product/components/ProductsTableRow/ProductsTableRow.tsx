@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { formatTimeStampToDateString } from 'utils/formatTime';
+import ModalButton from 'modules/common/components/ModalButton/ModalButton';
 
 interface Props {
   item: {
@@ -62,32 +63,23 @@ const ProductsTableRow = (props: Props) => {
               className="table-row-check"
               type="checkbox"
             />
-            <i
-              onClick={handleClickOpen}
-              className={
-                Number(item.product.enabled) == 0
-                  ? 'table-row-power bx bx-power-off '
-                  : 'table-row-power bx bx-power-off power-disabled'
+            <ModalButton
+              name={
+                <i
+                  onClick={handleClickOpen}
+                  className={
+                    Number(item.product.enabled) == 0
+                      ? 'table-row-power bx bx-power-off '
+                      : 'table-row-power bx bx-power-off power-disabled'
+                  }
+                ></i>
               }
-            ></i>
-
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">{'Warning?'}</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">Make sure that you want to do this</DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>No</Button>
-                <Button onClick={handlePowerAction} autoFocus>
-                  Yes
-                </Button>
-              </DialogActions>
-            </Dialog>
+              modalTitle="Warning"
+              onClick={() => {
+                handlePowerAction();
+              }}
+              modalContent="Confirm your update ?"
+            />
           </div>
         </div>
       </td>

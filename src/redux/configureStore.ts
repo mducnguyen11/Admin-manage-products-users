@@ -16,7 +16,7 @@ const composeEnhancers =
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['transactions', 'photos'],
+  blacklist: ['transactions', 'photos', 'vendors', 'categories', 'country', 'shippings'],
 };
 
 export default function configureStore(preloadedState: any) {
@@ -34,10 +34,7 @@ export default function configureStore(preloadedState: any) {
       ),
     ),
   );
-
   const persistor = persistStore(store);
-
   sagaMiddleware.run(rootSaga);
-
   return { store, persistor };
 }

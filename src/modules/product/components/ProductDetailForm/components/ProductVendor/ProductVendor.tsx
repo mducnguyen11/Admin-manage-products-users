@@ -12,7 +12,7 @@ interface Props {
 
 const ProductVendor = (props: Props) => {
   const vendorList = useSelector((state: AppState) => state.vendors.vendors);
-  console.log(vendorList);
+
   return (
     <div className="product-detail-row">
       <div className="product-detail-row-name">

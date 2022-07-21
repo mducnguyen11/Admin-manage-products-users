@@ -10,19 +10,19 @@ interface Props {
 
 const Button = (props: Props) => {
   const getClassName = (): string => {
-    let xx = 'cs-btn';
+    let className = 'cs-btn';
     if (props.className) {
-      xx = xx + ' ' + props.className;
+      className = className + ' ' + props.className;
     }
     if (props.color) {
-      xx = xx + ' ' + 'btn-' + props.color;
+      className = className + ' ' + 'btn-' + props.color;
     } else {
-      xx = xx + ' ' + 'btn-default';
+      className = className + ' ' + 'btn-default';
     }
     if (props.disabled) {
-      xx = xx + ' disabled-btn';
+      className = className + ' disabled-btn';
     }
-    return xx;
+    return className;
   };
   return (
     <button

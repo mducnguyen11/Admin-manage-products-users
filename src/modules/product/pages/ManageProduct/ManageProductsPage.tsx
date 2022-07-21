@@ -70,6 +70,7 @@ const ManageProducts = () => {
   // func get data
   const getProducts = React.useCallback(async () => {
     dispatch(setLoading());
+
     const res = await dispatch(fetchThunk(API_PATHS.getProductsList, 'post', { ...filter }));
     if (res.data) {
       const ll = res.data.map((a: IProductTableItem, i: number) => {
@@ -171,6 +172,7 @@ const ManageProducts = () => {
     });
     dispatch(setLoading());
     const res = await dispatch(fetchThunk(API_PATHS.saveEditProducts, 'post', payload));
+    dispatch(stopLoading());
     if (res.data && res.success) {
       setListProductsChange([]);
       getProducts();
@@ -178,7 +180,6 @@ const ManageProducts = () => {
     } else {
       handleShowAlertError('Update fail');
     }
-    dispatch(stopLoading());
   };
   const handleUpdateEnable = useCallback(
     async (id: string, enable: number) => {
@@ -186,6 +187,9 @@ const ManageProducts = () => {
         id: id,
         enable: enable,
       };
+      if (alert.open) {
+        handleCloseAlert();
+      }
       dispatch(setLoading());
       const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [xx] }));
       dispatch(stopLoading());
@@ -297,7 +301,12 @@ const ManageProducts = () => {
         </div>
       </div>
       {alert.open ? (
-        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={true}
+          autoHideDuration={3000}
+          onClose={handleCloseAlert}
+        >
           <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
             {alert.text}
           </Alert>

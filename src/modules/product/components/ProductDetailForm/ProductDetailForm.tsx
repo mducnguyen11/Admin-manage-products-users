@@ -98,7 +98,12 @@ const ProductDetailForm = (props: Props) => {
         />
         <ProductBrand errorMessage={errors.brand_id} value={productdetail?.brand_id} onChange={handleChangeProduct} />
         <ProductCondition value={productdetail?.inventory_tracking} onChange={handleChangeProduct} />
-        <ProductInputRow text="SKU" value={productdetail?.sku} onChange={handleChangeProduct} key_name="sku" />
+        <ProductInputRow
+          text="SKU"
+          value={productdetail?.sku || Date.now() + ''}
+          onChange={handleChangeProduct}
+          key_name="sku"
+        />
         <ProductImages
           listImagesOrder={[...(productdetail.imagesOrder || [])]}
           deleted_images={productdetail?.deleted_images !== undefined ? productdetail.deleted_images : []}

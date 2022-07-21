@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { Button as MUIBTN, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
 import Cookies from 'js-cookie';
@@ -7,6 +8,7 @@ import './header-user.scss';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'typesafe-actions';
 import { logout } from 'modules/auth/redux/authReducer';
+import ModalButton from 'modules/common/components/ModalButton/ModalButton';
 interface Props {}
 
 const HeaderUser = (props: Props) => {
@@ -32,16 +34,15 @@ const HeaderUser = (props: Props) => {
           MY Profile
         </a>
         <p className="header-user-email">{email}</p>
-        <a
+        <ModalButton
+          name={<a className="header-user-item">Logout</a>}
+          modalContent="Confirm log out ?"
+          modalTitle="Hi"
           onClick={() => {
             Cookies.remove(ACCESS_TOKEN_KEY);
             dispatch(logout());
           }}
-          className="header-user-item"
-          href=""
-        >
-          Logout
-        </a>
+        />
       </div>
     </div>
   );

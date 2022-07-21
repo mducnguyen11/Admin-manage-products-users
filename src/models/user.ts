@@ -15,6 +15,23 @@ export interface IFilterUser {
   types: string[];
   tz: number;
 }
+export interface IFilterUserField {
+  address?: string;
+  count?: number;
+  country?: string;
+  date_range?: string[];
+  date_type?: string;
+  memberships?: string[];
+  order_by?: string;
+  page?: number;
+  phone?: string;
+  search?: string;
+  sort?: string;
+  state?: string;
+  status?: string[];
+  types?: string[];
+  tz?: number;
+}
 
 export const defaultFilterUserValue = {
   address: '',

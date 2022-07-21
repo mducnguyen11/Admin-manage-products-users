@@ -1,5 +1,5 @@
 import './UserFilter.scss';
-import { IFilterUser } from 'models/user';
+import { IFilterUser, IFilterUserField } from 'models/user';
 import React, { memo, useState } from 'react';
 import Country from './components/Country/Country';
 import FilterUserTypes from './components/FilterUserTypes/FilterUserTypes';
@@ -17,7 +17,7 @@ import {
 
 interface Props {
   filter: IFilterUser;
-  onChange: Function;
+  onChange: (filter: IFilterUserField) => void;
 }
 
 const UserFilter = (props: Props) => {

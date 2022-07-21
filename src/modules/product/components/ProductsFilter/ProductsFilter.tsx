@@ -1,5 +1,5 @@
 import './ProductsFilter.scss';
-import { defaultFilterProductValue, IFilterProduct } from 'models/product';
+import { defaultFilterProductValue, IFilterProduct, IFilterProductField } from 'models/product';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from 'redux/reducer';
@@ -11,7 +11,7 @@ import FilterVendorForm from './components/FilterVendorForm';
 
 interface Props {
   filter: IFilterProduct;
-  onChange: Function;
+  onChange: (filter: IFilterProductField) => void;
 }
 const ProductFilter = (props: Props) => {
   const [filter, setFilter] = useState<IFilterProduct>(props.filter);

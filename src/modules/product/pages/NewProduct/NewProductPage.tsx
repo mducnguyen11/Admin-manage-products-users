@@ -1,7 +1,7 @@
 import './NewProductPage.scss';
 import axios from 'axios';
 import { API_PATHS } from 'configs/api';
-import React, { memo } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { ThunkDispatch } from 'redux-thunk';
@@ -9,7 +9,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import { Alert, Snackbar } from '@mui/material';
-
 import ProductDetailForm from 'modules/product/components/ProductDetailForm/ProductDetailForm';
 import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
 import { defaultProductValue, IProductDetailData } from 'models/product';
@@ -25,14 +24,15 @@ const NewProductPage = (props: Props) => {
   const handleShowAlertError = (text: string) => {
     setAlertError(text);
   };
-
   const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
     setAlertError('');
   };
-
+  const sku: string = useMemo(() => {
+    return Date.now() + '';
+  }, []);
   const handleSaveProduct = async (product: IProductDetailData) => {
     dispatch(setLoading());
     const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
@@ -68,7 +68,6 @@ const NewProductPage = (props: Props) => {
     }
     dispatch(stopLoading());
   };
-
   return (
     <div className="new-product-page">
       <div className="new-product-page-back-btn">
@@ -86,10 +85,15 @@ const NewProductPage = (props: Props) => {
           onValidate={validateProductDataToCreate}
           actionName="Add product"
           onSave={handleSaveProduct}
-          product={{ ...defaultProductValue }}
+          product={{ ...defaultProductValue, sku: sku }}
         />
       </div>
-      <Snackbar open={alertError !== ''} autoHideDuration={3000} onClose={handleCloseAlertError}>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={alertError !== ''}
+        autoHideDuration={3000}
+        onClose={handleCloseAlertError}
+      >
         <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
           {alertError}
         </Alert>

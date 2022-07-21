@@ -7,64 +7,120 @@ interface Props {
   onChange: (value: string) => void;
   className?: string;
   onClick?: () => void;
-  fixNumber?: number;
   error?: string;
-  onlyNumber?: boolean;
   onBlur?: (value: string) => void;
 }
 const InputField = (props: Props) => {
-  const [textValue, setTextValue] = useState(props.value);
+  const [textValue, setTextValue] = useState('');
   const [isTyping, setTyping] = useState<boolean>(false);
   useEffect(() => {
     if (props.value !== textValue) {
-      setTextValue(props.value);
+      if (props.type == 'number') {
+        setTextValue(Number(props.value).toFixed(2));
+      } else {
+        setTextValue(props.value);
+      }
     }
   }, [props.value]);
+  const checkNumberValue = (value: string) => {
+    if (value == '') {
+      console.log('value :', value);
+      return true;
+    } else {
+      const arraay = value.split('.');
+      if (arraay.length >= 2) {
+        if (arraay[1].length > 2) {
+          return false;
+        }
+      }
+      if (
+        arraay.findIndex((a, i) => {
+          if (/^\d+$/.test(a)) {
+            return a;
+          }
+        }) == -1
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
   return (
     <div className="admin-input-form-wrapper">
-      <input
-        onClick={() => {
-          props.onClick ? props.onClick() : () => {};
-        }}
-        className={`admin-input-form ${props.className ? props.className : ''}`}
-        type={props.type || 'text'}
-        placeholder={props.placeholder ? props.placeholder : ''}
-        value={props.fixNumber && textValue ? Number(textValue).toFixed(props.fixNumber) : textValue}
-        onChange={(e) => {
-          setTextValue(e.target.value);
-          if (props.error == 'requiredField') {
-            props.onChange(e.target.value);
-          }
-          if (!isTyping) {
-            setTyping(true);
-          }
-        }}
-        onKeyPress={(e) => {
-          if (props.onlyNumber) {
-            if (Number(e.key) || Number(e.key) == 0) {
-              return e;
-            } else {
-              e.preventDefault();
+      {props.type == 'number' ? (
+        <>
+          <input
+            onClick={() => {
+              props.onClick ? props.onClick() : () => {};
+            }}
+            className={`admin-input-form ${props.className ? props.className : ''}`}
+            type={'text'}
+            placeholder={props.placeholder ? props.placeholder : ''}
+            value={textValue}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!checkNumberValue(value)) {
+                return;
+              }
+              setTextValue(e.target.value);
+              if (props.error == 'requiredField') {
+                props.onChange(e.target.value);
+              }
+              if (!isTyping) {
+                setTyping(true);
+              }
+            }}
+            onBlur={() => {
+              setTyping(false);
+              if (props.onBlur) {
+                props.onBlur(textValue);
+              } else {
+                if (props.value !== textValue) {
+                  props.onChange(textValue);
+                } else {
+                  if (props.value == textValue && textValue == '') {
+                    props.onChange('');
+                  }
+                }
+              }
+            }}
+          />
+        </>
+      ) : (
+        <input
+          onClick={() => {
+            props.onClick ? props.onClick() : () => {};
+          }}
+          className={`admin-input-form ${props.className ? props.className : ''}`}
+          type={props.type || 'text'}
+          placeholder={props.placeholder ? props.placeholder : ''}
+          value={textValue}
+          onChange={(e) => {
+            setTextValue(e.target.value);
+            if (props.error == 'requiredField') {
+              props.onChange(e.target.value);
             }
-          }
-        }}
-        onBlur={() => {
-          setTyping(false);
-          if (props.onBlur) {
-            props.onBlur(textValue);
-          } else {
-            if (props.value !== textValue) {
+            if (!isTyping) {
+              setTyping(true);
+            }
+          }}
+          onBlur={() => {
+            setTyping(false);
+            if (props.onBlur) {
+              props.onBlur(textValue);
+            } else {
               if (props.value !== textValue) {
                 props.onChange(textValue);
-              }
-            } else {
-              if (props.value == textValue && textValue == '') {
-                props.onChange('');
+              } else {
+                if (props.value == textValue && textValue == '') {
+                  props.onChange('');
+                }
               }
             }
-          }
-        }}
-      />
+          }}
+        />
+      )}
       <div className="input-error-message">
         {props.error && !isTyping ? (
           <span className="error-message"> {<FormattedMessage id={props.error} />}</span>

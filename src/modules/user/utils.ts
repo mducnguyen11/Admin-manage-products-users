@@ -14,7 +14,6 @@ export const formatToUserPayloadCreate = (a: IUserDetailData): IUserDataPayload 
     paymentRailsType: a.paymentRailsType,
     taxExempt: Number(a.taxExempt),
   };
-
   return xx;
 };
 export const formartUserToPayload = (a: IUserDetailData): IUserDataPayload => {

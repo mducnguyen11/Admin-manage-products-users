@@ -27,7 +27,7 @@ const ProductPrice = (props: Props) => {
             <InputWithUnit
               error={props.errorMessage}
               currentUnit="$"
-              value={props.price}
+              value={props.price || '0.00'}
               key_name="price"
               onChange={(value: string) => {
                 props.onChange({ price: value });
@@ -66,7 +66,7 @@ const ProductPrice = (props: Props) => {
                 </div>
                 <div className="sale-input-value">
                   <InputField
-                    onlyNumber
+                    type="number"
                     value={props.sale_price}
                     onChange={(value: string) => {
                       props.onChange({

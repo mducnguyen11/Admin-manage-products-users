@@ -24,19 +24,16 @@ export const Routes = (props: Props) => {
       <Switch location={location}>
         <CheckUserRoute path={ROUTES.login} component={LoginPage} />
         <LoadingLayout>
-          <AdminProvider>
-            <AdminLayout>
-              <Suspense fallback={<></>}>
-                <ProtectedRoute exact path="/test" component={Test} />
-                <ProtectedRoute exact path="/pages/products/product-detail/:id" component={ProductDetail} />
-                <ProtectedRoute exact path="/pages/products/new-product" component={NewProductPage} />
-                <ProtectedRoute exact path="/pages/products/manage-product" component={ManageProducts} />
-                <ProtectedRoute exact path="/pages/user/user-detail/:id" component={UserDetailPage} />
-                <ProtectedRoute exact path="/pages/user/manage-user" component={ManageUsers} />
-                <ProtectedRoute exact path="/pages/user/new-user" component={NewUser} />
-              </Suspense>
-            </AdminLayout>
-          </AdminProvider>
+          <AdminLayout>
+            <Suspense fallback={<></>}>
+              <ProtectedRoute exact path="/pages/products/product-detail/:id" component={ProductDetail} />
+              <ProtectedRoute exact path="/pages/products/new-product" component={NewProductPage} />
+              <ProtectedRoute exact path="/pages/products/manage-product" component={ManageProducts} />
+              <ProtectedRoute exact path="/pages/user/user-detail/:id" component={UserDetailPage} />
+              <ProtectedRoute exact path="/pages/user/manage-user" component={ManageUsers} />
+              <ProtectedRoute exact path="/pages/user/new-user" component={NewUser} />
+            </Suspense>
+          </AdminLayout>
         </LoadingLayout>
       </Switch>
     </Suspense>

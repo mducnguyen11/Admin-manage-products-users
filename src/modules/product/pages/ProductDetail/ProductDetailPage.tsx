@@ -149,7 +149,12 @@ const ProductDetail = (props: Props) => {
         </div>
       </div>
       {alert.open ? (
-        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={true}
+          autoHideDuration={3000}
+          onClose={handleCloseAlert}
+        >
           <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
             {alert.text}
           </Alert>
