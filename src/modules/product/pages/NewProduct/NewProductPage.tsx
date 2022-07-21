@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 import ProductDetailForm from 'modules/product/components/ProductDetailForm/ProductDetailForm';
 import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
 import { defaultProductValue, IProductDetailData } from 'models/product';
@@ -20,15 +20,38 @@ interface Props {}
 const NewProductPage = (props: Props) => {
   const history = useHistory();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [alertError, setAlertError] = React.useState<string>('');
-  const handleShowAlertError = (text: string) => {
-    setAlertError(text);
+  const [alert, setAlert] = React.useState<{
+    open: boolean;
+    type: AlertColor;
+    text: string;
+  }>({
+    open: false,
+    type: 'success',
+    text: '',
+  });
+  const handleShowAlertSuccess = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'success',
+      text: text,
+    });
   };
-  const handleCloseAlertError = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleShowAlertError = (text: string) => {
+    setAlert({
+      open: true,
+      type: 'error',
+      text: text,
+    });
+  };
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setAlertError('');
+    setAlert({
+      open: false,
+      type: 'error',
+      text: '',
+    });
   };
   const sku: string = useMemo(() => {
     return Date.now() + '';
@@ -59,7 +82,10 @@ const NewProductPage = (props: Props) => {
       });
       try {
         await axios.all([...ll]);
-        history.push('/pages/products/product-detail/' + ress.data.data);
+        handleShowAlertSuccess('Product have been created');
+        setTimeout(() => {
+          history.push('/pages/products/product-detail/' + ress.data.data);
+        }, 500);
       } catch (error) {
         handleShowAlertError('Up load image fail');
       }
@@ -88,16 +114,18 @@ const NewProductPage = (props: Props) => {
           product={{ ...defaultProductValue, sku: sku }}
         />
       </div>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={alertError !== ''}
-        autoHideDuration={3000}
-        onClose={handleCloseAlertError}
-      >
-        <Alert onClose={handleCloseAlertError} severity="error" sx={{ width: '100%' }}>
-          {alertError}
-        </Alert>
-      </Snackbar>
+      {alert.open ? (
+        <Snackbar
+          // anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={true}
+          autoHideDuration={3000}
+          onClose={handleCloseAlert}
+        >
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </div>
   );
 };

@@ -199,12 +199,7 @@ const ManageUsers = () => {
         />
       </div>
       {alert.open ? (
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          open={true}
-          autoHideDuration={3000}
-          onClose={handleCloseAlert}
-        >
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
           <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
             {alert.text}
           </Alert>

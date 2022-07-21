@@ -51,7 +51,7 @@ const ProductCondition = (props: Props) => {
           />
         </div>
       </div>
-      {value !== '1' ? <UserCondition value="" onChange={() => {}} /> : null}
+      {value == '0' ? <UserCondition value="" onChange={() => {}} /> : null}
     </>
   );
 };

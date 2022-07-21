@@ -145,7 +145,7 @@ const ProductDetail = () => {
       </div>
       {alert.open ? (
         <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          // anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           open={true}
           autoHideDuration={3000}
           onClose={handleCloseAlert}

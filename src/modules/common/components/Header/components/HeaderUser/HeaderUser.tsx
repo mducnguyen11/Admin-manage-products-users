@@ -17,7 +17,7 @@ const HeaderUser = (props: Props) => {
   const email = useSelector((state: AppState) => {
     return state.profile.user?.login;
   });
-
+  const [openModal, setOpenModal] = useState<boolean>(false);
   return (
     <div
       onMouseMove={() => {
@@ -34,15 +34,51 @@ const HeaderUser = (props: Props) => {
           MY Profile
         </a>
         <p className="header-user-email">{email}</p>
-        <ModalButton
-          name={<a className="header-user-item">Logout</a>}
-          modalContent="Confirm log out ?"
-          modalTitle="Hi"
+        <a
           onClick={() => {
-            Cookies.remove(ACCESS_TOKEN_KEY);
-            dispatch(logout());
+            setOpenModal(true);
           }}
-        />
+          className="header-user-item"
+        >
+          Logout
+        </a>
+        <Dialog
+          fullWidth
+          open={openModal}
+          onClose={() => {
+            setOpenModal(false);
+          }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Logout ?'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">{'Confirm logout'}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <MUIBTN
+              variant="contained"
+              color="error"
+              onClick={() => {
+                w1.current?.classList.remove('header-user-active');
+                setOpenModal(false);
+              }}
+            >
+              No
+            </MUIBTN>
+            <MUIBTN
+              variant="contained"
+              color="info"
+              onClick={() => {
+                Cookies.remove(ACCESS_TOKEN_KEY);
+                dispatch(logout());
+                w1.current?.classList.remove('header-user-active');
+              }}
+            >
+              Yes
+            </MUIBTN>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
