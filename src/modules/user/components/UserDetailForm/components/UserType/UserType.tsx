@@ -10,7 +10,6 @@ interface Props {
 }
 
 const UserType = (props: Props) => {
-  console.log('value :', props.value);
   return (
     <div className="user-detail-row-item">
       <p className="user-detail-row-name">Type</p>

@@ -12,6 +12,7 @@ const ProtectedRoute = (props: Props) => {
   if (auth) {
     return <Route {...rest} />;
   }
+
   return (
     <Redirect
       to={{

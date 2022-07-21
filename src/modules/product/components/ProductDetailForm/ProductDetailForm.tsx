@@ -45,6 +45,7 @@ const ProductDetailForm = (props: Props) => {
     ...props.product,
     imagesOrder: props.product.images.map((a) => ({ image: a.file })),
   });
+
   useEffect(() => {
     setProductdetail({
       ...props.product,

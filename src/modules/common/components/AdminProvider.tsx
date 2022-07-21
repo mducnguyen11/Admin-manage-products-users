@@ -9,7 +9,7 @@ import { setShippings } from 'modules/common/redux/shippingReducer';
 import { setCountry } from 'modules/common/redux/countryReducer';
 import { setVendors } from 'modules/common/redux/vendorReducer';
 import { AppState } from 'redux/reducer';
-import { useSelect } from '@mui/base';
+
 interface Props {
   children?: React.ReactNode;
 }
@@ -21,15 +21,15 @@ const AdminProvider = (props: Props) => {
   const shippings = useSelector((state: AppState) => state.shippings.shippings);
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const getShippingList = React.useCallback(async () => {
-    if (shippings && shippings.length > 0) {
-      return;
-    } else {
-      const res = await dispatch(fetchThunk(API_PATHS.getShippingList));
-      if (res.success) {
-        dispatch(setShippings(res.data));
+    if (shippings) {
+      if (shippings.length == 0) {
+        const res = await dispatch(fetchThunk(API_PATHS.getShippingList));
+        if (res.success) {
+          dispatch(setShippings(res.data));
+        }
       }
     }
-  }, [dispatch]);
+  }, [dispatch, shippings]);
   const getAllCountry = React.useCallback(async () => {
     if (countryList && countryList.length > 0) {
       return;
@@ -39,7 +39,7 @@ const AdminProvider = (props: Props) => {
         dispatch(setCountry(res.data));
       }
     }
-  }, [dispatch]);
+  }, [dispatch, countryList]);
   const getCategories = React.useCallback(async () => {
     if (categoryList && categoryList.length > 0) {
       return;
@@ -49,7 +49,7 @@ const AdminProvider = (props: Props) => {
         dispatch(setCategories(res.data));
       }
     }
-  }, [dispatch]);
+  }, [dispatch, categoryList]);
   const getVendorList = React.useCallback(async () => {
     if (vendorList && vendorList.length >> 0) {
       return;
@@ -59,19 +59,13 @@ const AdminProvider = (props: Props) => {
         dispatch(setVendors(res.data));
       }
     }
-  }, [dispatch]);
+  }, [dispatch, vendorList]);
 
   React.useEffect(() => {
     getCategories();
     getVendorList();
     getAllCountry();
     getShippingList();
-    return () => {
-      dispatch(setVendors([]));
-      dispatch(setCategories([]));
-      dispatch(setCountry([]));
-      dispatch(setShippings([]));
-    };
   }, []);
   return <>{props.children}</>;
 };

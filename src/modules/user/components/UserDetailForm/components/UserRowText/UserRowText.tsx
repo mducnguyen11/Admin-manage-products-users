@@ -10,7 +10,6 @@ const UserRowItem = (props: Props) => {
   const [name, setName] = useState<string>('');
   const findValue = () => {
     props.options?.forEach((x) => {
-      console.log(props.options, 'value: ', props.value);
       if (x.value == props.value) {
         setName(x.name);
       }

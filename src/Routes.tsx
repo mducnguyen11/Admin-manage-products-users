@@ -23,18 +23,20 @@ export const Routes = (props: Props) => {
     <Suspense fallback={<FallbackLoading />}>
       <Switch location={location}>
         <CheckUserRoute path={ROUTES.login} component={LoginPage} />
-        <LoadingLayout>
-          <AdminLayout>
-            <Suspense fallback={<></>}>
-              <ProtectedRoute exact path="/pages/products/product-detail/:id" component={ProductDetail} />
-              <ProtectedRoute exact path="/pages/products/new-product" component={NewProductPage} />
-              <ProtectedRoute exact path="/pages/products/manage-product" component={ManageProducts} />
-              <ProtectedRoute exact path="/pages/user/user-detail/:id" component={UserDetailPage} />
-              <ProtectedRoute exact path="/pages/user/manage-user" component={ManageUsers} />
-              <ProtectedRoute exact path="/pages/user/new-user" component={NewUser} />
-            </Suspense>
-          </AdminLayout>
-        </LoadingLayout>
+        <AdminProvider>
+          <LoadingLayout>
+            <AdminLayout>
+              <Suspense fallback={<></>}>
+                <ProtectedRoute exact path="/pages/products/product-detail/:id" component={ProductDetail} />
+                <ProtectedRoute exact path="/pages/products/new-product" component={NewProductPage} />
+                <ProtectedRoute exact path="/pages/products/manage-product" component={ManageProducts} />
+                <ProtectedRoute exact path="/pages/user/user-detail/:id" component={UserDetailPage} />
+                <ProtectedRoute exact path="/pages/user/manage-user" component={ManageUsers} />
+                <ProtectedRoute exact path="/pages/user/new-user" component={NewUser} />
+              </Suspense>
+            </AdminLayout>
+          </LoadingLayout>
+        </AdminProvider>
       </Switch>
     </Suspense>
   );

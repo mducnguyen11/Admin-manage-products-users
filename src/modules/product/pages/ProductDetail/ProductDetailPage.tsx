@@ -17,9 +17,7 @@ import ProductDetailForm from 'modules/product/components/ProductDetailForm/Prod
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import { formatProductDataToPayload, validateProductDataToUpdate } from 'modules/product/utils';
 import Tab from 'modules/common/components/Tab/Tab';
-
-interface Props {}
-const ProductDetail = (props: Props) => {
+const ProductDetail = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const params = useParams<{ id: string }>();
   const [tab, setTab] = React.useState(0);
@@ -63,7 +61,6 @@ const ProductDetail = (props: Props) => {
     const res = await dispatch(fetchThunk(API_PATHS.getProductDetail, 'post', { id: params.id }));
     if (res.data && res.success) {
       setProduct(res.data);
-      console.log('product : ', res.data);
     } else {
       history.replace('/error');
     }
@@ -72,7 +69,6 @@ const ProductDetail = (props: Props) => {
   useEffect(() => {
     getProductDetail();
   }, [params.id]);
-
   const handleSaveProduct = async (product: IProductDetailData) => {
     dispatch(setLoading());
     const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
@@ -101,7 +97,6 @@ const ProductDetail = (props: Props) => {
     const formData = new FormData();
     formData.append('productDetail', JSON.stringify(formatProductDataToPayload(product)));
     const ress = await AxiosFormDataConfig.post(API_PATHS.saveProduct, formData);
-    console.log(ress);
     if (ress.data.success) {
       getProductDetail();
       handleShowAlertSuccess('Update successfully');
