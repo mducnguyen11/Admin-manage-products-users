@@ -14,6 +14,7 @@ import { AxiosFormDataConfig } from 'modules/common/AxiosConfig/AxiosConfig';
 import { defaultProductValue, IProductDetailData } from 'models/product';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
 import { formatProductDataToPayload, validateProductDataToCreate } from 'modules/product/utils';
+import { string } from 'yup';
 
 interface Props {}
 
@@ -58,36 +59,34 @@ const NewProductPage = (props: Props) => {
   }, []);
   const handleSaveProduct = async (product: IProductDetailData) => {
     dispatch(setLoading());
-    const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
-      const v: { image: string; file: any }[] = [];
-      array.forEach((c) => {
-        if (c.file !== undefined) {
-          const x: { image: string; file: any } = { ...c, file: c.file };
-          v.push(x);
-        }
-      });
-      return v;
-    };
-    const listImgUpload = getListFiles(product.imagesOrder || []);
     const formData = new FormData();
     formData.append('productDetail', JSON.stringify(formatProductDataToPayload(product)));
     const ress = await AxiosFormDataConfig.post(API_PATHS.createNewProduct, formData);
     if (ress.data.success) {
-      const ll = listImgUpload.map(async (a, i) => {
-        const formData = new FormData();
-        formData.append('images[]', a.file);
-        formData.append('productId', ress.data.data);
-        formData.append('order', '0');
-        return AxiosFormDataConfig.post(API_PATHS.uploadProductImage, formData);
-      });
-      try {
-        await axios.all([...ll]);
-        handleShowAlertSuccess('Product have been created');
-        setTimeout(() => {
-          history.push('/pages/products/product-detail/' + ress.data.data);
-        }, 500);
-      } catch (error) {
-        handleShowAlertError('Up load image fail');
+      if (product.imagesOrder) {
+        const listImgUpload: { image: string; file: any }[] = [];
+        product.imagesOrder.forEach((imageFile) => {
+          if (imageFile.file !== undefined) {
+            const x: { image: string; file: any } = { ...imageFile, file: imageFile.file };
+            listImgUpload.push(x);
+          }
+        });
+        const ll = listImgUpload.map(async (a, i) => {
+          const formData = new FormData();
+          formData.append('images[]', a.file);
+          formData.append('productId', ress.data.data);
+          formData.append('order', '0');
+          return AxiosFormDataConfig.post(API_PATHS.uploadProductImage, formData);
+        });
+        try {
+          await axios.all([...ll]);
+          handleShowAlertSuccess('Product have been created');
+          setTimeout(() => {
+            history.push('/pages/products/product-detail/' + ress.data.data);
+          }, 500);
+        } catch (error) {
+          handleShowAlertError('Up load image fail');
+        }
       }
     } else {
       handleShowAlertError('Can not create product fail');

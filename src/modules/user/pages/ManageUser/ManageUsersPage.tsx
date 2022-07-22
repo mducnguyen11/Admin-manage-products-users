@@ -9,16 +9,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from 'redux/reducer';
 import { Action } from 'typesafe-actions';
 import TablePagination from '@mui/material/TablePagination';
-import {
-  Alert,
-  AlertColor,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Snackbar,
-} from '@mui/material';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 
 import Button from 'modules/common/components/Button/Button';
 import { setLoading, stopLoading } from 'modules/common/redux/loadingReducer';
@@ -101,6 +92,7 @@ const ManageUsers = () => {
   }, [filter]);
   useEffect(() => {
     getUsers();
+    window.scrollTo(0, 0);
   }, [filter]);
   const handleChangeUserDataRow = useCallback(
     (newUser: { select_checked: boolean; user: IUserDataTableItem }) => {

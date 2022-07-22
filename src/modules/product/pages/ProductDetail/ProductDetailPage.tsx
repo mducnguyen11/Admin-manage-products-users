@@ -71,28 +71,26 @@ const ProductDetail = () => {
   }, [params.id]);
   const handleSaveProduct = async (product: IProductDetailData) => {
     dispatch(setLoading());
-    const getListFiles = (array: { image: string; file?: any }[]): { image: string; file: any }[] => {
-      const v: { image: string; file: any }[] = [];
-      array.forEach((c) => {
-        if (c.file !== undefined) {
-          const x: { image: string; file: any } = { ...c, file: c.file };
-          v.push(x);
+    if (product.imagesOrder) {
+      const listImgUpload: { image: string; file: any }[] = [];
+      product.imagesOrder.forEach((imageFile) => {
+        if (imageFile.file !== undefined) {
+          const x: { image: string; file: any } = { ...imageFile, file: imageFile.file };
+          listImgUpload.push(x);
         }
       });
-      return v;
-    };
-    const listImgUpload = getListFiles(product.imagesOrder || []);
-    const listPromiseImgUpload = listImgUpload.map((image) => {
-      const formData = new FormData();
-      formData.append('images[]', image.file);
-      formData.append('productId', product.id || '');
-      formData.append('order', '0');
-      return AxiosFormDataConfig.post(API_PATHS.uploadProductImage, formData);
-    });
-    try {
-      await axios.all([...listPromiseImgUpload]);
-    } catch (error) {
-      handleShowAlertError('Up load image fail');
+      const listPromiseImgUpload = listImgUpload.map((image) => {
+        const formData = new FormData();
+        formData.append('images[]', image.file);
+        formData.append('productId', product.id || '');
+        formData.append('order', '0');
+        return AxiosFormDataConfig.post(API_PATHS.uploadProductImage, formData);
+      });
+      try {
+        await axios.all([...listPromiseImgUpload]);
+      } catch (error) {
+        handleShowAlertError('Up load image fail');
+      }
     }
     const formData = new FormData();
     formData.append('productDetail', JSON.stringify(formatProductDataToPayload(product)));
@@ -144,12 +142,7 @@ const ProductDetail = () => {
         </div>
       </div>
       {alert.open ? (
-        <Snackbar
-          // anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          open={true}
-          autoHideDuration={3000}
-          onClose={handleCloseAlert}
-        >
+        <Snackbar open={true} autoHideDuration={3000} onClose={handleCloseAlert}>
           <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
             {alert.text}
           </Alert>

@@ -156,7 +156,6 @@ const ManageProducts = () => {
     if (res.data) {
       handleShowAlertSuccess('Delete successfully');
     } else {
-      console.log('??????????????????');
       handleShowAlertError('Update fail');
     }
     dispatch(stopLoading());
@@ -183,7 +182,7 @@ const ManageProducts = () => {
   };
   const handleUpdateEnable = useCallback(
     async (id: string, enable: number) => {
-      const xx: { id: string; enable: number } = {
+      const params: { id: string; enable: number } = {
         id: id,
         enable: enable,
       };
@@ -191,7 +190,7 @@ const ManageProducts = () => {
         handleCloseAlert();
       }
       dispatch(setLoading());
-      const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [xx] }));
+      const res = await dispatch(fetchThunk(API_PATHS.editProduct, 'post', { params: [params] }));
       dispatch(stopLoading());
       getProducts();
       if (res.data) {
@@ -226,6 +225,7 @@ const ManageProducts = () => {
   };
   useEffect(() => {
     getProducts();
+    window.scrollTo(0, 0);
   }, [filter]);
   return (
     <div className="manage-products">

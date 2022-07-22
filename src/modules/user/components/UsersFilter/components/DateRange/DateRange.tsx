@@ -66,7 +66,7 @@ const FilterDateRange = (props: Props) => {
   return (
     <div className="filter-field-input">
       <div
-        className="filter-field-input-value"
+        className="filter-field-input-value admin-input-form-wrapper"
         onClick={() => {
           setOpenDatePicker(!openDatePicker);
         }}
