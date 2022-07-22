@@ -66,6 +66,12 @@ const AdminProvider = (props: Props) => {
     getVendorList();
     getAllCountry();
     getShippingList();
+    return () => {
+      dispatch(setVendors([]));
+      dispatch(setShippings([]));
+      dispatch(setCategories([]));
+      dispatch(setCountry([]));
+    };
   }, []);
   return <>{props.children}</>;
 };
