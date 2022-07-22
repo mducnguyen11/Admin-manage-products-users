@@ -3,12 +3,6 @@ import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IProductTableItem } from 'models/product';
 import InputTableRow from '../InputTableRow/InputTableRow';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { formatTimeStampToDateString } from 'utils/formatTime';
 import ModalButton from 'modules/common/components/ModalButton/ModalButton';
 
@@ -28,24 +22,13 @@ interface Props {
 
 const ProductsTableRow = (props: Props) => {
   const [isEditing, setEditing] = useState('');
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const item = props.item;
-  const handlePowerAction = () => {
+  const handleEnableAction = () => {
     if (item.product.enabled == '1') {
       props.handleUpdateEnable(item.product.id, 0);
     } else {
       props.handleUpdateEnable(item.product.id, 1);
     }
-    setOpen(false);
   };
   return (
     <tr className={props.item.delete_checked ? 'table-row table-row-disabled' : 'table-row'}>
@@ -66,7 +49,6 @@ const ProductsTableRow = (props: Props) => {
             <ModalButton
               name={
                 <i
-                  onClick={handleClickOpen}
                   className={
                     Number(item.product.enabled) == 0
                       ? 'table-row-power bx bx-power-off '
@@ -76,7 +58,7 @@ const ProductsTableRow = (props: Props) => {
               }
               modalTitle="Warning"
               onClick={() => {
-                handlePowerAction();
+                handleEnableAction();
               }}
               modalContent="Confirm your update ?"
             />

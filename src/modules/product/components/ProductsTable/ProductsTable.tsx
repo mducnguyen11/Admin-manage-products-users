@@ -90,7 +90,6 @@ const ProductsTable = (props: Props) => {
                           order_by: '',
                         };
                         xx.sort = a.name;
-
                         if (props.order_by == 'ASC') {
                           xx.order_by = 'DESC';
                         } else {
@@ -125,7 +124,6 @@ const ProductsTable = (props: Props) => {
                 );
               })}
               <th scope="col ">
-                {' '}
                 <div className="table-col action"></div>
               </th>
             </tr>
